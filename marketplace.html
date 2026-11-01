@@ -15,30 +15,7 @@
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            alabaster: '#FAF7F2',
-            sand: '#EFECE6',
-            espresso: '#1E1510',
-            taupe: '#7A6F64',
-            divider: '#E5DFD5',
-            price: '#5A5046',
-            gold: '#C5A059'
-          },
-          fontFamily: {
-            cinzel:   ['"Cinzel"', '"Playfair Display"', 'Georgia', 'serif'],
-            display:  ['"Playfair Display"', 'Georgia', 'serif'],
-            garamond: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-            serif:    ['"Playfair Display"', 'Georgia', 'serif'],
-            sans:     ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
+  <script src="js/tailwind-config.js"></script>
 
   <!-- Global, Marketplace & Chatbot CSS -->
   <link rel="stylesheet" href="css/style.css">
@@ -237,7 +214,7 @@
   </main>
 
   <!-- =========================================================================
-       6. FOOTER — Carolyn Lee Style Two-Tier Footer (Konsisten dengan Landing Page)
+       6. FOOTER — Footer Editorial Dua Tingkat Nusava (Konsisten dengan Landing Page)
        ========================================================================= -->
   <footer class="bg-[#241B16] text-[#F7F2EA] overflow-hidden">
     <!-- Tier 1: Editorial Brand & Kurasi -->
@@ -526,7 +503,7 @@
       <div class="nusabot-header">
         <div class="nusabot-header-left">
           <div class="nusabot-avatar-wrapper">
-            <img src="assets/icons/logoai 2.png" alt="Maskot NusaBot" class="nusabot-header-avatar">
+            <img src="assets/icons/logo-nusabot.png" alt="Maskot NusaBot" class="nusabot-header-avatar">
             <span class="nusabot-online-badge" aria-hidden="true"></span>
           </div>
           <div class="nusabot-header-titles">
@@ -546,7 +523,7 @@
         <div id="nusabot-messages" class="flex flex-col gap-3.5">
           <div class="nusabot-msg-row bot">
             <div class="nusabot-bot-avatar-small">
-              <img src="assets/icons/logoai 2.png" alt="NusaBot Avatar">
+              <img src="assets/icons/logo-nusabot.png" alt="NusaBot Avatar">
             </div>
             <div class="nusabot-msg-content-wrap">
               <div class="nusabot-bubble-bot">
@@ -590,7 +567,7 @@
 
     <!-- 3. Tombol Peluncur Bulat -->
     <button type="button" id="nusabot-launcher" class="nusabot-launcher-btn" aria-label="Buka Asisten Budaya NusaBot">
-      <img src="assets/icons/logoai 2.png" alt="Maskot NusaBot" class="nusabot-launcher-avatar">
+      <img src="assets/icons/logo-nusabot.png" alt="Maskot NusaBot" class="nusabot-launcher-avatar">
       <svg class="nusabot-launcher-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>

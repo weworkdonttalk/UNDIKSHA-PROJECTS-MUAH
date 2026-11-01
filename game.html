@@ -10,41 +10,7 @@
 
   <!-- Tailwind CSS CDN (Configured identically to Landing Page) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            canvas:   '#F5EFE6',
-            surface:  '#FAF7F2',
-            'surface-elevated': '#EDE4D5',
-            ivory:    '#F5EFE6',
-            'ivory-soft': '#EDE4D5',
-            card:     '#FAF7F2',
-            dark:     '#241B16',
-            'dark-card': '#2D221C',
-            'dark-2': '#2D221C',
-            espresso: '#2B231D',
-            charcoal: '#6B5E55',
-            gold:     '#C5A059',
-            'gold-light': '#B38F46',
-            amber:    '#C5A059',
-            olive:    '#AEAC79',
-          },
-          fontFamily: {
-            cinzel:   ['"Cinzel"', '"Playfair Display"', 'Georgia', 'serif'],
-            display:  ['"Playfair Display"', 'Georgia', 'serif'],
-            garamond: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-            sans:     ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-          },
-          transitionTimingFunction: {
-            luxury: 'cubic-bezier(0.22, 1, 0.36, 1)',
-            expo:   'cubic-bezier(0.16, 1, 0.3, 1)',
-          },
-        }
-      }
-    }
-  </script>
+  <script src="js/tailwind-config.js"></script>
 
   <!-- Custom CSS (Exact identical stylesheet from Landing Page) -->
   <link rel="stylesheet" href="css/style.css">
@@ -817,13 +783,13 @@
 
 
   <!-- =========================================================================
-       FOOTER — Carolyn Lee Style Two-Tier Footer (Exact Match with Landing Page)
+       FOOTER — Footer Editorial Dua Tingkat Nusava (Exact Match with Landing Page)
        ========================================================================= -->
   <footer class="bg-[#241B16] text-[#F7F2EA] overflow-hidden">
-    <!-- Tier 1: Carolyn Lee Editorial Top Half -->
+    <!-- Tier 1: Bagian Atas Footer Editorial Nusava -->
     <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-16 sm:pt-24 pb-16 sm:pb-20">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        <!-- Big Editorial Brand (Carolyn Lee Style) -->
+        <!-- Big Editorial Brand (Editorial Nusava) -->
         <div class="lg:col-span-6 flex flex-col justify-between">
           <div>
             <a href="index.html#hero" class="inline-block group mb-4">
@@ -848,7 +814,7 @@
           </div>
         </div>
 
-        <!-- Links Columns (Carolyn Lee Right Half: Pages, Categories, Warta) -->
+        <!-- Links Columns (Kolom Navigasi Footer Nusava) -->
         <div class="lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8">
           <div>
             <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Navigasi</h4>
@@ -884,7 +850,7 @@
       </div>
     </div>
 
-    <!-- Tier 2: Cinematic Wonderful Indonesia Video Bottom Half (Carolyn Lee Bottom Media Half) -->
+    <!-- Tier 2: Cinematic Wonderful Indonesia Video Bottom Half (Bagian Media Sinematik Bawah Footer) -->
     <div class="footer-tier2-video relative w-full h-[360px] sm:h-[460px] lg:h-[520px] border-t border-white/15 overflow-hidden group">
       <!-- Looping Background Video (100% Offline & file:// Compatible) -->
       <div class="video-bg-container absolute inset-0 w-full h-full overflow-hidden pointer-events-none bg-cover bg-center" style="background-image: url('assets/images/video-poster.jpg');">

@@ -17,7 +17,7 @@ const GAME_BASE_PATH = (function() {
 })();
 
 const ASSET_PATHS = {
-  mascoot:   GAME_BASE_PATH + 'mascoot-removebg-preview.png',
+  mascoot:   GAME_BASE_PATH + 'maskot-nusabot.png',
   textbox:   GAME_BASE_PATH + 'textbox-removebg-preview.png',
   keris:     GAME_BASE_PATH + 'keris-removebg-preview.png',
   guci:      GAME_BASE_PATH + 'guci-removebg-preview.png',

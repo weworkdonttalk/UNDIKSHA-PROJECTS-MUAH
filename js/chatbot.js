@@ -218,7 +218,7 @@
 
       row.innerHTML = `
         <div class="nusabot-bot-avatar-small">
-          <img src="assets/icons/logoai 2.png" alt="NusaBot Avatar">
+          <img src="assets/icons/logo-nusabot.png" alt="NusaBot Avatar">
         </div>
         <div class="nusabot-msg-content-wrap">
           <div class="nusabot-bubble-bot">
@@ -267,7 +267,7 @@
     typingRow.className = 'nusabot-msg-row bot';
     typingRow.innerHTML = `
       <div class="nusabot-bot-avatar-small">
-        <img src="assets/icons/logoai 2.png" alt="NusaBot Avatar">
+        <img src="assets/icons/logo-nusabot.png" alt="NusaBot Avatar">
       </div>
       <div class="nusabot-typing-indicator">
         <div class="nusabot-typing-dot"></div>

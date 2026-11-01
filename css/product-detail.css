@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NUSAVA — PRODUCT DETAIL EDITORIAL LUXURY STYLING (SUKKHACITTA 1:1 REPLICATION)
+   NUSAVA — PRODUCT DETAIL EDITORIAL STYLING
    Palette: Warm Alabaster Cream #FAF7F2 · Soft Sand #EFECE6 · Sand Warm #F4EFE6
             Deep Espresso Ink #1E1510 · Terracotta Umber #3A1D12 · Muted Taupe #7A6F64
             Hairline Border #E5DFD5 · Antique Gold #C5A059
@@ -236,7 +236,7 @@ body {
   transform: scale(1.02);
 }
 
-/* Craft Story Image Overlay Box (Sukkhacitta Photo 4 & 9 Replication) */
+/* Craft Story Image Overlay Box */
 .craft-story-overlay {
   position: absolute;
   bottom: 24px;

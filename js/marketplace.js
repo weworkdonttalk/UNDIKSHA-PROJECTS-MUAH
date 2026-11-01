@@ -1,6 +1,6 @@
 /**
  * ==========================================================================
- * NUSAVA — 1:1 SUKKHACITTA EDITORIAL LUXURY MARKETPLACE CONTROLLER
+ * NUSAVA — PASAR KRIYA & PRODUK BUDAYA NUSANTARA CONTROLLER
  * Architecture: Vanilla JS (ES6+), Zero External Libraries
  * Multi-Facet Filter, Dynamic Craft Tiles, Cart Sync & WhatsApp Sanggar Flow
  * ==========================================================================

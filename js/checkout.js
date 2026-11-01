@@ -19,6 +19,33 @@
     return 'Rp ' + amount.toLocaleString('id-ID');
   }
 
+  // Toast Notification Helper
+  let toastTimer = null;
+  function showToast(message) {
+    let toast = document.getElementById('checkout-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'checkout-toast';
+      toast.className = 'fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 bg-[#241B16] text-[#F5EFE6] border border-[#C5A059]/40 shadow-2xl transition-all duration-300 transform translate-y-12 opacity-0 font-sans text-xs sm:text-sm tracking-wide max-w-[90vw] pointer-events-none';
+      toast.innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-[#C5A059] flex-shrink-0 animate-pulse"></span>
+        <span id="checkout-toast-text"></span>
+      `;
+      document.body.appendChild(toast);
+    }
+    const textEl = document.getElementById('checkout-toast-text');
+    if (textEl) textEl.textContent = message;
+
+    toast.classList.remove('translate-y-12', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-12', 'opacity-0');
+    }, 3500);
+  }
+
   // Get Shared Cart
   function getCart() {
     try {
@@ -138,7 +165,7 @@
   window.handleCheckoutSubmit = function () {
     const cart = getCart();
     if (cart.length === 0) {
-      alert('Keranjang belanja Anda masih kosong.');
+      showToast('Keranjang belanja Anda masih kosong.');
       return;
     }
 
@@ -150,7 +177,7 @@
     const postal = document.getElementById('cust-postal')?.value.trim();
 
     if (!name || !phone || !address || !province || !city || !postal) {
-      alert('Mohon lengkapi seluruh kolom bertanda bintang (*) sebelum melanjutkan.');
+      showToast('Mohon lengkapi seluruh kolom bertanda bintang (*) sebelum melanjutkan.');
       return;
     }
 
@@ -250,9 +277,10 @@
 
     const itemsText = cart.map((i, idx) => `${idx + 1}. ${i.name} (${i.daerah || 'Nusantara'}) - ${i.qty || 1} karya (Rp ${(i.price || 0).toLocaleString('id-ID')})`).join('\n');
 
-    const msg = `Halo Tim Pengrajin & Layanan Nusava,%0A%0ASaya ingin menyelesaikan pesanan karya budaya berikut:%0A${encodeURIComponent(itemsText)}%0A%0A*Kurir Pengiriman*: ${encodeURIComponent(selectedCourier)} (Gratis)%0A*Total Pembayaran*: ${encodeURIComponent(formatIDR(total))}%0A*Nama Pemesan*: ${encodeURIComponent(name)}%0A*Kota Pengiriman*: ${encodeURIComponent(city)}%0A%0AMohon konfirmasi ketersediaan karya dan jadwal pengiriman pesanan. Terima kasih!`;
+    const msg = `Halo Tim Pengrajin Nusava (Simulasi Demo Pesanan TECHTOPIA Vol. 2),%0A%0ASaya ingin menyelesaikan pesanan karya budaya berikut:%0A${encodeURIComponent(itemsText)}%0A%0A*Kurir Pengiriman*: ${encodeURIComponent(selectedCourier)} (Gratis)%0A*Total Pembayaran*: ${encodeURIComponent(formatIDR(total))}%0A*Nama Pemesan*: ${encodeURIComponent(name)}%0A*Kota Pengiriman*: ${encodeURIComponent(city)}%0A%0A*Catatan*: Simulasi pemesanan resmi untuk penjurian Web Design TECHTOPIA Vol. 2 INTEGER#8.`;
 
     const waUrl = `https://wa.me/6281234567890?text=${msg}`;
+    showToast('Membuka WhatsApp Simulasi Pemesanan Sanggar...');
     window.open(waUrl, '_blank');
   };
 
@@ -280,7 +308,7 @@ Status: Menunggu Konfirmasi Pengiriman`;
         }, 2500);
       }
     }).catch(() => {
-      alert('Rincian invoice berhasil disalin.');
+      showToast('Rincian invoice berhasil disalin ke papan klip.');
     });
   };
 
@@ -312,7 +340,7 @@ Status: Menunggu Konfirmasi Pengiriman`;
       e.preventDefault();
       const emailInput = document.getElementById('newsletter-email');
       if (emailInput && emailInput.value.trim()) {
-        alert('Terima kasih! Anda telah terdaftar dalam Warta Warisan Nusava.');
+        showToast('Terima kasih! Anda telah terdaftar dalam Warta Warisan Nusava.');
         emailInput.value = '';
       }
     });

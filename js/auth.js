@@ -1,7 +1,7 @@
 /* =============================================================================
    NUSAVA — UNIVERSAL AUTHENTICATION & NAVBAR SYNC ENGINE (js/auth.js)
    Arsitektur Sentral Sesi Pengguna, Dropdown Profil & Sinkronisasi Lintas-Halaman
-   Standar: Apple Human Interface Guidelines & TECHTOPIA Vol. 2 INTEGER#8
+   Standar Kompetisi: TECHTOPIA Vol. 2 INTEGER#8 · Universitas Pendidikan Ganesha
    ============================================================================= */
 
 (function (window, document) {

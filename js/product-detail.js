@@ -1,6 +1,6 @@
 /**
  * ==========================================================================
- * NUSAVA — PRODUCT DETAIL CONTROLLER SCRIPT (SUKKHACITTA 1:1 REPLICATION)
+ * NUSAVA — PRODUCT DETAIL CONTROLLER SCRIPT
  * Single-Source Data Integration with `js/products-data.js`
  * Zero Border-Radius, Zero Slop, Pure Editorial Architecture
  * ==========================================================================
@@ -653,7 +653,7 @@
 
     const locText = p.village || p.daerah || p.origin || 'desa pengrajin';
     const artText = p.artisan || 'Sang Maestro';
-    const message = `Halo Sang Maestro *${artText}* di ${locText} & Tim Nusava,%0A%0ASaya berminat untuk mengapresiasi dan memesan karya pusaka berikut:%0A- *Nama Karya*: ${p.name || ''}%0A- *Format/Kemasan*: ${state.selectedVariant?.name || 'Format Standar Adat'}%0A- *Asal Wilayah*: ${p.daerah || locText}%0A- *Jumlah*: ${state.qty} karya%0A- *Estimasi Nilai Apresiasi*: ${total}%0A%0AMohon informasi jadwal pengerjaan/pengiriman dan sertifikasi WBTb resmi. Terima kasih!`;
+    const message = `Halo Sang Maestro *${artText}* di ${locText} & Tim Nusava (Simulasi Demo Pesanan TECHTOPIA Vol. 2),%0A%0ASaya berminat untuk mengapresiasi dan memesan karya pusaka berikut:%0A- *Nama Karya*: ${p.name || ''}%0A- *Format/Kemasan*: ${state.selectedVariant?.name || 'Format Standar Adat'}%0A- *Asal Wilayah*: ${p.daerah || locText}%0A- *Jumlah*: ${state.qty} karya%0A- *Estimasi Nilai Apresiasi*: ${total}%0A%0AMohon informasi jadwal pengerjaan/pengiriman dan sertifikasi WBTb resmi. (Simulasi Demo Penjurian). Terima kasih!`;
 
     const phone = p.waPhone || CENTRAL_WA_PHONE;
     const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${message}`;
@@ -663,7 +663,7 @@
   function curatorConsultationWA() {
     const p = state.product;
     const pName = p ? p.name : 'Karya Pusaka Nusantara';
-    const message = `Halo Kurator Seni & Budaya Nusava,%0A%0ASaya ingin berkonsultasi mengenai makna motif, sejarah pengerjaan, dan panduan koleksi untuk karya *${pName}*. Mohon panduan kuratorialnya. Terima kasih.`;
+    const message = `Halo Kurator Seni & Budaya Nusava (Simulasi Demo TECHTOPIA Vol. 2),%0A%0ASaya ingin berkonsultasi mengenai makna motif, sejarah pengerjaan, dan panduan koleksi untuk karya *${pName}*. Mohon panduan kuratorialnya. Terima kasih.`;
     const waUrl = `https://api.whatsapp.com/send?phone=${CENTRAL_WA_PHONE}&text=${message}`;
     window.open(waUrl, '_blank', 'noopener,noreferrer');
   }

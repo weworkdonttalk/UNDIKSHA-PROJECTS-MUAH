@@ -330,7 +330,7 @@ const ARTICLES = [
     source: 'UNESCO Representative List of Intangible Heritage ID: 00063',
     date: 'Juli 2026',
     read: '9 mnt baca',
-    img: 'assets/images/wayang-kulit-jawa-berhias-emas-10.png',
+    img: 'assets/images/wayang-kulit-jawa-emas.png',
     url: 'https://ich.unesco.org/en/RL/wayang-puppet-theatre-00063',
     snippet: 'Diakui UNESCO sejak 2008, pertunjukan wayang kulit memadukan tatah sungging kulit kerbau berlapis prada emas, suluk dalang mistik, serta ajaran budi pekerti luhur.'
   },

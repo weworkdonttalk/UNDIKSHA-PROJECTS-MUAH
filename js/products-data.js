@@ -2,7 +2,7 @@
  * ==========================================================================
  * NUSAVA — SINGLE SOURCE OF TRUTH: DATA PUSAKA KARYA ADILUHUNG (MARKETPLACE)
  * Kurasi Karya Kriya, Wastra, Seni, dan Instrumen Asli Pengrajin Nusantara
- * Sesuai Standar Kompetisi Web Design TECHTOPIA & 100% Pure Sukkhacitta Editorial
+ * Sesuai Standar Kompetisi Web Design TECHTOPIA Vol. 2 · INTEGER#8
  * ==========================================================================
  */
 
@@ -1028,7 +1028,7 @@ const NUSAVA_PRODUCTS = [
       "assets/images/pengrajin-ukir.jpg",
       "assets/images/content/wilayah-jawa-borobudur.jpg",
       "assets/images/content/jurnal-keris-jawa.jpg",
-      "assets/images/wayang-kulit-jawa-berhias-emas-10.png",
+      "assets/images/wayang-kulit-jawa-emas.png",
       "assets/images/content/jurnal-keris-jawa.jpg"
     ],
     "overlayStories": [
@@ -1578,7 +1578,7 @@ const NUSAVA_TECHNIQUES = [
   { id: 'tempa-tradisional', label: 'Menempa Logam & Perak' }
 ];
 
-// Craft Story Tiles for Interspersed Editorial Catalog Grid (Sukkhacitta Reference 2)
+// Kartu Kisah Pengrajin untuk Tampilan Editorial Grid Katalog
 const NUSAVA_EDITORIAL_TILES = [
   {
     positionIndex: 2, // Row 1, Column 3
@@ -1610,7 +1610,7 @@ const NUSAVA_EDITORIAL_TILES = [
 ];
 
 /* ==========================================================================
-   CANONICAL BASE 8 PUSAKA CATALOG (Faire & Aesop Standards & Refero Audit)
+   KATALOG PUSAKA DASAR 8 DAERAH NUSANTARA
    ========================================================================== */
 const BASE_CATALOG_8 = [
   {

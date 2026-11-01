@@ -1,7 +1,7 @@
 /* =============================================================================
    NUSAVA — PROFILE CONTROLLER & ORDER ARCHIVE ENGINE (js/profile.js)
    Interaktivitas Tab, Manajemen Data Pribadi, & Arsip Koleksi Pesanan
-   Standar: Apple Human Interface Guidelines & TECHTOPIA Vol. 2 INTEGER#8
+   Standar Kompetisi: TECHTOPIA Vol. 2 INTEGER#8 · Universitas Pendidikan Ganesha
    ============================================================================= */
 
 (function (window, document) {

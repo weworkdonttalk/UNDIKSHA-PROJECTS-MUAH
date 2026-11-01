@@ -1346,7 +1346,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stock = Number(document.getElementById('modal-input-stock').value);
     const status = document.getElementById('modal-input-status').value;
     const desc = document.getElementById('modal-input-desc').value.trim();
-    const finalImg = currentUploadedImage || (isEditing && editingId ? (products.find(x => x.id === editingId)?.img || 'assets/images/produk-batik-giriloyo.jpg') : 'assets/images/produk-batik-giriloyo.jpg');
+    const finalImg = currentUploadedImage || (isEditing && editingId ? (products.find(x => x.id === editingId)?.img || 'assets/images/content/produk-batik-giriloyo.jpg') : 'assets/images/content/produk-batik-giriloyo.jpg');
 
     if (isEditing && editingId) {
       const idx = products.findIndex(x => x.id === editingId);

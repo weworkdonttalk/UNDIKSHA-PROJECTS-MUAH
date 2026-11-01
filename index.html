@@ -10,41 +10,7 @@
 
   <!-- Tailwind CSS CDN (Loaded first to ensure tailwind object exists) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            canvas:   '#F5EFE6',
-            surface:  '#FAF7F2',
-            'surface-elevated': '#EDE4D5',
-            ivory:    '#F5EFE6',
-            'ivory-soft': '#EDE4D5',
-            card:     '#FAF7F2',
-            dark:     '#241B16',
-            'dark-card': '#2D221C',
-            'dark-2': '#2D221C',
-            espresso: '#2B231D',
-            charcoal: '#6B5E55',
-            gold:     '#C5A059',
-            'gold-light': '#B38F46',
-            amber:    '#C5A059',
-            olive:    '#AEAC79',
-          },
-          fontFamily: {
-            cinzel:   ['"Cinzel"', '"Playfair Display"', 'Georgia', 'serif'],
-            display:  ['"Playfair Display"', 'Georgia', 'serif'],
-            garamond: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-            sans:     ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-          },
-          transitionTimingFunction: {
-            luxury: 'cubic-bezier(0.22, 1, 0.36, 1)',
-            expo:   'cubic-bezier(0.16, 1, 0.3, 1)',
-          },
-        }
-      }
-    }
-  </script>
+  <script src="js/tailwind-config.js"></script>
 
   <!-- Lucide Icons CDN (Outline & Light SVG Icons) -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -150,7 +116,7 @@
   <!-- Sepasang Wayang Saling Berhadapan (Kiri & Kanan Membingkai Tengah) -->
   <div id="wayang-left-wrap" class="hero-wayang-container wayang-left absolute left-0 sm:left-[1%] bottom-0 pointer-events-none select-none z-10 will-change-transform">
     <img id="wayang-left"
-         src="assets/images/wayang-kulit-jawa-berhias-emas-10.png"
+         src="assets/images/wayang-kulit-jawa-emas.png"
          alt="Wayang Kulit Tradisional Jawa (Kiri)"
          aria-hidden="true"
          class="h-[clamp(340px,68vh,620px)] w-auto opacity-95 object-contain object-bottom drop-shadow-2xl transition-transform duration-300 ease-out"
@@ -158,7 +124,7 @@
   </div>
   <div id="wayang-right-wrap" class="hero-wayang-container wayang-right absolute right-0 sm:right-[1%] bottom-0 pointer-events-none select-none z-10 will-change-transform">
     <img id="wayang-right"
-         src="assets/images/wayang-kulit-jawa-berhias-emas-20.png"
+         src="assets/images/wayang-kulit-jawa-emas.png"
          alt="Wayang Kulit Tradisional Jawa (Kanan)"
          aria-hidden="true"
          class="h-[clamp(340px,68vh,620px)] w-auto opacity-95 object-contain object-bottom drop-shadow-2xl transition-transform duration-300 ease-out"
@@ -875,7 +841,7 @@
 
 
 <!-- =========================================================================
-     N° 04 — PASAR KRIYA NUSANTARA (Refero Design Audit · Faire, Aesop & Teenage Engineering)
+     N° 04 — PASAR KRIYA NUSANTARA (Karya Adiluhung Maestro Budaya)
      ========================================================================= -->
 <section id="pasar" class="bg-[#FAF6F0] pt-12 sm:pt-16 pb-20 sm:pb-28 relative z-10">
   <div class="max-w-7xl mx-auto px-6 lg:px-12">
@@ -1376,13 +1342,13 @@
 </div>
 
 <!-- =========================================================================
-     FOOTER — Carolyn Lee Style Two-Tier Footer with Bottom Video
+     FOOTER — Footer Editorial Dua Tingkat Nusava with Bottom Video
      ========================================================================= -->
 <footer class="bg-[#241B16] text-[#F7F2EA] overflow-hidden">
-  <!-- Tier 1: Carolyn Lee Editorial Top Half -->
+  <!-- Tier 1: Bagian Atas Footer Editorial Nusava -->
   <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-16 sm:pt-24 pb-16 sm:pb-20">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-      <!-- Big Editorial Brand (Carolyn Lee Style) -->
+      <!-- Big Editorial Brand (Editorial Nusava) -->
       <div class="lg:col-span-6 flex flex-col justify-between">
         <div>
           <a href="#hero" class="inline-block group mb-4">
@@ -1420,7 +1386,7 @@
         </div>
       </div>
 
-      <!-- Links Columns (Carolyn Lee Right Half: Pages, Categories, Warta) -->
+      <!-- Links Columns (Kolom Navigasi Footer Nusava) -->
       <div class="lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8">
         <div>
           <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Navigasi</h4>
@@ -1456,7 +1422,7 @@
     </div>
   </div>
 
-  <!-- Tier 2: Cinematic Wonderful Indonesia Video Bottom Half (Carolyn Lee Bottom Media Half) -->
+  <!-- Tier 2: Cinematic Wonderful Indonesia Video Bottom Half (Bagian Media Sinematik Bawah Footer) -->
   <div class="footer-tier2-video relative w-full h-[360px] sm:h-[460px] lg:h-[520px] border-t border-white/15 overflow-hidden group">
     <!-- Looping Background Video (100% Offline & file:// Compatible) -->
     <div class="video-bg-container absolute inset-0 w-full h-full overflow-hidden pointer-events-none bg-cover bg-center" style="background-image: url('assets/images/video-poster.jpg');">
@@ -1813,7 +1779,7 @@
     <div class="nusabot-header">
       <div class="nusabot-header-left">
         <div class="nusabot-avatar-wrapper">
-          <img src="assets/icons/logoai 2.png" alt="Maskot NusaBot" class="nusabot-header-avatar">
+          <img src="assets/icons/logo-nusabot.png" alt="Maskot NusaBot" class="nusabot-header-avatar">
           <span class="nusabot-online-badge" aria-hidden="true"></span>
         </div>
         <div class="nusabot-header-titles">
@@ -1836,7 +1802,7 @@
         <!-- Bot Initial Greeting Row -->
         <div class="nusabot-msg-row bot">
           <div class="nusabot-bot-avatar-small">
-            <img src="assets/icons/logoai 2.png" alt="NusaBot Avatar">
+            <img src="assets/icons/logo-nusabot.png" alt="NusaBot Avatar">
           </div>
           <div class="nusabot-msg-content-wrap">
             <div class="nusabot-bubble-bot">
@@ -1884,7 +1850,7 @@
 
   <!-- 3. Tombol Peluncur Bulat (Double-Ring Floating Launcher Button) -->
   <button type="button" id="nusabot-launcher" class="nusabot-launcher-btn" aria-label="Buka Asisten Budaya NusaBot">
-    <img src="assets/icons/logoai 2.png" alt="Maskot NusaBot" class="nusabot-launcher-avatar">
+    <img src="assets/icons/logo-nusabot.png" alt="Maskot NusaBot" class="nusabot-launcher-avatar">
     <svg class="nusabot-launcher-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="6 9 12 15 18 9"></polyline>
     </svg>

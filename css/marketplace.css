@@ -1,6 +1,6 @@
 /* ==========================================================================
-   NUSAVA — 1:1 SUKKHACITTA EDITORIAL LUXURY MARKETPLACE STYLESHEET
-   Design Manifesto: Zero Border-Radius (0px), No Card Wrappers, No Shadows
+   NUSAVA — PASAR KRIYA & PRODUK BUDAYA NUSANTARA STYLESHEET
+   Design: Zero Border-Radius (0px), Clean Editorial Layout
    Palette: Warm Alabaster Cream #FAF7F2 · Soft Sand #EFECE6 · Deep Espresso Ink #1E1510 · Muted Warm Taupe #7A6F64 · Hairline Divider #E5DFD5
    ========================================================================== */
 
@@ -299,7 +299,7 @@ body.nav-is-hidden .filter-category-strip {
 }
 
 /* --------------------------------------------------------------------------
-   5. SUKKHACITTA 4-COLUMN PRODUCT & CRAFT GRID
+   5. NUSAVA 4-COLUMN PRODUCT & CRAFT GRID
    -------------------------------------------------------------------------- */
 .editorial-grid {
   display: grid;
