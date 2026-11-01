@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout Pemesanan — Nusava | Warisan Budaya Nusantara</title>
+  <meta name="description" content="Checkout resmi pemesanan karya budaya Nusantara. Jaminan keaslian resmi dan dukungan langsung ke pengrajin lokal." />
+
+  <!-- Google Fonts Preconnect & Load -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            display: ['Playfair Display', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            primary: '#241B16',
+            cream: '#FAF7F2',
+            gold: '#C5A059',
+            terracotta: '#963D06',
+            borderCream: '#EDE4D5',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/design-system.css" />
+  <link rel="stylesheet" href="css/page-transition.css" />
+
+  <style>
+    /* Fixed Navbar with Frosted Blur Matching Landing Page */
+    #navbar.nav-flat-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      z-index: 1000;
+      background: rgba(245, 239, 230, 0.88) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid rgba(197, 160, 89, 0.22) !important;
+      box-shadow: 0 4px 20px rgba(43, 35, 29, 0.06) !important;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  background 0.35s ease,
+                  border-color 0.35s ease,
+                  box-shadow 0.35s ease;
+    }
+
+    #navbar.nav-flat-bar.nav-hidden {
+      transform: translate3d(0, -100%, 0) !important;
+      pointer-events: none;
+    }
+
+    #navbar.nav-flat-bar.nav-hover-reveal {
+      transform: translate3d(0, 0, 0) !important;
+      pointer-events: auto !important;
+      background: rgba(245, 239, 230, 0.94) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border-bottom-color: rgba(197, 160, 89, 0.28) !important;
+      box-shadow: 0 4px 20px rgba(43, 35, 29, 0.08) !important;
+    }
+
+    /* Payment Method Selection Card Style */
+    .payment-option-card {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .payment-option-card:hover {
+      border-color: #C5A059;
+      background-color: #FAF7F2;
+    }
+    .payment-option-card.active {
+      border-color: #963D06;
+      background-color: #FDFBF7;
+      box-shadow: 0 4px 16px rgba(150, 61, 6, 0.08);
+    }
+    .payment-option-card.active .radio-indicator {
+      border-color: #963D06;
+      background-color: #963D06;
+    }
+    .payment-option-card.active .radio-indicator::after {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FFFFFF;
+    }
+
+    /* Shipping Option Card Style */
+    .shipping-option-card {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .shipping-option-card:hover {
+      border-color: #C5A059;
+      background-color: #FAF7F2;
+    }
+    .shipping-option-card.active {
+      border-color: #963D06;
+      background-color: #FDFBF7;
+      box-shadow: 0 4px 16px rgba(150, 61, 6, 0.08);
+    }
+    .shipping-option-card.active .courier-radio {
+      border-color: #963D06;
+      background-color: #963D06;
+    }
+    .shipping-option-card.active .courier-radio::after {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FFFFFF;
+    }
+  </style>
+</head>
+<body class="bg-[#FAF7F2] text-[#2B231D] font-sans antialiased selection:bg-[#C5A059] selection:text-[#2B231D] page-transition-ready">
+
+  <!-- Top Luxury Page Transition Progress Ribbon -->
+  <div id="page-transition-bar" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       1. MAIN NAVBAR (Nav-Flat-Bar Nusava)
+       ========================================================================= -->
+  <header id="navbar" class="nav-flat-bar" aria-label="Main Navigation">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full h-full flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="brand-link group" aria-label="Nusava Beranda">
+        <img src="assets/images/logonusava.png" alt="Logo Nusava" class="brand-logo-emblem" />
+        <span class="brand-title-text font-cinzel">NUSAVA</span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="hidden lg:flex items-center gap-5 xl:gap-7" aria-label="Navigasi Utama">
+        <a href="index.html#jelajah" class="nav-link-item">Jelajah</a>
+        <a href="marketplace.html" class="nav-link-item active font-semibold text-[#C5A059]">Koleksi Budaya</a>
+        <a href="index.html#pasar" class="nav-link-item">Pasar Budaya</a>
+        <a href="game.html" class="nav-link-item">Mini Game</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2.5 sm:gap-3.5">
+        <!-- Cart Badge -->
+        <a href="marketplace.html" class="relative p-2 text-[#4A403A] hover:text-[#C5A059] transition-colors cursor-pointer" aria-label="Keranjang">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span id="nav-cart-count" class="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full bg-[#C5A059] text-white text-[11px] font-bold flex items-center justify-center leading-none">0</span>
+        </a>
+
+        <!-- Login / User Container -->
+        <div id="nav-auth-container" class="relative">
+          <a href="login.html" id="nav-login-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#C5A059]/60 hover:border-[#C5A059] bg-[#FAF7F2]/80 hover:bg-[#FAF7F2] text-[#2B231D] text-xs font-sans font-semibold tracking-wide transition-all shadow-xs">
+            <svg class="w-3.5 h-3.5 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>Masuk</span>
+          </a>
+        </div>
+
+        <!-- CTA Pill -->
+        <a href="marketplace.html" class="hidden sm:inline-flex nav-cta-pill">Dukung Pengrajin</a>
+        <!-- Hamburger -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-[#4A403A] hover:text-[#C5A059] transition-colors" aria-label="Buka Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-drawer" class="fixed inset-y-0 right-0 w-72 bg-[#F5EFE6] z-[1001] transform translate-x-full transition-transform duration-luxury shadow-2xl flex flex-col p-8 border-l border-[#EDE4D5]">
+    <div class="flex items-center justify-between pb-6 border-b border-[#EDE4D5]">
+      <div class="flex items-center gap-2.5">
+        <img src="assets/images/logonusava.png" alt="NUSAVA" class="h-8 w-auto object-contain" />
+        <span class="font-cinzel font-bold text-lg tracking-[0.12em] text-[#C5A059]">NUSAVA</span>
+      </div>
+      <button id="mobile-menu-close" class="text-[#2B231D] hover:text-[#C5A059] transition-colors p-1" aria-label="Tutup Menu">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="flex flex-col gap-4 mt-6 overflow-y-auto no-scrollbar">
+      <a href="index.html#jelajah" class="font-garamond text-lg text-[#2B231D] hover:text-[#C5A059] border-b border-[#EDE4D5]/60 pb-3">Jelajah</a>
+      <a href="marketplace.html"  class="font-garamond text-lg text-[#2B231D] hover:text-[#C5A059] border-b border-[#EDE4D5]/60 pb-3">Koleksi Budaya</a>
+      <a href="index.html#pasar"   class="font-garamond text-lg text-[#2B231D] hover:text-[#C5A059] border-b border-[#EDE4D5]/60 pb-3">Pasar Budaya</a>
+      <a href="game.html"          class="font-garamond text-lg text-[#2B231D] hover:text-[#C5A059]">Mini Game</a>
+    </nav>
+    <div id="mobile-auth-container" class="mt-6 pt-4 border-t border-[#EDE4D5]"></div>
+  </div>
+
+  <!-- =========================================================================
+       2. SUBNAV — Minimalist Apple-Style Back Navigation (Clean, Quiet & Focused)
+       ========================================================================= -->
+  <section class="w-full bg-[#FAF7F2] border-b border-[#EDE4D5]/60 pt-[82px] pb-2.5">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
+      <!-- Apple-Style Minimal Back Link (Subtle Chevron Slide on Hover) -->
+      <a href="marketplace.html" class="inline-flex items-center gap-1.5 text-xs font-sans font-medium text-[#7A6F64] hover:text-[#963D06] transition-colors duration-200 group cursor-pointer py-1 select-none" aria-label="Kembali ke Koleksi Budaya">
+        <svg class="w-4 h-4 text-[#7A6F64] group-hover:text-[#963D06] transition-transform duration-200 ease-out group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span class="tracking-wide">Kembali ke Koleksi Budaya</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       3. CHECKOUT CONTENT (ASYMMETRIC 2-COLUMN LAYOUT)
+       ========================================================================= -->
+  <main class="max-w-7xl mx-auto px-6 lg:px-12 py-8 sm:py-12">
+    
+    <!-- Page Header & Value Propositions -->
+    <div class="mb-10 text-left">
+      <span class="text-[#B5893D] font-sans font-bold tracking-[0.2em] text-[11px] uppercase block mb-1.5">
+        PROSES CHECKOUT AMAN &amp; TERVERIFIKASI
+      </span>
+      <h1 class="font-sans font-extrabold text-2xl sm:text-3xl lg:text-4xl text-[#2B231D] tracking-tight mb-2.5">
+        Selesaikan Pemesanan Karya
+      </h1>
+      <p class="font-sans text-sm text-[#6B5E55] max-w-2xl leading-relaxed">
+        Lengkapi alamat pengiriman dan pilih metode pembayaran resmi. Seluruh pesanan Anda langsung mendukung pemberdayaan dan keberlanjutan ekonomi pengrajin lokal.
+      </p>
+    </div>
+
+    <!-- 2-Column Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      
+      <!-- ---------------------------------------------------------------------
+           KOLOM KIRI (7 Kolom): Form Data Pengiriman & Metode Pembayaran
+           --------------------------------------------------------------------- -->
+      <div class="lg:col-span-7 space-y-8">
+        
+        <form id="checkout-form" class="space-y-8" onsubmit="event.preventDefault(); handleCheckoutSubmit();">
+          
+          <!-- SEKSI 1: DATA PENERIMA & ALAMAT PENGIRIMAN -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-white border border-[#EDE4D5] shadow-xs space-y-6">
+            <div class="flex items-center gap-3 pb-4 border-b border-[#EDE4D5]">
+              <span class="w-7 h-7 rounded-full bg-[#FAF7F2] border border-[#C5A059]/40 text-[#963D06] text-xs font-bold flex items-center justify-center">1</span>
+              <div>
+                <h2 class="font-sans font-bold text-base text-[#2B231D]">Data Penerima &amp; Alamat Pengiriman</h2>
+                <p class="font-sans text-xs text-[#7A6F64]">Pesanan Anda akan dikemas rapi dan dikirim langsung dari pengrajin.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="cust-name" class="block text-xs font-semibold text-[#2B231D] mb-1.5">Nama Lengkap Penerima <span class="text-[#963D06]">*</span></label>
+                <input type="text" id="cust-name" required placeholder="Contoh: Raden Ayu Kartini" class="w-full px-3.5 py-2.5 rounded-lg border border-[#D5CEC2] bg-[#FAF7F2] focus:bg-white focus:border-[#963D06] focus:outline-none text-xs text-[#2B231D] transition-colors" />
+              </div>
+
+              <div>
+                <label for="cust-phone" class="block text-xs font-semibold text-[#2B231D] mb-1.5">Nomor WhatsApp / HP Aktif <span class="text-[#963D06]">*</span></label>
+                <input type="tel" id="cust-phone" required placeholder="Contoh: 081234567890" class="w-full px-3.5 py-2.5 rounded-lg border border-[#D5CEC2] bg-[#FAF7F2] focus:bg-white focus:border-[#963D06] focus:outline-none text-xs text-[#2B231D] transition-colors" />
+                <span class="text-[10px] text-[#7A6F64] mt-1 block">Untuk konfirmasi nomor resi dan pembaruan status pengiriman.</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="cust-email" class="block text-xs font-semibold text-[#2B231D] mb-1.5">Alamat Email (Opsional)</label>
+              <input type="email" id="cust-email" placeholder="Contoh: pembeli@nusava.id" class="w-full px-3.5 py-2.5 rounded-lg border border-[#D5CEC2] bg-[#FAF7F2] focus:bg-white focus:border-[#963D06] focus:outline-none text-xs text-[#2B231D] transition-colors" />
+            </div>
+
+            <div>
+              <label for="cust-address" class="block text-xs font-semibold text-[#2B231D] mb-1.5">Alamat Lengkap Pengiriman <span class="text-[#963D06]">*</span></label>
+              <textarea id="cust-address" required rows="3" placeholder="Nama Jalan, Nomor Bangunan/Rumah, RT/RW, Kelurahan, Kecamatan" class="w-full px-3.5 py-2.5 rounded-lg border border-[#D5CEC2] bg-[#FAF7F2] focus:bg-white focus:border-[#963D06] focus:outline-none text-xs text-[#2B231D] transition-colors resize-none"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label for="cust-province" class="block text-xs font-semibold text-[#2B231D] mb-1.5">Provinsi <span class="text-[#963D06]">*</span></label>
+                <select id="cust-province" required class="w-full px-3.5 py-2.5 rounded-lg border border-[#D5CEC2] bg-[#FAF7F2] focus:bg-white focus:border-[#963D06] focus:outline-none text-xs text-[#2B231D] transition-colors">
+                  <option value="">Pilih Provinsi</option>
+                  <option value="Bali">Bali</option>
+                  <option value="D.I. Yogyakarta">D.I. Yogyakarta</option>
+                  <option value="Nusa Tenggara Timur">Nusa Tenggara Timur</option>
+                  <option value="Papua">Papua</option>
+                  <option value="DKI Jakarta">DKI Jakarta</option>
+                  <option value="Jawa Barat">Jawa Barat</option>
+                  <option value="Jawa Tengah">Jawa Tengah</option>
+                  <option value="Jawa Timur">Jawa Timur</option>
+                  <option value="Sumatera Selatan">Sumatera Selatan</option>
+                  <option value="Kalimantan Tengah">Kalimantan Tengah</option>
+                  <option value="Sulawesi Selatan">Sulawesi Selatan</option>
+                  <option value="Lainnya">Provinsi Lainnya</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="cust-city" class="block text-xs font-semibold text-[#2B231D] mb-1.5">Kota / Kabupaten <span class="text-[#963D06]">*</span></label>
+                <input type="text" id="cust-city" required placeholder="Contoh: Denpasar / Sleman" class="w-full px-3.5 py-2.5 rounded-lg border border-[#D5CEC2] bg-[#FAF7F2] focus:bg-white focus:border-[#963D06] focus:outline-none text-xs text-[#2B231D] transition-colors" />
+              </div>
+
+              <div>
+                <label for="cust-postal" class="block text-xs font-semibold text-[#2B231D] mb-1.5">Kode Pos <span class="text-[#963D06]">*</span></label>
+                <input type="text" id="cust-postal" required placeholder="Contoh: 80234" class="w-full px-3.5 py-2.5 rounded-lg border border-[#D5CEC2] bg-[#FAF7F2] focus:bg-white focus:border-[#963D06] focus:outline-none text-xs text-[#2B231D] transition-colors" />
+              </div>
+            </div>
+
+            <!-- Pilihan Layanan Pengiriman (Normal: JNE, J&T, SiCepat) -->
+            <div class="pt-2">
+              <label class="block text-xs font-semibold text-[#2B231D] mb-2.5">Layanan Pengiriman</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="shipping-options-container">
+                
+                <!-- Opsi JNE -->
+                <div class="shipping-option-card active p-3.5 rounded-xl border border-[#EDE4D5] flex flex-col justify-between" data-courier-name="JNE Regular">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                      <div class="courier-radio w-4 h-4 rounded-full border border-[#D5CEC2] flex items-center justify-center flex-shrink-0"></div>
+                      <span class="font-sans font-bold text-xs text-[#2B231D]">JNE Regular</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-[#10B981] bg-[#10B981]/10 px-2 py-0.5 rounded-full">GRATIS</span>
+                  </div>
+                  <span class="font-sans text-[11px] text-[#6B5E55]">Estimasi 2–3 Hari Kerja</span>
+                </div>
+
+                <!-- Opsi J&T -->
+                <div class="shipping-option-card p-3.5 rounded-xl border border-[#EDE4D5] flex flex-col justify-between" data-courier-name="J&T Express">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                      <div class="courier-radio w-4 h-4 rounded-full border border-[#D5CEC2] flex items-center justify-center flex-shrink-0"></div>
+                      <span class="font-sans font-bold text-xs text-[#2B231D]">J&T Express</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-[#10B981] bg-[#10B981]/10 px-2 py-0.5 rounded-full">GRATIS</span>
+                  </div>
+                  <span class="font-sans text-[11px] text-[#6B5E55]">Estimasi 1–2 Hari Kerja</span>
+                </div>
+
+                <!-- Opsi SiCepat / DHL -->
+                <div class="shipping-option-card p-3.5 rounded-xl border border-[#EDE4D5] flex flex-col justify-between" data-courier-name="SiCepat / DHL">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                      <div class="courier-radio w-4 h-4 rounded-full border border-[#D5CEC2] flex items-center justify-center flex-shrink-0"></div>
+                      <span class="font-sans font-bold text-xs text-[#2B231D]">SiCepat / DHL</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-[#10B981] bg-[#10B981]/10 px-2 py-0.5 rounded-full">GRATIS</span>
+                  </div>
+                  <span class="font-sans text-[11px] text-[#6B5E55]">Estimasi 2–4 Hari Kerja</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- SEKSI 2: METODE PEMBAYARAN -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-white border border-[#EDE4D5] shadow-xs space-y-6">
+            <div class="flex items-center gap-3 pb-4 border-b border-[#EDE4D5]">
+              <span class="w-7 h-7 rounded-full bg-[#FAF7F2] border border-[#C5A059]/40 text-[#963D06] text-xs font-bold flex items-center justify-center">2</span>
+              <div>
+                <h2 class="font-sans font-bold text-base text-[#2B231D]">Metode Pembayaran</h2>
+                <p class="font-sans text-xs text-[#7A6F64]">Pilih pembayaran digital otomatis di web atau opsi WhatsApp.</p>
+              </div>
+            </div>
+
+            <!-- Kartu Opsi Metode Pembayaran -->
+            <div class="space-y-3">
+              
+              <!-- Opsi A: Virtual Account Bank (Rekomendasi Web) -->
+              <div class="payment-option-card active p-4 rounded-xl border border-[#EDE4D5] flex items-start gap-3.5" data-method="va">
+                <div class="radio-indicator w-4 h-4 rounded-full border border-[#D5CEC2] flex items-center justify-center mt-0.5 flex-shrink-0"></div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-sans font-bold text-xs text-[#2B231D]">Transfer Bank Virtual Account (Otomatis)</span>
+                    <span class="text-[10px] font-semibold text-[#963D06] bg-[#963D06]/10 px-2 py-0.5 rounded">Verifikasi Instan</span>
+                  </div>
+                  <p class="font-sans text-[11px] text-[#6B5E55] mt-1">
+                    BCA, Mandiri, BRI, BNI. Nomor Virtual Account otomatis diterbitkan begitu Anda mengklik tombol selesaikan.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Opsi B: QRIS Instan -->
+              <div class="payment-option-card p-4 rounded-xl border border-[#EDE4D5] flex items-start gap-3.5" data-method="qris">
+                <div class="radio-indicator w-4 h-4 rounded-full border border-[#D5CEC2] flex items-center justify-center mt-0.5 flex-shrink-0"></div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-sans font-bold text-xs text-[#2B231D]">QRIS Instan (Semua Dompet Digital &amp; Mobile Banking)</span>
+                    <span class="text-[10px] font-semibold text-[#10B981] bg-[#10B981]/10 px-2 py-0.5 rounded">Scan Cepat</span>
+                  </div>
+                  <p class="font-sans text-[11px] text-[#6B5E55] mt-1">
+                    GoPay, OVO, ShopeePay, DANA, LinkAja, BCA Mobile, Livin' Mandiri, BRImo.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Opsi C: Selesaikan via WhatsApp Pengrajin (OPSIONAL) -->
+              <div class="payment-option-card p-4 rounded-xl border border-[#EDE4D5] flex items-start gap-3.5" data-method="wa">
+                <div class="radio-indicator w-4 h-4 rounded-full border border-[#D5CEC2] flex items-center justify-center mt-0.5 flex-shrink-0"></div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-sans font-bold text-xs text-[#2B231D]">Selesaikan via WhatsApp Pengrajin (Opsional)</span>
+                    <span class="text-[10px] font-semibold text-[#25D366] bg-[#25D366]/10 px-2 py-0.5 rounded">Diskusi Langsung</span>
+                  </div>
+                  <p class="font-sans text-[11px] text-[#6B5E55] mt-1">
+                    Jika Anda ingin berkonsultasi langsung dengan pengrajin atau konfirmasi pesanan via WhatsApp.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SEKSI 3: CATATAN UNTUK PENGRAJIN (OPSIONAL) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-white border border-[#EDE4D5] shadow-xs space-y-4">
+            <div class="flex items-center gap-3 pb-3 border-b border-[#EDE4D5]">
+              <span class="w-7 h-7 rounded-full bg-[#FAF7F2] border border-[#C5A059]/40 text-[#963D06] text-xs font-bold flex items-center justify-center">3</span>
+              <div>
+                <h2 class="font-sans font-bold text-base text-[#2B231D]">Catatan untuk Pengrajin (Opsional)</h2>
+              </div>
+            </div>
+            <div>
+              <textarea id="cust-notes" rows="2" placeholder="Contoh: Mohon sertakan catatan khusus atau instruksi pengiriman..." class="w-full px-3.5 py-2.5 rounded-lg border border-[#D5CEC2] bg-[#FAF7F2] focus:bg-white focus:border-[#963D06] focus:outline-none text-xs text-[#2B231D] transition-colors resize-none"></textarea>
+            </div>
+          </div>
+
+          <!-- Tombol Submit Form (Hanya Tampil di Mobile di bawah Form) -->
+          <div class="block lg:hidden">
+            <button type="submit" class="w-full py-4 bg-[#241B16] hover:bg-[#C5A059] text-white text-xs font-sans font-bold tracking-[0.14em] uppercase rounded-full transition-all duration-300 shadow-md flex items-center justify-center gap-2 cursor-pointer">
+              <span>SELESAIKAN PEMBAYARAN →</span>
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+      <!-- ---------------------------------------------------------------------
+           KOLOM KANAN (5 Kolom Sticky): Ringkasan Pesanan & Tombol Checkout
+           --------------------------------------------------------------------- -->
+      <div class="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
+        
+        <div class="p-6 sm:p-7 rounded-2xl bg-white border border-[#EDE4D5] shadow-xs space-y-5">
+          <div class="flex items-center justify-between pb-4 border-b border-[#EDE4D5]">
+            <h3 class="font-sans font-bold text-base text-[#2B231D]">Ringkasan Pesanan</h3>
+            <span id="checkout-badge-count" class="text-xs font-sans font-semibold text-[#7A6F64] bg-[#FAF7F2] px-2.5 py-1 rounded-full border border-[#EDE4D5]">0 Karya</span>
+          </div>
+
+          <!-- List Produk Dinamis dari localStorage -->
+          <div id="checkout-items-list" class="space-y-3 max-h-[340px] overflow-y-auto pr-1">
+            <!-- Dynamic Items Rendered by js/checkout.js -->
+          </div>
+
+          <!-- Rincian Biaya -->
+          <div class="pt-4 border-t border-[#EDE4D5] space-y-2.5 text-xs font-sans">
+            <div class="flex items-center justify-between text-[#6B5E55]">
+              <span>Subtotal Karya</span>
+              <span id="checkout-subtotal" class="font-semibold text-[#2B231D]">Rp 0</span>
+            </div>
+            <div class="flex items-center justify-between text-[#6B5E55]">
+              <span>Biaya Pengiriman</span>
+              <span class="font-semibold text-[#10B981]">GRATIS (Disubsidi)</span>
+            </div>
+            <div class="flex items-center justify-between text-[#6B5E55]">
+              <span>Sertifikasi Keaslian WBTb</span>
+              <span class="font-semibold text-[#2B231D]">Termasuk (Resmi)</span>
+            </div>
+            <div class="flex items-center justify-between text-[#6B5E55]">
+              <span>Biaya Penanganan / Layanan</span>
+              <span class="font-semibold text-[#2B231D]">Rp 0</span>
+            </div>
+            
+            <div class="pt-3 border-t border-[#EDE4D5] flex items-center justify-between text-sm font-bold text-[#2B231D]">
+              <span>Total Pembayaran</span>
+              <span id="checkout-total-price" class="text-base text-[#963D06]">Rp 0</span>
+            </div>
+          </div>
+
+          <!-- Tombol Aksi Utama -->
+          <div class="pt-2 space-y-2.5">
+            <button type="button" id="btn-submit-order" onclick="document.getElementById('checkout-form').requestSubmit();" class="w-full py-4 bg-[#241B16] hover:bg-[#C5A059] text-white text-xs font-sans font-bold tracking-[0.14em] uppercase rounded-full transition-all duration-300 shadow-md flex items-center justify-center gap-2 cursor-pointer">
+              <span>SELESAIKAN PEMBAYARAN →</span>
+            </button>
+
+            <!-- Tombol Opsional WhatsApp Langsung -->
+            <button type="button" id="btn-checkout-wa-direct" onclick="handleWhatsAppCheckout();" class="w-full py-2.5 bg-transparent hover:bg-[#FAF7F2] text-[#2B231D] hover:text-[#25D366] border border-[#D5CEC2] hover:border-[#25D366]/50 text-[11px] font-sans font-semibold tracking-wider rounded-full transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <svg class="w-4 h-4 fill-current text-[#25D366] flex-shrink-0" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.772.82 2.791.82 3.18 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.77-5.767-5.77zm0 10.428c-.896 0-1.637-.238-2.392-.686l-.171-.102-1.78.466.475-1.734-.112-.178c-.496-.788-.79-1.583-.789-2.428.001-2.568 2.09-4.657 4.769-4.657 2.569 0 4.658 2.089 4.658 4.657 0 2.569-2.089 4.662-4.63 4.662z"/>
+              </svg>
+              <span>Selesaikan via WhatsApp (Opsional)</span>
+            </button>
+          </div>
+
+          <!-- Jaminan Keaslian & Keamanan -->
+          <div class="p-4 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] space-y-2 text-[11px] text-[#6B5E55] leading-relaxed">
+            <div class="flex items-center gap-2 text-[#2B231D] font-semibold">
+              <svg class="w-4 h-4 text-[#10B981] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>Jaminan Kurasi Budaya Nusava</span>
+            </div>
+            <p>
+              Setiap karya diverifikasi langsung kualitasnya. Pembayaran Anda aman tersimpan di sistem Nusava hingga pesanan tiba di tangan Anda dengan selamat.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       4. MODAL KONFIRMASI PEMESANAN / INVOICE BERHASIL
+       ========================================================================= -->
+  <div id="order-success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[99999] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#EDE4D5] text-center space-y-6 max-h-[90vh] overflow-y-auto">
+      
+      <!-- Icon Sukses -->
+      <div class="w-16 h-16 rounded-full bg-[#10B981]/15 text-[#10B981] flex items-center justify-center mx-auto">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      </div>
+
+      <div>
+        <span class="text-xs font-bold text-[#10B981] uppercase tracking-wider block mb-1">Pesanan Sukses Dibuat</span>
+        <h3 class="font-sans font-bold text-2xl text-[#2B231D]">Terima Kasih, Pemesanan Anda Diterima!</h3>
+        <p class="font-sans text-xs text-[#6B5E55] mt-1.5 leading-relaxed">
+          Pesanan Anda akan segera disiapkan oleh pengrajin dan dikemas dengan aman.
+        </p>
+      </div>
+
+      <!-- Ringkasan Invoice Box -->
+      <div class="p-5 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] text-left space-y-3 font-sans text-xs">
+        <div class="flex items-center justify-between pb-2 border-b border-[#EDE4D5]">
+          <span class="text-[#7A6F64]">Nomor Invoice:</span>
+          <span id="modal-invoice-id" class="font-bold text-[#2B231D] font-mono">NSV-202610-8912</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-[#7A6F64]">Metode Pembayaran:</span>
+          <span id="modal-payment-method" class="font-semibold text-[#2B231D]">Virtual Account BCA</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-[#7A6F64]">Penerima &amp; Kota:</span>
+          <span id="modal-recipient" class="font-semibold text-[#2B231D] truncate max-w-[200px]">-</span>
+        </div>
+        <div class="flex items-center justify-between pt-2 border-t border-[#EDE4D5] text-sm font-bold">
+          <span class="text-[#2B231D]">Total Tagihan:</span>
+          <span id="modal-total-amount" class="text-[#963D06]">Rp 0</span>
+        </div>
+
+        <!-- Instruksi Pembayaran Dinamis -->
+        <div id="modal-payment-instructions" class="pt-3 border-t border-[#EDE4D5] space-y-2">
+          <!-- Populated by js/checkout.js -->
+        </div>
+      </div>
+
+      <!-- Action Buttons in Modal -->
+      <div class="space-y-2.5">
+        <button type="button" id="btn-copy-invoice" onclick="copyInvoiceDetails();" class="w-full py-3 bg-[#FAF7F2] hover:bg-[#EDE4D5] text-[#2B231D] text-xs font-sans font-bold tracking-wider rounded-full border border-[#D5CEC2] transition-colors flex items-center justify-center gap-2 cursor-pointer">
+          <svg class="w-4 h-4 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <span id="copy-btn-text">Salin Rincian Invoice</span>
+        </button>
+
+        <a href="index.html" class="w-full py-3 bg-[#241B16] hover:bg-[#C5A059] text-white text-xs font-sans font-bold tracking-[0.14em] uppercase rounded-full transition-all duration-300 shadow-md flex items-center justify-center gap-2 cursor-pointer text-center block">
+          Kembali ke Beranda
+        </a>
+
+        <a href="marketplace.html" class="w-full py-2.5 text-[#7A6F64] hover:text-[#963D06] text-xs font-sans font-medium transition-colors text-center block">
+          Lihat Koleksi Budaya Lainnya →
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       5. FOOTER — Carolyn Lee Style Two-Tier Footer with Bottom Video (Identik Landing Page)
+       ========================================================================= -->
+  <footer class="bg-[#241B16] text-[#F7F2EA] overflow-hidden mt-16" role="contentinfo">
+    <!-- Tier 1: Carolyn Lee Editorial Top Half -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-16 sm:pt-24 pb-16 sm:pb-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <!-- Big Editorial Brand (Carolyn Lee Style) -->
+        <div class="lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <a href="index.html" class="inline-block group mb-4">
+              <span class="font-garamond text-5xl sm:text-7xl font-normal italic text-[#F7F2EA] tracking-tight block">
+                Nusa<span class="text-[#C5A059] not-italic font-semibold">va</span>
+              </span>
+            </a>
+            <p class="text-xs font-sans font-bold tracking-[0.24em] uppercase text-[#C5A059] mb-6">
+              Merawat Budaya · Menggerakkan Karya
+            </p>
+            <p class="font-sans text-sm sm:text-base text-[#F7F2EA]/75 leading-relaxed max-w-md">
+              Situs resmi karya siswa <strong class="text-[#F7F2EA] font-semibold">SMKN 1 Denpasar</strong> untuk mengenalkan dan melestarikan kekayaan budaya Indonesia melalui teknologi digital yang ramah bagi semua orang.
+            </p>
+
+            <!-- Badge Terkurasi Resmi Cagar Budaya (Sesuai Foto Referensi) -->
+            <div class="mt-6 inline-flex items-center gap-3.5 px-4 sm:px-5 py-3 border border-white/20 bg-white/[0.03]" style="border-radius: 0px;">
+              <div class="w-8 h-8 flex items-center justify-center flex-shrink-0 text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+              </div>
+              <div class="text-left font-sans">
+                <span class="block text-[11px] font-bold tracking-[0.16em] uppercase text-[#F7F2EA] leading-tight">TERKURASI RESMI CAGAR BUDAYA</span>
+                <span class="block text-[11px] text-[#F7F2EA]/75 font-normal tracking-normal mt-0.5">100% Karya Tangan Pengrajin Asli • Standar WBTb Kemendikbud</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8 pt-8 border-t border-white/10 flex items-center gap-6 text-xs text-[#F7F2EA]/60 font-sans">
+            <span>Inisiatif Siswa SMK</span>
+            <span>•</span>
+            <span>Kebanggaan Bangsa</span>
+            <span>•</span>
+            <span>Menjaga Warisan Budaya</span>
+          </div>
+        </div>
+
+        <!-- Links Columns: Pages, Categories, Warta -->
+        <div class="lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div>
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Navigasi</h4>
+            <ul class="space-y-3 font-sans text-sm">
+              <li><a href="index.html#jelajah" class="footer-link">Jelajah</a></li>
+              <li><a href="marketplace.html" class="footer-link">Koleksi Budaya</a></li>
+              <li><a href="index.html#pasar" class="footer-link">Pasar Budaya</a></li>
+              <li><a href="game.html" class="footer-link">Mini Game</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Kategori Karya</h4>
+            <ul class="space-y-3 font-sans text-sm">
+              <li><a href="marketplace.html?cat=wastra" class="footer-link">Wastra &amp; Tenun</a></li>
+              <li><a href="marketplace.html?cat=kriya" class="footer-link">Karya Kayu &amp; Ukir</a></li>
+              <li><a href="marketplace.html?cat=logam-instrumen" class="footer-link">Instrumen Musik</a></li>
+              <li><a href="marketplace.html?cat=seni" class="footer-link">Seni Rupa &amp; Lukis</a></li>
+              <li><a href="marketplace.html?cat=anyaman" class="footer-link">Anyaman Serat</a></li>
+              <li><a href="marketplace.html?cat=keramik" class="footer-link">Keramik &amp; Logam</a></li>
+            </ul>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Kabar Budaya</h4>
+            <p class="text-xs text-[#F7F2EA]/70 leading-relaxed mb-4">Dapatkan cerita menarik seputar budaya dan pengrajin Indonesia langsung ke email kamu.</p>
+            <form id="newsletter-form" class="space-y-2.5">
+              <input type="email" id="newsletter-email" placeholder="alamat@email.com" class="w-full px-5 py-2.5 bg-white/5 border border-white/15 text-[#F7F2EA] text-xs placeholder-white/30 focus:outline-none focus:border-[#C5A059] transition-colors rounded-full" required>
+              <button type="submit" class="w-full py-2.5 bg-[#C5A059] hover:bg-[#B38F46] text-white text-[10px] font-sans font-bold tracking-[0.2em] uppercase rounded-full transition-colors shadow-sm cursor-pointer">Berlangganan</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 2: Cinematic Wonderful Indonesia Video Bottom Half -->
+    <div class="footer-tier2-video relative w-full h-[360px] sm:h-[460px] lg:h-[520px] border-t border-white/15 overflow-hidden group">
+      <!-- Looping Background Video -->
+      <div class="video-bg-container absolute inset-0 w-full h-full overflow-hidden pointer-events-none bg-cover bg-center" style="background-image: url('assets/images/video-poster.jpg');">
+        <video class="w-full h-full min-w-full min-h-full object-cover block" autoplay muted loop playsinline poster="assets/images/video-poster.jpg">
+          <source src="assets/video/wonderful-indonesia.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <!-- Custom Theme Tint & Vignette Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#241B16] via-[#241B16]/65 to-[#241B16]/30 backdrop-contrast-[1.08] pointer-events-none"></div>
+
+      <!-- Video Half Content -->
+      <div class="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-between py-10 sm:py-14">
+        <!-- Quote / Atmospheric Message in Center -->
+        <div class="max-w-2xl my-auto">
+          <span class="inline-block text-[#C5A059] text-xs font-sans font-bold tracking-[0.28em] uppercase mb-3">Pesona Budaya Indonesia</span>
+          <blockquote class="font-garamond italic text-2xl sm:text-4xl lg:text-5xl text-[#F7F2EA] leading-tight drop-shadow-md">
+            “Dari tangan para pengrajin hebat Indonesia, untuk kebanggaan kita semua di mata dunia.”
+          </blockquote>
+        </div>
+
+        <!-- Bottom Bar: SMKN 1 Denpasar Attribution, Copyright & Socials -->
+        <div class="pt-6 border-t border-white/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p class="text-xs font-sans text-[#F7F2EA]/80 tracking-wide">
+            © 2026 <strong class="text-white font-medium">Nusava</strong> · Inisiatif Vokasi Siswa SMKN 1 Denpasar.
+            <a href="index.html#license" class="text-[#C5A059] hover:underline underline-offset-2 transition-colors ml-1">Lisensi Aset &amp; Hak Cipta</a>
+          </p>
+
+          <!-- Social Icons & Back to Top -->
+          <div class="flex items-center gap-4">
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="Instagram">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="TikTok">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="YouTube">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            </a>
+            <a href="#navbar" class="ml-2 px-3 py-1.5 rounded-full border border-white/20 text-[10px] font-sans font-bold tracking-widest uppercase text-white/80 hover:text-white hover:border-white transition-all" aria-label="Kembali ke atas">
+              ↑ Atas
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/products-data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/page-transition.js"></script>
+</body>
+</html>

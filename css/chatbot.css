@@ -1,0 +1,911 @@
+/* ==========================================================================
+   NUSAVABOT — FLOATING AI CHATBOT (LIQUID GLASS & SAMSUNG SQUIRCLE EDITION)
+   Theme: PUSAKA · Preserving Unity, Sustaining Ancestral Knowledge & Artistry
+   Aesthetic: Hyper-Realistic Frosted Liquid Glass · Samsung One UI Squircle
+   Physics: Organic Liquid Spring Curves · Specular Edge Refraction
+   Strict Zero-Emoji Policy: 100% Pure Inline SVG Icons
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Root Container (Bottom-Right Fixed)
+   -------------------------------------------------------------------------- */
+.nusabot-widget-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 900; /* Di bawah level Cart Drawer & Modal (z-index 1000+) */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 280ms ease;
+}
+
+/* Sembunyikan otomatis widget AI NusaBot saat keranjang belanja atau drawer terbuka */
+body.cart-open .nusabot-widget-container,
+body.cart-drawer-open .nusabot-widget-container,
+body.drawer-open .nusabot-widget-container,
+#cart-drawer.open ~ #nusabot-widget,
+#cart-drawer.active ~ #nusabot-widget {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(20px) scale(0.9) !important;
+}
+
+.nusabot-widget-container > * {
+  pointer-events: auto;
+}
+
+/* --------------------------------------------------------------------------
+   2. Floating Teaser Pill (Samsung One UI Squircle Pill + Liquid Glass)
+   -------------------------------------------------------------------------- */
+.nusabot-teaser-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(217, 249, 157, 0.88);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 16px; /* Samsung Squircle Pill */
+  box-shadow:
+    0 12px 28px -4px rgba(20, 83, 45, 0.22),
+    0 4px 12px rgba(0, 0, 0, 0.04),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.03);
+  margin-bottom: 14px;
+  color: #14532D;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transform: translateY(14px) scale(0.92);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 420ms cubic-bezier(0.34, 1.4, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nusabot-teaser-pill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-20deg);
+  animation: liquidTeaserShimmer 4s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes liquidTeaserShimmer {
+  0%, 65% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.nusabot-teaser-pill.visible {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  animation: liquidTeaserFloat 3.8s ease-in-out infinite alternate;
+}
+
+@keyframes liquidTeaserFloat {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-4px) scale(1.01); }
+}
+
+.nusabot-teaser-pill:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: rgba(217, 249, 157, 0.95);
+  box-shadow:
+    0 16px 32px -4px rgba(20, 83, 45, 0.28),
+    inset 0 1.5px 2px rgba(255, 255, 255, 1);
+}
+
+.nusabot-teaser-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #15803D;
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.25);
+  flex-shrink: 0;
+  animation: liquidDotPulse 2s infinite ease-in-out;
+}
+
+@keyframes liquidDotPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.25); }
+  50% { transform: scale(1.15); box-shadow: 0 0 0 5px rgba(21, 128, 61, 0.12); }
+}
+
+/* --------------------------------------------------------------------------
+   3. Samsung One UI Squircle Launcher Button (Liquid Glass & Pulsing Aura)
+   -------------------------------------------------------------------------- */
+.nusabot-launcher-btn {
+  width: 64px;
+  height: 64px;
+  /* Authentic Samsung One UI Icon Squircle Geometry */
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(175, 75, 14, 0.96) 0%, rgba(135, 50, 5, 0.92) 100%);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.55),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.16),
+    0 16px 36px -4px rgba(150, 61, 6, 0.42),
+    0 6px 14px rgba(150, 61, 6, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  transition: transform 380ms cubic-bezier(0.34, 1.45, 0.64, 1),
+              box-shadow 380ms ease,
+              background 380ms ease,
+              border-color 380ms ease;
+  animation: launcherSquircleFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes launcherSquircleFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* Squircle Liquid Aura Expanding Ring */
+.nusabot-launcher-btn::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 26px; /* Squircle aura ring */
+  background: transparent;
+  border: 2px solid rgba(197, 160, 89, 0.65);
+  animation: squircleLiquidPulse 3s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes squircleLiquidPulse {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.9;
+    border-color: rgba(197, 160, 89, 0.7);
+    box-shadow: 0 0 16px rgba(197, 160, 89, 0.35);
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0;
+    border-color: rgba(150, 61, 6, 0);
+    box-shadow: 0 0 28px rgba(150, 61, 6, 0);
+  }
+  100% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+}
+
+.nusabot-launcher-btn:hover {
+  transform: translateY(-4px) scale(1.08);
+  box-shadow:
+    inset 0 2.5px 4px rgba(255, 255, 255, 0.7),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.18),
+    0 22px 45px -4px rgba(150, 61, 6, 0.52),
+    0 8px 18px rgba(150, 61, 6, 0.3);
+}
+
+.nusabot-launcher-btn:active {
+  transform: scale(0.94);
+  transition-duration: 120ms;
+}
+
+/* Mascot Avatar Inside Squircle */
+.nusabot-launcher-avatar {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+  transition: opacity 320ms cubic-bezier(0.34, 1.4, 0.64, 1),
+              transform 340ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* Close Icon Inside Squircle */
+.nusabot-launcher-icon-close {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: rotate(-120deg) scale(0.5);
+  transition: opacity 300ms cubic-bezier(0.34, 1.4, 0.64, 1),
+              transform 340ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* Morphing Squircle on Open State */
+.nusabot-launcher-btn.open {
+  animation: none;
+  transform: rotate(90deg) scale(1);
+  background: linear-gradient(145deg, rgba(35, 25, 18, 0.95) 0%, rgba(55, 40, 30, 0.92) 100%);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.35),
+    0 12px 30px -4px rgba(28, 20, 15, 0.4);
+}
+
+.nusabot-launcher-btn.open::after {
+  display: none; /* Disable aura pulse when open */
+}
+
+.nusabot-launcher-btn.open .nusabot-launcher-avatar {
+  opacity: 0;
+  transform: rotate(-180deg) scale(0.3);
+}
+
+.nusabot-launcher-btn.open .nusabot-launcher-icon-close {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   4. Jendela Utama Chatbot (Liquid Glass Squircle Popup Window)
+   -------------------------------------------------------------------------- */
+.nusabot-popup-window {
+  width: 375px;
+  height: 520px;
+  /* Authentic Samsung One UI Curvature & Frosted Acrylic Liquid Glass */
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(28px) saturate(190%) contrast(102%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(102%);
+  border: 1.5px solid rgba(255, 255, 255, 0.68);
+  box-shadow:
+    0 26px 65px -12px rgba(28, 20, 15, 0.24),
+    0 12px 30px -6px rgba(150, 61, 6, 0.14),
+    inset 0 1.5px 2.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: absolute;
+  bottom: 78px;
+  right: 0;
+  transform-origin: bottom right;
+  transform: scale(0.68) translateY(36px) rotate(1.5deg);
+  opacity: 0;
+  filter: blur(12px);
+  pointer-events: none;
+  transition: transform 420ms cubic-bezier(0.34, 1.35, 0.64, 1),
+              opacity 320ms ease,
+              filter 340ms ease;
+}
+
+/* Specular Angled Refraction Highlight across the Glass Body */
+.nusabot-popup-window::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.nusabot-popup-window.active {
+  transform: scale(1) translateY(0) rotate(0deg);
+  opacity: 1;
+  filter: blur(0px);
+  pointer-events: auto;
+  animation: liquidWindowSpring 520ms cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+@keyframes liquidWindowSpring {
+  0% {
+    transform: scale(0.68) translateY(36px) rotate(1.5deg);
+    filter: blur(10px);
+  }
+  60% {
+    transform: scale(1.025) translateY(-4px) rotate(-0.5deg);
+    filter: blur(0px);
+  }
+  80% {
+    transform: scale(0.99) translateY(1.5px) rotate(0.2deg);
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Header Terracotta Liquid Glass (#963D06)
+   -------------------------------------------------------------------------- */
+.nusabot-header {
+  height: 74px;
+  background: linear-gradient(135deg, rgba(160, 68, 12, 0.90) 0%, rgba(135, 50, 5, 0.85) 55%, rgba(105, 38, 3, 0.90) 100%);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.4),
+    0 6px 18px rgba(150, 61, 6, 0.16);
+}
+
+.nusabot-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Squircle Avatar Container */
+.nusabot-avatar-wrapper {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px; /* Samsung Squircle Avatar */
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 240ms ease;
+}
+
+.nusabot-header:hover .nusabot-avatar-wrapper {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.nusabot-header-avatar {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.nusabot-online-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #10B981;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+.nusabot-header-titles {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.nusabot-header-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.015em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.nusabot-header-status {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nusabot-close-btn {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  padding: 8px;
+  border-radius: 12px; /* Squircle Close Button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 220ms ease;
+}
+
+.nusabot-close-btn:hover {
+  background: rgba(255, 255, 255, 0.26);
+  transform: scale(1.08) rotate(4deg);
+}
+
+.nusabot-close-btn:active {
+  transform: scale(0.92);
+}
+
+/* --------------------------------------------------------------------------
+   6. Chat Body & Scroll Area (Liquid Glass Frosted)
+   -------------------------------------------------------------------------- */
+.nusabot-chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+  position: relative;
+  z-index: 2;
+}
+
+.nusabot-chat-body::-webkit-scrollbar {
+  width: 5px;
+}
+.nusabot-chat-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nusabot-chat-body::-webkit-scrollbar-thumb {
+  background: rgba(197, 160, 89, 0.35);
+  border-radius: 10px;
+}
+.nusabot-chat-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 61, 6, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   7. Message Bubbles & Liquid Staggered Entrance Animations
+   -------------------------------------------------------------------------- */
+.nusabot-msg-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+  animation: liquidBubblePop 420ms cubic-bezier(0.34, 1.35, 0.64, 1) both;
+}
+
+@keyframes liquidBubblePop {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.92);
+    filter: blur(4px);
+  }
+  65% {
+    transform: translateY(-2px) scale(1.015);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.nusabot-msg-row.bot {
+  justify-content: flex-start;
+}
+
+.nusabot-msg-row.user {
+  justify-content: flex-end;
+}
+
+/* Bot Message Small Avatar Squircle */
+.nusabot-bot-avatar-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px; /* Squircle */
+  background: rgba(250, 246, 240, 0.85);
+  border: 1px solid rgba(229, 222, 201, 0.8);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.nusabot-bot-avatar-small img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.nusabot-msg-content-wrap {
+  display: flex;
+  flex-direction: column;
+  max-width: 82%;
+}
+
+.nusabot-msg-row.user .nusabot-msg-content-wrap {
+  align-items: flex-end;
+}
+
+/* Bot Message Bubble (Liquid Terracotta Glass) */
+.nusabot-bubble-bot {
+  background: linear-gradient(135deg, rgba(150, 61, 6, 0.92) 0%, rgba(125, 45, 4, 0.88) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #FFFFFF;
+  padding: 13px 17px;
+  font-size: 0.875rem;
+  line-height: 1.52;
+  border-radius: 20px 20px 20px 6px; /* Squircle Bubble */
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.42),
+    0 8px 20px -4px rgba(150, 61, 6, 0.24);
+  word-break: break-word;
+}
+
+/* User Message Bubble (Frosted Milk Glass) */
+.nusabot-bubble-user {
+  background: rgba(245, 238, 228, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #1E1610;
+  padding: 13px 17px;
+  font-size: 0.875rem;
+  line-height: 1.52;
+  border-radius: 20px 20px 6px 20px; /* Squircle Bubble */
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.95),
+    0 6px 16px -2px rgba(0, 0, 0, 0.05);
+  word-break: break-word;
+}
+
+.nusabot-msg-time {
+  font-size: 0.6875rem;
+  color: #8C5A20;
+  margin-top: 5px;
+  padding-left: 3px;
+  font-weight: 500;
+}
+
+.nusabot-msg-row.user .nusabot-msg-time {
+  padding-right: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Quick-Reply Suggestion Chips (Samsung Squircle Chips + Liquid Glass)
+   -------------------------------------------------------------------------- */
+.nusabot-chips-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  margin-left: 46px; /* Aligned with bot message bubble */
+  animation: liquidBubblePop 460ms cubic-bezier(0.34, 1.35, 0.64, 1) both;
+}
+
+.nusabot-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(229, 222, 201, 0.85);
+  border-radius: 14px; /* Samsung Squircle Chip */
+  color: #963D06;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: left;
+  cursor: pointer;
+  transition: all 260ms cubic-bezier(0.34, 1.4, 0.64, 1);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.03),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.9);
+}
+
+.nusabot-chip-btn:hover {
+  background: linear-gradient(135deg, rgba(160, 68, 12, 0.95), rgba(135, 50, 5, 0.92));
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 8px 20px -3px rgba(150, 61, 6, 0.32),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.5);
+}
+
+.nusabot-chip-btn:active {
+  transform: scale(0.97);
+}
+
+.nusabot-chip-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  transition: transform 220ms ease;
+}
+
+.nusabot-chip-btn:hover .nusabot-chip-icon {
+  transform: rotate(6deg) scale(1.1);
+}
+
+/* --------------------------------------------------------------------------
+   9. In-Chat Interactive Product Recommendation Card (Frosted Glass)
+   -------------------------------------------------------------------------- */
+.nusabot-product-card {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 222, 201, 0.9);
+  border-radius: 18px; /* Squircle Card */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 8px 22px rgba(30, 22, 16, 0.08),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.9);
+  transition: transform 260ms cubic-bezier(0.34, 1.4, 0.64, 1),
+              border-color 240ms ease,
+              box-shadow 260ms ease;
+}
+
+.nusabot-product-card:hover {
+  transform: translateY(-3px) scale(1.015);
+  border-color: #C5A059;
+  box-shadow:
+    0 14px 30px -4px rgba(150, 61, 6, 0.18),
+    inset 0 1px 1.5px rgba(255, 255, 255, 1);
+}
+
+.nusabot-product-card-img {
+  width: 100%;
+  height: 115px;
+  object-fit: cover;
+  background-color: #EDE4D5;
+  transition: transform 400ms ease;
+}
+
+.nusabot-product-card:hover .nusabot-product-card-img {
+  transform: scale(1.04);
+}
+
+.nusabot-product-card-body {
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.nusabot-product-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #1E1610;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.nusabot-product-card-meta {
+  font-size: 0.6875rem;
+  color: #6B5E55;
+  margin-bottom: 6px;
+}
+
+.nusabot-product-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding-top: 7px;
+  border-top: 1px solid rgba(237, 228, 213, 0.8);
+}
+
+.nusabot-product-card-price {
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: #963D06;
+}
+
+.nusabot-product-card-btn {
+  padding: 5px 12px;
+  background: linear-gradient(135deg, #963D06, #7E3305);
+  color: #FFFFFF;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border-radius: 12px; /* Squircle CTA Button */
+  text-decoration: none;
+  transition: all 220ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 6px rgba(150, 61, 6, 0.25);
+}
+
+.nusabot-product-card-btn:hover {
+  background: linear-gradient(135deg, #C5A059, #A88438);
+  color: #1E1610;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(197, 160, 89, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   10. Typing Indicator Bubble (Liquid Droplets)
+   -------------------------------------------------------------------------- */
+.nusabot-typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(150, 61, 6, 0.92) 0%, rgba(125, 45, 4, 0.88) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px 20px 20px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.42),
+    0 6px 16px -3px rgba(150, 61, 6, 0.22);
+}
+
+.nusabot-typing-dot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  opacity: 0.65;
+  animation: nusaLiquidTyping 1.4s infinite cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.nusabot-typing-dot:nth-child(1) { animation-delay: 0s; }
+.nusabot-typing-dot:nth-child(2) { animation-delay: 0.18s; }
+.nusabot-typing-dot:nth-child(3) { animation-delay: 0.36s; }
+
+@keyframes nusaLiquidTyping {
+  0%, 100% { transform: translateY(0) scale(0.9); opacity: 0.45; }
+  50% { transform: translateY(-5px) scale(1.2); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   11. Footer Input Bar (Frosted Liquid Acrylic + Samsung Squircle Controls)
+   -------------------------------------------------------------------------- */
+.nusabot-footer-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  border-bottom-left-radius: 26px;
+  border-bottom-right-radius: 26px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.85);
+}
+
+.nusabot-input-field {
+  flex: 1;
+  height: 46px;
+  border-radius: 15px; /* Samsung Squircle Input */
+  border: 1.5px solid rgba(229, 222, 201, 0.85);
+  padding: 0 16px;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  color: #1E1610;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 220ms ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.nusabot-input-field:focus {
+  outline: none;
+  border-color: #963D06;
+  background: #FFFFFF;
+  box-shadow:
+    0 0 0 3.5px rgba(150, 61, 6, 0.16),
+    inset 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.nusabot-input-field::placeholder {
+  color: #9CA3AF;
+}
+
+.nusabot-send-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px; /* Samsung Squircle Send Button */
+  background: linear-gradient(135deg, rgba(160, 68, 12, 0.95), rgba(135, 50, 5, 0.92));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-right: 6px; /* Posisi tombol kirim digeser agak ke kiri */
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.45),
+    0 6px 16px -2px rgba(150, 61, 6, 0.35);
+  transition: all 220ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.nusabot-send-btn:hover {
+  background: linear-gradient(135deg, rgba(175, 75, 14, 1), rgba(150, 61, 6, 1));
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.6),
+    0 10px 22px -3px rgba(150, 61, 6, 0.45);
+}
+
+.nusabot-send-btn:active {
+  transform: scale(0.95);
+}
+
+.nusabot-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   12. Mobile Responsiveness (Responsive Squircle & Glass Dimensions)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .nusabot-widget-container {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .nusabot-launcher-btn {
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
+  }
+
+  .nusabot-popup-window {
+    width: calc(100vw - 32px);
+    height: min(510px, calc(100vh - 96px));
+    bottom: 72px;
+    right: 0;
+    border-radius: 24px;
+  }
+
+  .nusabot-header {
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+  }
+
+  .nusabot-footer-bar {
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+  }
+
+  .nusabot-teaser-pill {
+    max-width: calc(100vw - 32px);
+    font-size: 0.75rem;
+    padding: 8px 14px;
+    border-radius: 14px;
+  }
+}

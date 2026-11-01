@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petualangan Pusaka Nusantara — Mini Game Edukasi Budaya · Nusava</title>
+  <meta name="description" content="Platform digital kurasi dan apresiasi warisan budaya Indonesia — jelajahi kepulauan Nusantara, selamatkan 7 artefak pusaka agung bangsa dalam petualangan platformer edukatif 2D.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="icon" type="image/png" href="assets/images/logonusava.png">
+
+  <!-- Tailwind CSS CDN (Configured identically to Landing Page) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            canvas:   '#F5EFE6',
+            surface:  '#FAF7F2',
+            'surface-elevated': '#EDE4D5',
+            ivory:    '#F5EFE6',
+            'ivory-soft': '#EDE4D5',
+            card:     '#FAF7F2',
+            dark:     '#241B16',
+            'dark-card': '#2D221C',
+            'dark-2': '#2D221C',
+            espresso: '#2B231D',
+            charcoal: '#6B5E55',
+            gold:     '#C5A059',
+            'gold-light': '#B38F46',
+            amber:    '#C5A059',
+            olive:    '#AEAC79',
+          },
+          fontFamily: {
+            cinzel:   ['"Cinzel"', '"Playfair Display"', 'Georgia', 'serif'],
+            display:  ['"Playfair Display"', 'Georgia', 'serif'],
+            garamond: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans:     ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+          transitionTimingFunction: {
+            luxury: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            expo:   'cubic-bezier(0.16, 1, 0.3, 1)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS (Exact identical stylesheet from Landing Page) -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/page-transition.css">
+  <!-- Game Specific Canvas & HUD CSS -->
+  <link rel="stylesheet" href="css/game.css">
+
+  <style>
+    /* Clean custom keycap styling matching Landing Page palette */
+    .key-badge-clean {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.6rem;
+      height: 1.6rem;
+      padding: 0 0.4rem;
+      border: 1px solid rgba(197, 160, 89, 0.45);
+      border-radius: 0.375rem;
+      background: #FAF7F2;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      color: #2B231D;
+      box-shadow: 0 1px 2px rgba(43, 35, 29, 0.08);
+    }
+    /* Clean Gallery card override matching Landing Page */
+    .gallery-card {
+      background: #FAF7F2 !important;
+      border: 1.5px solid #EDE4D5 !important;
+      border-radius: 1rem !important;
+      color: #2B231D !important;
+    }
+    .gallery-card:hover {
+      border-color: #C5A059 !important;
+    }
+    .gallery-card h3 {
+      font-family: 'Cinzel', Georgia, serif !important;
+      color: #2B231D !important;
+    }
+    .gallery-card p {
+      color: #6B5E55 !important;
+    }
+
+    /* =========================================================================
+       LUXURY NAVBAR HOVER REVEAL & SLIDE DOWN (Scoped for game.html)
+       ========================================================================= */
+    #navbar {
+      z-index: 1000 !important;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  background 0.35s ease,
+                  backdrop-filter 0.35s ease,
+                  -webkit-backdrop-filter 0.35s ease,
+                  border-color 0.35s ease,
+                  box-shadow 0.35s ease !important;
+    }
+    #navbar.nav-hover-reveal {
+      transform: translate3d(0, 0, 0) !important;
+      pointer-events: auto !important;
+      background: rgba(245, 239, 230, 0.94) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border-bottom-color: rgba(197, 160, 89, 0.28) !important;
+      box-shadow: 0 4px 20px rgba(43, 35, 29, 0.08) !important;
+    }
+  </style>
+</head>
+
+<body class="bg-[#F5EFE6] text-[#2B231D] page-transition-ready">
+
+  <!-- Top Luxury Page Transition Progress Ribbon -->
+  <div id="page-transition-bar" aria-hidden="true"></div>
+
+  <!-- Top Invisible Hover Detector Strip for Instant Navbar Slide-Down -->
+  <div id="nav-hover-trigger" class="fixed top-0 left-0 w-full h-4 z-[999] pointer-events-auto" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       NAVBAR — Luxury Minimalist Navigation (Exact Identical Match with Landing Page)
+       ========================================================================= -->
+  <header id="navbar" class="nav-flat-bar" aria-label="Main Navigation">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full h-full flex items-center justify-between">
+      <!-- Brand Identity & Logo Integration -->
+      <a href="index.html" class="brand-link group" aria-label="Nusava Beranda">
+        <img src="assets/images/logonusava.png" alt="Logo Nusava" class="brand-logo-emblem" />
+        <span class="brand-title-text font-cinzel">NUSAVA</span>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav class="hidden lg:flex items-center gap-5 xl:gap-7" aria-label="Navigasi Utama">
+        <a href="index.html#jelajah" class="nav-link-item">Jelajah</a>
+        <a href="marketplace.html" class="nav-link-item">Koleksi Budaya</a>
+        <a href="index.html#pasar" class="nav-link-item">Pasar Budaya</a>
+        <a href="game.html" class="nav-link-item text-[#C5A059] font-bold border-b border-[#C5A059]">Mini Game</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2.5 sm:gap-3.5">
+        <!-- Cart Trigger Button -->
+        <button data-cart-open class="relative p-2 text-[#4A403A] hover:text-[#C5A059] transition-colors" aria-label="Keranjang">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span id="cart-count" data-cart-count class="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full bg-[#C5A059] text-white text-[11px] font-bold flex items-center justify-center leading-none">0</span>
+        </button>
+        
+        <!-- Login / Auth Container (Dynamic via JS) -->
+        <div id="nav-auth-container" class="relative">
+          <a href="login.html" id="nav-login-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#C5A059]/60 hover:border-[#C5A059] bg-[#FAF7F2]/80 hover:bg-[#FAF7F2] text-[#2B231D] text-xs font-sans font-semibold tracking-wide transition-all shadow-xs">
+            <svg class="w-3.5 h-3.5 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>Masuk</span>
+          </a>
+        </div>
+
+        <!-- CTA Pill -->
+        <a href="index.html#pasar" class="hidden sm:inline-flex nav-cta-pill">Dukung Pengrajin</a>
+        
+        <!-- Hamburger Menu Button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-[#4A403A] hover:text-[#C5A059] transition-colors" aria-label="Buka Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer (Exact Match with Landing Page) -->
+  <div id="mobile-drawer" class="fixed inset-y-0 right-0 w-72 bg-[#F5EFE6] z-[1001] transform translate-x-full transition-transform duration-luxury shadow-2xl flex flex-col p-8">
+    <div class="flex items-center justify-between pb-6 border-b border-[rgba(197,160,89,0.2)]">
+      <div class="flex items-center gap-2.5">
+        <img src="assets/images/logonusava.png" alt="NUSAVA" class="h-8 w-auto object-contain" />
+        <span class="font-cinzel font-bold text-lg tracking-[0.12em] text-[#C5A059]">NUSAVA</span>
+      </div>
+      <button id="mobile-menu-close" class="text-[#2B231D] hover:text-[#C5A059] transition-colors" aria-label="Tutup">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="flex flex-col gap-4 mt-6 overflow-y-auto no-scrollbar">
+      <a href="index.html#jelajah" class="font-garamond text-lg font-normal text-[#2B231D] hover:text-[#C5A059] transition-colors border-b border-[rgba(197,160,89,0.15)] pb-3">Jelajah</a>
+      <a href="marketplace.html"  class="font-garamond text-lg font-normal text-[#2B231D] hover:text-[#C5A059] transition-colors border-b border-[rgba(197,160,89,0.15)] pb-3">Koleksi Budaya</a>
+      <a href="index.html#pasar"   class="font-garamond text-lg font-normal text-[#2B231D] hover:text-[#C5A059] transition-colors border-b border-[rgba(197,160,89,0.15)] pb-3">Pasar Budaya</a>
+      <a href="game.html"          class="font-garamond text-lg font-bold text-[#C5A059] transition-colors">Mini Game</a>
+    </nav>
+
+    <!-- Mobile Auth Section -->
+    <div id="mobile-auth-container" class="mt-4 pt-4 border-t border-[rgba(197,160,89,0.2)] flex flex-col gap-2.5">
+      <a href="login.html" id="mobile-login-btn" class="w-full py-2.5 px-4 text-center text-xs font-semibold tracking-wider text-[#2B231D] bg-[#FAF7F2] hover:bg-[#EDE4D5] rounded-full border border-[#C5A059]/50 flex items-center justify-center gap-2 transition-colors shadow-xs">
+        <svg class="w-4 h-4 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span>Masuk Akun</span>
+      </a>
+    </div>
+
+    <a href="index.html#pasar" class="mt-3 w-full py-3 text-center text-[11px] font-bold tracking-[0.14em] uppercase bg-[#C5A059] text-[#FAF7F2] rounded-full hover:bg-[#B38F46] transition-colors shadow-sm">Dukung Pengrajin</a>
+  </div>
+
+
+  <!-- =========================================================================
+       1. HERO SECTION — PENJELASAN AWAL & SINOPSIS CERITA (AYANA Editorial Style)
+       ========================================================================= -->
+  <section class="pt-28 sm:pt-36 pb-16 sm:pb-24 relative overflow-hidden border-b border-[#E8D9C0]/70">
+    
+    <!-- Ambient background glow matching landing page -->
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-[#C5A059]/15 rounded-full blur-[100px] pointer-events-none animate-pulse-slow"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+      
+      <!-- Hero header layout -->
+      <div class="mb-8 pt-4 max-w-4xl">
+        <span class="section-index-badge mb-3 inline-block">N° KHUSUS · EKSPLORASI INTERAKTIF</span>
+        <h1 class="font-display font-bold text-3xl sm:text-5xl lg:text-6xl text-[#2B231D] leading-[1.15]">
+          Petualangan Pusaka<br>
+          <span class="text-[#C5A059] italic font-normal font-garamond">Menyelamatkan 7 Mahakarya Nusantara</span>
+        </h1>
+        <p class="mt-4 text-[#6B5E55] text-sm sm:text-base lg:text-lg max-w-3xl leading-relaxed">
+          Selamat datang di dunia petualangan Candi Purba Nusava. Kamu berperan sebagai sang penjelajah cilik yang ditugaskan menembus reruntuhan kuil kuno, melompati rintangan tebing, dan mengumpulkan kembali 7 benda budaya bersejarah kebanggaan bangsa. Pelajari sejarah aslinya, selesaikan kuis pengetahuan budaya, dan raih gelar kehormatan sebagai Penjaga Pusaka Nusantara.
+        </p>
+
+        <!-- Quick Action Buttons (Consistent Pill Shape, NO EMOJIS) -->
+        <div class="mt-8 flex flex-wrap items-center gap-3.5">
+          <a href="#arena-game" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#241B16] hover:bg-[#C5A059] text-white text-xs font-sans font-bold tracking-wider uppercase transition-all shadow-md">
+            <span>Mainkan Game Sekarang</span>
+            <span>&darr;</span>
+          </a>
+          <a href="#katalog-pusaka" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#FAF7F2] hover:bg-[#EDE4D5] border border-[#EDE4D5] text-xs font-sans font-bold text-[#2B231D] hover:text-[#C5A059] transition-all shadow-xs">
+            <span>Katalog 7 Mahakarya</span>
+            <span>&rarr;</span>
+          </a>
+          <a href="#panduan-kontrol" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#FAF7F2] hover:bg-[#EDE4D5] border border-[#EDE4D5] text-xs font-sans font-bold text-[#2B231D] hover:text-[#C5A059] transition-all shadow-xs">
+            <span class="w-4 h-4 rounded-full bg-[#EDE4D5] border border-[#C5A059]/50 flex items-center justify-center text-[10px] font-serif font-bold text-[#C5A059] leading-none">i</span>
+            <span>Panduan Kontrol</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4 Editorial Metric Cards (Warm Ivory, NO EMOJIS) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-[#EDE4D5]">
+        <div class="card-3d p-5 rounded-2xl bg-[#FAF7F2] border border-[#EDE4D5] shadow-xs">
+          <div class="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-1">Pusaka Budaya</div>
+          <div class="font-display font-bold text-lg text-[#2B231D]">7 Mahakarya</div>
+          <p class="text-xs text-[#6B5E55] mt-1 font-sans">UNESCO &amp; Warisan Asli</p>
+        </div>
+        <div class="card-3d p-5 rounded-2xl bg-[#FAF7F2] border border-[#EDE4D5] shadow-xs">
+          <div class="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-1">Performa Visual</div>
+          <div class="font-display font-bold text-lg text-[#2B231D]">60 FPS Halus</div>
+          <p class="text-xs text-[#6B5E55] mt-1 font-sans">Fisika Candi Presisi</p>
+        </div>
+        <div class="card-3d p-5 rounded-2xl bg-[#FAF7F2] border border-[#EDE4D5] shadow-xs">
+          <div class="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-1">Evaluasi Wawasan</div>
+          <div class="font-display font-bold text-lg text-[#2B231D]">Kuis Interaktif</div>
+          <p class="text-xs text-[#6B5E55] mt-1 font-sans">Uji Sejarah &amp; Filosofi</p>
+        </div>
+        <div class="card-3d p-5 rounded-2xl bg-[#FAF7F2] border border-[#EDE4D5] shadow-xs">
+          <div class="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-1">Peringkat Ksatria</div>
+          <div class="font-display font-bold text-lg text-[#2B231D]">Sistem Vitalitas</div>
+          <p class="text-xs text-[#6B5E55] mt-1 font-sans">Kumpulkan Poin XP</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       2. TIGA PILAR EDUKASI & NILAI BUDAYA (Consistent with Landing Page)
+       ========================================================================= -->
+  <section class="py-16 sm:py-24 bg-[#FAF7F2] border-b border-[#E8D9C0]/70">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-sans font-bold uppercase tracking-[0.22em] text-[#C5A059] block mb-2">
+          Konsep &amp; Nilai Edukasi
+        </span>
+        <h2 class="font-display font-bold text-2xl sm:text-4xl text-[#2B231D]">
+          Mengenal Warisan Leluhur Sambil Bermain
+        </h2>
+        <p class="mt-3 text-xs sm:text-sm text-[#6B5E55] leading-relaxed font-sans">
+          Dirancang untuk memikat generasi muda agar mengenal, menghormati, dan bangga terhadap kekayaan karya serta seni budaya Indonesia.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Pilar 01 -->
+        <div class="game-pillar-card card-3d p-8 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col justify-between shadow-xs">
+          <div>
+            <span class="font-cinzel text-xs font-bold text-[#C5A059] tracking-widest uppercase block mb-3">Pilar 01</span>
+            <h3 class="font-display font-bold text-xl text-[#2B231D] mb-3">Eksplorasi Aktif</h3>
+            <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed font-sans">
+              Bukan sekadar membaca teks mati di buku pelajaran, pemain diajak secara langsung menjelajahi lorong candi purba, melompati pilar batu, dan mencari peti pusaka yang tersembunyi di berbagai zona kuil.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-[#EDE4D5] text-[11px] font-sans font-semibold text-[#2B231D]">
+            Meningkatkan daya ingat visual dan ketertarikan anak
+          </div>
+        </div>
+
+        <!-- Pilar 02 -->
+        <div class="game-pillar-card card-3d p-8 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col justify-between shadow-xs">
+          <div>
+            <span class="font-cinzel text-xs font-bold text-[#C5A059] tracking-widest uppercase block mb-3">Pilar 02</span>
+            <h3 class="font-display font-bold text-xl text-[#2B231D] mb-3">Akurasi Sejarah Asli</h3>
+            <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed font-sans">
+              Setiap artefak memiliki catatan sejarah berbobot: mulai dari Keris Luk-9 dengan baja meteorit, filosofi Batik Parang para bangsawan Mataram, Angklung bambu UNESCO, hingga seni ukir kayu Ubud Bali.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-[#EDE4D5] text-[11px] font-sans font-semibold text-[#2B231D]">
+            Divalidasi referensi resmi warisan budaya takbenda
+          </div>
+        </div>
+
+        <!-- Pilar 03 -->
+        <div class="game-pillar-card card-3d p-8 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col justify-between shadow-xs">
+          <div>
+            <span class="font-cinzel text-xs font-bold text-[#C5A059] tracking-widest uppercase block mb-3">Pilar 03</span>
+            <h3 class="font-display font-bold text-xl text-[#2B231D] mb-3">Refleks &amp; Uji Wawasan</h3>
+            <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed font-sans">
+              Ketika menemukan pusaka, pemain harus membuktikan pemahamannya melalui kuis kilat pilihan ganda. Jawaban yang tepat memulihkan vitalitas ksatria dan memberikan bonus poin pengalaman budaya.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-[#EDE4D5] text-[11px] font-sans font-semibold text-[#2B231D]">
+            Evaluasi pemahaman langsung setelah membaca artefak
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       3. PANDUAN KONTROL & CARA BERMAIN (Bebas Emoji, Clean Editorial)
+       ========================================================================= -->
+  <section id="panduan-kontrol" class="py-16 sm:py-24 border-b border-[#E8D9C0]/70">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-sans font-bold uppercase tracking-[0.22em] text-[#C5A059] block mb-2">
+          Petunjuk Permainan
+        </span>
+        <h2 class="font-display font-bold text-2xl sm:text-4xl text-[#2B231D]">
+          Panduan Kontrol Komputer &amp; Ponsel
+        </h2>
+        <p class="mt-3 text-xs sm:text-sm text-[#6B5E55] leading-relaxed font-sans">
+          Dapat dimainkan secara fleksibel menggunakan keyboard laptop maupun layar sentuh smartphone dan tablet.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        
+        <!-- Kontrol Laptop / Komputer -->
+        <div class="game-control-card card-3d p-8 rounded-2xl bg-[#FAF7F2] border border-[#EDE4D5] shadow-xs">
+          <div class="flex items-center justify-between pb-4 border-b border-[#EDE4D5] mb-6">
+            <h3 class="font-display font-bold text-lg text-[#2B231D]">Kontrol Keyboard Komputer</h3>
+            <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-[#EDE4D5] text-[#2B231D] font-bold">KEYBOARD</span>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+              <span class="text-xs sm:text-sm font-sans text-[#2B231D]">Berjalan ke Kiri &amp; Kanan</span>
+              <div class="flex items-center gap-1.5">
+                <span class="key-badge-clean">A</span>
+                <span class="text-[#6B5E55] text-xs">atau</span>
+                <span class="key-badge-clean">D</span>
+                <span class="text-[#6B5E55] text-xs">/</span>
+                <span class="key-badge-clean">Panah Kiri</span>
+                <span class="key-badge-clean">Panah Kanan</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+              <span class="text-xs sm:text-sm font-sans text-[#2B231D]">Melompat ke Atas Tebing</span>
+              <div class="flex items-center gap-1.5">
+                <span class="key-badge-clean">W</span>
+                <span class="text-[#6B5E55] text-xs">atau</span>
+                <span class="key-badge-clean">Panah Atas</span>
+                <span class="text-[#6B5E55] text-xs">/</span>
+                <span class="key-badge-clean">Spasi</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+              <span class="text-xs sm:text-sm font-sans text-[#2B231D]">Mengkaji Pusaka &amp; Buka Kuis</span>
+              <div class="flex items-center gap-1.5">
+                <span class="key-badge-clean text-[#C2593F]">E</span>
+                <span class="text-[#6B5E55] text-xs">atau</span>
+                <span class="key-badge-clean">Enter</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kontrol Smartphone / Tablet -->
+        <div class="game-control-card card-3d p-8 rounded-2xl bg-[#FAF7F2] border border-[#EDE4D5] shadow-xs">
+          <div class="flex items-center justify-between pb-4 border-b border-[#EDE4D5] mb-6">
+            <h3 class="font-display font-bold text-lg text-[#2B231D]">Kontrol Layar Sentuh Smartphone</h3>
+            <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-[#EDE4D5] text-[#2B231D] font-bold">TOUCH SCREEN</span>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+              <span class="text-xs sm:text-sm font-sans text-[#2B231D]">Navigasi Kiri &amp; Kanan</span>
+              <span class="px-3 py-1 text-xs font-bold rounded-full bg-[#EDE4D5] text-[#2B231D]">Virtual D-Pad Layar</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+              <span class="text-xs sm:text-sm font-sans text-[#2B231D]">Melompat ke Atas Rintangan</span>
+              <span class="px-3.5 py-1 text-xs font-bold rounded-full bg-[#C2593F] text-white">Tombol Lompat</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+              <span class="text-xs sm:text-sm font-sans text-[#2B231D]">Membuka Manuskrip &amp; Kuis</span>
+              <span class="px-3.5 py-1 text-xs font-bold rounded-full bg-[#C5A059] text-white">Tombol Kaji</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 4 Langkah Alur Petualangan -->
+      <div class="p-8 rounded-2xl bg-[#FAF7F2] border border-[#EDE4D5] shadow-xs">
+        <h4 class="font-cinzel font-bold text-xs sm:text-sm text-[#C5A059] uppercase tracking-widest text-center mb-6">
+          Empat Langkah Menuntaskan Misi Penjaga Budaya
+        </h4>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+          <div class="p-4 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+            <span class="font-cinzel font-bold text-xs text-[#C5A059] block mb-1">Langkah 01</span>
+            <div class="font-sans font-bold text-xs text-[#2B231D] mb-1">Jelajahi Candi</div>
+            <p class="font-sans text-[11px] text-[#6B5E55]">Lompati rintangan dan temukan 7 zona kuil peninggalan leluhur.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+            <span class="font-cinzel font-bold text-xs text-[#C5A059] block mb-1">Langkah 02</span>
+            <div class="font-sans font-bold text-xs text-[#2B231D] mb-1">Dekati Benda</div>
+            <p class="font-sans text-[11px] text-[#6B5E55]">Cari pendaran emas hingga tombol perintah [Kaji] muncul di layar.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+            <span class="font-cinzel font-bold text-xs text-[#C5A059] block mb-1">Langkah 03</span>
+            <div class="font-sans font-bold text-xs text-[#2B231D] mb-1">Jawab Kuis Kilat</div>
+            <p class="font-sans text-[11px] text-[#6B5E55]">Pilih jawaban yang benar untuk memulihkan vitalitas dan raih bonus XP.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-[#F5EFE6] border border-[#EDE4D5]">
+            <span class="font-cinzel font-bold text-xs text-[#C5A059] block mb-1">Langkah 04</span>
+            <div class="font-sans font-bold text-xs text-[#2B231D] mb-1">Lengkapi 7 Koleksi</div>
+            <p class="font-sans text-[11px] text-[#6B5E55]">Kumpulkan seluruh artefak untuk dinobatkan sebagai Penjaga Budaya Utama.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       4. SHOWCASE 7 ARTEFAK PUSAKA (Clean Ivory Cards, Authentic Assets)
+       ========================================================================= -->
+  <section id="katalog-pusaka" class="py-16 sm:py-24 bg-[#FAF7F2] border-b border-[#E8D9C0]/70">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-sans font-bold uppercase tracking-[0.22em] text-[#C5A059] block mb-2">
+          Ensiklopedia Karya
+        </span>
+        <h2 class="font-display font-bold text-2xl sm:text-4xl text-[#2B231D]">
+          7 Mahakarya yang Harus Kamu Temukan
+        </h2>
+        <p class="mt-3 text-xs sm:text-sm text-[#6B5E55] leading-relaxed font-sans">
+          Inilah ketujuh warisan budaya Indonesia yang tersembunyi di dalam arena candi. Setiap benda memiliki jiwa, sejarah, dan nilai filosofis tinggi.
+        </p>
+      </div>
+
+      <!-- 7 Cards Showcase Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Keris Pamor Luk-9 -->
+        <div class="gallery-card card-3d p-6 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col group shadow-xs">
+          <div class="h-44 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+            <img src="assets/game/keris-removebg-preview.png" alt="Keris Pamor Luk-9" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-bold tracking-wider bg-[#EDE4D5] text-[#2B231D] border border-[#C5A059]/40">
+              UNESCO 2005
+            </span>
+          </div>
+          <div class="text-[11px] font-sans font-semibold text-[#C5A059] mb-1">
+            Asal: Kerajaan Majapahit, Jawa
+          </div>
+          <h3 class="font-display font-bold text-lg text-[#2B231D] group-hover:text-[#C5A059] transition-colors">
+            Keris Pamor Luk-9
+          </h3>
+          <p class="mt-2 text-xs text-[#6B5E55] font-sans leading-relaxed flex-1">
+            Pusaka senjata adiluhung dengan bilah berkeluk 9 yang melambangkan kesempurnaan dan ajaran Wali Sanga. Ditempa dari lipatan baja meteorit pilihan oleh sang empu keraton.
+          </p>
+        </div>
+
+        <!-- 2. Guci Celadon Kuno -->
+        <div class="gallery-card card-3d p-6 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col group shadow-xs">
+          <div class="h-44 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+            <img src="assets/game/guci-removebg-preview.png" alt="Guci Celadon Kuno" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-bold tracking-wider bg-[#EDE4D5] text-[#2B231D] border border-[#C5A059]/40">
+              Karya Keramik
+            </span>
+          </div>
+          <div class="text-[11px] font-sans font-semibold text-[#C5A059] mb-1">
+            Asal: Singhasari, Jawa Timur
+          </div>
+          <h3 class="font-display font-bold text-lg text-[#2B231D] group-hover:text-[#C5A059] transition-colors">
+            Guci Celadon Kuno
+          </h3>
+          <p class="mt-2 text-xs text-[#6B5E55] font-sans leading-relaxed flex-1">
+            Artefak keramik berglasir halus dari abad ke-13 yang menjadi bukti sejarah gemilangnya jalur sutra maritim dan diplomasi perniagaan Nusantara dengan Asia Timur.
+          </p>
+        </div>
+
+        <!-- 3. Kendang Ageng Gamelan -->
+        <div class="gallery-card card-3d p-6 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col group shadow-xs">
+          <div class="h-44 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+            <img src="assets/game/kendang-removebg-preview.png" alt="Kendang Ageng Gamelan" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-bold tracking-wider bg-[#EDE4D5] text-[#2B231D] border border-[#C5A059]/40">
+              Instrumen Musik
+            </span>
+          </div>
+          <div class="text-[11px] font-sans font-semibold text-[#C5A059] mb-1">
+            Asal: Yogyakarta &amp; Surakarta
+          </div>
+          <h3 class="font-display font-bold text-lg text-[#2B231D] group-hover:text-[#C5A059] transition-colors">
+            Kendang Ageng Gamelan
+          </h3>
+          <p class="mt-2 text-xs text-[#6B5E55] font-sans leading-relaxed flex-1">
+            Pemimpin irama (pamurba wirama) dalam ansambel gamelan Jawa. Memandu tempo nada dan dinamika iringan tari sakral keraton dengan harmoni bunyi yang khas.
+          </p>
+        </div>
+
+        <!-- 4. Angklung Bambu Melodi -->
+        <div class="gallery-card card-3d p-6 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col group shadow-xs">
+          <div class="h-44 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+            <img src="assets/game/angklung-removebg-preview.png" alt="Angklung Bambu Melodi" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-bold tracking-wider bg-[#EDE4D5] text-[#2B231D] border border-[#C5A059]/40">
+              UNESCO 2010
+            </span>
+          </div>
+          <div class="text-[11px] font-sans font-semibold text-[#C5A059] mb-1">
+            Asal: Tanah Pasundan, Jawa Barat
+          </div>
+          <h3 class="font-display font-bold text-lg text-[#2B231D] group-hover:text-[#C5A059] transition-colors">
+            Angklung Bambu Melodi
+          </h3>
+          <p class="mt-2 text-xs text-[#6B5E55] font-sans leading-relaxed flex-1">
+            Alat musik bambu bernada ganda yang dibunyikan dengan digoyangkan. Menjadi simbol kebersamaan, gotong royong, dan keselarasan masyarakat Sunda dengan alam.
+          </p>
+        </div>
+
+        <!-- 5. Kebaya Encim Bordir -->
+        <div class="gallery-card card-3d p-6 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col group shadow-xs">
+          <div class="h-44 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+            <img src="assets/game/kebaya-removebg-preview.png" alt="Kebaya Encim Bordir" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-bold tracking-wider bg-[#EDE4D5] text-[#2B231D] border border-[#C5A059]/40">
+              Busana Adat
+            </span>
+          </div>
+          <div class="text-[11px] font-sans font-semibold text-[#C5A059] mb-1">
+            Asal: Pesisir Jawa &amp; Betawi
+          </div>
+          <h3 class="font-display font-bold text-lg text-[#2B231D] group-hover:text-[#C5A059] transition-colors">
+            Kebaya Encim Bordir
+          </h3>
+          <p class="mt-2 text-xs text-[#6B5E55] font-sans leading-relaxed flex-1">
+            Mahakarya busana perempuan Nusantara hasil akulturasi budaya Tionghoa Peranakan dan Jawa pesisir dengan ornamen sulaman kerancang halus nan anggun.
+          </p>
+        </div>
+
+        <!-- 6. Kain Batik Parang Rusak -->
+        <div class="gallery-card card-3d p-6 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col group shadow-xs">
+          <div class="h-44 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+            <img src="assets/game/kain_batik-removebg-preview.png" alt="Kain Batik Parang Rusak" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-bold tracking-wider bg-[#EDE4D5] text-[#2B231D] border border-[#C5A059]/40">
+              UNESCO 2009
+            </span>
+          </div>
+          <div class="text-[11px] font-sans font-semibold text-[#C5A059] mb-1">
+            Asal: Keraton Mataram, Jawa
+          </div>
+          <h3 class="font-display font-bold text-lg text-[#2B231D] group-hover:text-[#C5A059] transition-colors">
+            Kain Batik Parang Rusak
+          </h3>
+          <p class="mt-2 text-xs text-[#6B5E55] font-sans leading-relaxed flex-1">
+            Motif batik tertua berupa jajaran ombak karang laut selatan yang melambangkan keteguhan pantang menyerah serta pertarungan batin manusia melawan hawa nafsu.
+          </p>
+        </div>
+
+        <!-- 7. Asbak Ukir Kayu Suar Bali -->
+        <div class="gallery-card card-3d p-6 rounded-2xl bg-[#F5EFE6] border border-[#EDE4D5] hover:border-[#C5A059] transition-all duration-300 flex flex-col group shadow-xs sm:col-span-2 lg:col-span-1 sm:max-w-md sm:mx-auto lg:max-w-none">
+          <div class="h-44 rounded-xl bg-[#FAF7F2] border border-[#EDE4D5] flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+            <img src="assets/game/asbak_bali-removebg-preview.png" alt="Asbak Ukir Kayu Suar" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-bold tracking-wider bg-[#EDE4D5] text-[#2B231D] border border-[#C5A059]/40">
+              Karya Kayu
+            </span>
+          </div>
+          <div class="text-[11px] font-sans font-semibold text-[#C5A059] mb-1">
+            Asal: Ubud, Pulau Dewata Bali
+          </div>
+          <h3 class="font-display font-bold text-lg text-[#2B231D] group-hover:text-[#C5A059] transition-colors">
+            Asbak Ukir Kayu Suar
+          </h3>
+          <p class="mt-2 text-xs text-[#6B5E55] font-sans leading-relaxed flex-1">
+            Karya pahatan tangan dari kayu suar berurat tegas yang dihiasi motif flora Bali sebagai simbol penghormatan kepada keindahan dan kelestarian alam semesta.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       5. TRANSISI KE ARENA GAME (LENGKUNG KLASIK NUSAVA)
+       ========================================================================= -->
+  <div class="curved-divider-down relative z-10 -mb-px pointer-events-none" aria-hidden="true">
+    <svg class="w-full fill-[#F5EFE6] block" viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,0 C480,60 960,60 1440,0 L1440,60 L0,60 Z"></path>
+    </svg>
+  </div>
+
+
+  <!-- =========================================================================
+       6. ARENA GAME PLAYABLE (PAS DI SCROLL BARU ADA GAMENYA)
+       ========================================================================= -->
+  <main id="arena-game" class="py-12 sm:py-20 bg-[#F5EFE6] relative flex-1 flex flex-col items-center justify-center">
+    <div class="max-w-5xl w-full mx-auto px-4 sm:px-6">
+
+      <!-- Header Section Game -->
+      <div class="text-center mb-8">
+        <span class="text-xs font-sans font-bold uppercase tracking-[0.22em] text-[#C5A059] block mb-2">
+          Arena Permainan Pusaka
+        </span>
+        <h2 class="font-display font-bold text-2xl sm:text-4xl text-[#2B231D]">
+          Masuki Reruntuhan Candi &amp; Mulai Bertualang
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm text-[#6B5E55] max-w-xl mx-auto font-sans leading-relaxed">
+          Gunakan tombol keyboard atau kontrol layar sentuh di bawah untuk mulai bergerak, mengkaji pusaka, dan menjawab kuis edukatif.
+        </p>
+      </div>
+
+      <!-- Kotak Game Utama (Wrapper Sesuai Struktur Asli) -->
+      <section id="game-section" class="w-full shadow-2xl rounded-2xl overflow-hidden border border-[#EDE4D5] bg-[#1A1410] relative">
+        
+        <!-- Minimal Luxury Apple-Style HUD Bar (Clean, Zero-Slop, No Overflow) -->
+        <div id="hud-bar" class="w-full rounded-t-2xl px-3.5 py-2.5 flex items-center justify-between gap-3 bg-[#1A1410]/95 border-b border-[#C5A059]/35 relative z-20">
+          
+          <!-- Left: Current Level Badge & Title -->
+          <div class="flex items-center gap-2 shrink-0">
+            <span id="hud-level-badge" class="px-2.5 py-1 rounded-full bg-[#C5A059]/20 border border-[#C5A059]/40 text-[#E5C788] text-[11px] font-mono font-bold tracking-wider">
+              BABAK 1/3
+            </span>
+            <span id="hud-level-name" class="hidden sm:inline font-display text-xs text-[#FAF6F0] font-semibold tracking-wide">
+              Candi Lembah Jawa
+            </span>
+          </div>
+
+          <!-- Center: Core Stats (Pusaka, XP, Vitalitas) -->
+          <div class="flex items-center gap-2.5 sm:gap-4 shrink-0">
+            <!-- Pusaka Counter -->
+            <div class="flex items-center gap-1.5 text-xs text-[#FAF6F0]">
+              <span class="text-[10px] font-sans uppercase tracking-wider text-[#C5A059]/80 font-bold">Pusaka</span>
+              <span id="hud-progress" class="font-mono font-bold text-[#E5C788]">0 / 3</span>
+            </div>
+
+            <!-- Divider -->
+            <span class="w-px h-3.5 bg-[#C5A059]/30"></span>
+
+            <!-- Score / XP -->
+            <div class="flex items-center gap-1.5 text-xs text-[#FAF6F0]">
+              <span class="text-[10px] font-sans uppercase tracking-wider text-[#C5A059]/80 font-bold">Skor</span>
+              <span id="hud-score" class="font-mono font-bold text-[#E5C788]">0 XP</span>
+            </div>
+
+            <!-- Divider -->
+            <span class="w-px h-3.5 bg-[#C5A059]/30"></span>
+
+            <!-- Slim Vitalitas Health Bar -->
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] font-sans uppercase tracking-wider text-[#C5A059]/80 font-bold hidden md:inline">HP</span>
+              <div class="w-14 sm:w-20 h-2 rounded-full bg-black/60 border border-[#C5A059]/40 overflow-hidden p-0.5">
+                <div id="hp-fill" class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-300" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Action Controls (Level Select, Audio, Collection, Reset) -->
+          <div class="flex items-center gap-2 shrink-0">
+            <!-- Level Select Quick Switcher -->
+            <div class="relative inline-block">
+              <select id="level-select-dropdown" class="px-2.5 py-1 text-[11px] font-sans font-semibold rounded-full bg-black/40 text-[#FAF7F2] border border-[#C5A059]/40 hover:border-[#C5A059] focus:outline-none transition-colors cursor-pointer" title="Pilih Babak Petualangan">
+                <option value="1" selected>Babak 1</option>
+                <option value="2">Babak 2</option>
+                <option value="3">Babak 3</option>
+              </select>
+            </div>
+
+            <!-- Audio Toggle -->
+            <button id="audio-btn" type="button" class="px-2.5 py-1 rounded-full bg-black/30 hover:bg-black/50 border border-[#C5A059]/40 text-xs text-[#FAF7F2] hover:text-[#C5A059] transition-all flex items-center gap-1 cursor-pointer" title="Suara Game">
+              <span class="text-[10px] font-mono text-[#C5A059]">VOL</span>
+              <span id="audio-icon" class="text-[10px] font-bold">ON</span>
+            </button>
+
+            <!-- Reset Button -->
+            <button id="btn-reset" type="button" class="p-1.5 rounded-full bg-black/30 hover:bg-black/50 border border-[#C5A059]/40 text-[#FAF7F2] hover:text-[#C5A059] transition-all cursor-pointer flex items-center justify-center" title="Mulai Ulang Babak Ini">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Canvas Container -->
+        <div id="game-wrapper" class="relative w-full aspect-[16/9] overflow-hidden rounded-b-2xl shadow-2xl border-2 border-t-0 border-[#AA820A] bg-[#1A1410]">
+          <!-- Game Canvas -->
+          <canvas id="game-canvas" class="w-full h-full block"></canvas>
+
+          <!-- Overlay anchor for DOM particles -->
+          <div id="canvas-overlay" class="absolute inset-0 pointer-events-none overflow-hidden z-10"></div>
+
+          <!-- Zone Toast -->
+          <div id="zone-toast" class="absolute top-3 left-3 text-[#D4AF37] text-xs px-3 py-1.5 z-20 rounded-md bg-[#1A1410]/80 border border-[#D4AF37]/30" style="opacity:0">
+            Memuat...
+          </div>
+
+          <!-- Proximity Prompt -->
+          <div id="proximity-prompt" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20" style="opacity:0;transform:translateY(10px) translateX(-50%)">
+            <div class="flex items-center gap-2.5 bg-[#2E241E]/95 text-[#FAF7F0] px-4 py-2 rounded-full border border-[#D4AF37]/60 shadow-xl backdrop-blur-sm">
+              <span class="w-6 h-6 rounded-full bg-[#C2593F] text-[#FAF7F0] text-[10px] font-bold flex items-center justify-center border border-[#D4AF37] shrink-0">E</span>
+              <span class="text-xs font-medium">
+                Dekati &amp; tekan <strong class="text-[#D4AF37]">E</strong> — 
+                <span id="proximity-name" class="text-[#D4AF37] italic">benda budaya</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Win Banner -->
+          <div id="win-banner" class="hidden absolute top-1/2 left-1/2 -translate-y-1/2 text-center px-8 py-5 z-30 shadow-2xl min-w-[260px] rounded-2xl border-2 border-[#D4AF37] bg-gradient-to-br from-[#2E1B05] to-[#5C3A1E]">
+            <div class="text-[#D4AF37] text-[10px] font-mono uppercase tracking-widest mb-1">Misi Berhasil!</div>
+            <div class="text-[#D4AF37] font-display font-bold text-lg mb-1">Semua Benda Berhasil Dikumpulkan!</div>
+            <div class="text-[#FAF6F0]/80 text-xs">Hebat! Kamu sekarang adalah Sahabat Budaya Indonesia</div>
+          </div>
+
+          <!-- Vignette overlay -->
+          <div class="absolute inset-0 pointer-events-none z-5" style="background:radial-gradient(ellipse 110% 120% at 50% 50%,transparent 60%,rgba(26,20,16,.28) 100%)"></div>
+        </div>
+
+        <!-- Mobile Touch Controls -->
+        <div class="md:hidden w-full game-glass-hud rounded-b-2xl border-t-0 px-4 py-3 flex items-center justify-between mt-1">
+          <!-- D-Pad -->
+          <div class="flex items-center gap-2">
+            <button id="btn-left" class="touch-btn dpad-btn text-xs font-bold font-sans">KIRI</button>
+            <button id="btn-right" class="touch-btn dpad-btn text-xs font-bold font-sans">KANAN</button>
+          </div>
+
+          <!-- Controls Label -->
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[9px] text-[#D4AF37]/60 font-mono uppercase tracking-widest">KONTROL HP</span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex items-center gap-2.5">
+            <div class="flex flex-col items-center gap-0.5">
+              <button id="btn-interact" class="touch-btn action-btn-interact">
+                <span class="font-bold text-xs">E</span>
+                <span class="text-[9px]">Kaji</span>
+              </button>
+            </div>
+            <div class="flex flex-col items-center gap-0.5">
+              <button id="btn-jump" class="touch-btn action-btn-jump text-xs font-bold font-sans">LOMPAT</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ GALLERY SECTION (Toggleable via button) ═══════════════ -->
+      <section id="gallery-section" class="w-full hidden mt-10">
+        <div class="text-center mb-8">
+          <span class="text-xs font-bold uppercase tracking-widest text-[#C5A059]">Ensiklopedia Pusaka</span>
+          <h3 class="font-display font-bold text-2xl md:text-3xl text-[#2B231D] mt-1">
+            Katalog Pusaka &amp; Karya Nusantara
+          </h3>
+          <p class="text-xs sm:text-sm text-[#6B5E55] mt-1.5 max-w-xl mx-auto font-sans">
+            Temukan filosofi di balik artefak budaya dengan menjelajahi dunia game, lalu pelajari lebih dalam di sini.
+          </p>
+        </div>
+
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Populated dynamically by game.js -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+
+  <!-- =========================================================================
+       CURVED SECTION TRANSITION : Main Content into Footer (Exact Match)
+       ========================================================================= -->
+  <div class="curved-divider-down relative z-10 -mb-px pointer-events-none" aria-hidden="true">
+    <svg class="w-full fill-[#241B16] block" viewBox="0 0 1440 96" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="goldCurveGlowGame" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#C5A059" stop-opacity="0" />
+          <stop offset="30%" stop-color="#C5A059" stop-opacity="0.3" />
+          <stop offset="50%" stop-color="#E5C788" stop-opacity="0.95" />
+          <stop offset="70%" stop-color="#C5A059" stop-opacity="0.3" />
+          <stop offset="100%" stop-color="#C5A059" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <path d="M0,0 C480,96 960,96 1440,0 L1440,96 L0,96 Z"></path>
+      <path d="M0,0 C480,96 960,96 1440,0" fill="none" stroke="url(#goldCurveGlowGame)" stroke-width="2.5" class="curve-gold-stroke"></path>
+    </svg>
+  </div>
+
+
+  <!-- =========================================================================
+       FOOTER — Carolyn Lee Style Two-Tier Footer (Exact Match with Landing Page)
+       ========================================================================= -->
+  <footer class="bg-[#241B16] text-[#F7F2EA] overflow-hidden">
+    <!-- Tier 1: Carolyn Lee Editorial Top Half -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-16 sm:pt-24 pb-16 sm:pb-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <!-- Big Editorial Brand (Carolyn Lee Style) -->
+        <div class="lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <a href="index.html#hero" class="inline-block group mb-4">
+              <span class="font-garamond text-5xl sm:text-7xl font-normal italic text-[#F7F2EA] tracking-tight block">
+                Nusa<span class="text-[#C5A059] not-italic font-semibold">va</span>
+              </span>
+            </a>
+            <p class="text-xs font-sans font-bold tracking-[0.24em] uppercase text-[#C5A059] mb-6">
+              Merawat Budaya · Menggerakkan Karya
+            </p>
+            <p class="font-sans text-sm sm:text-base text-[#F7F2EA]/75 leading-relaxed max-w-md">
+              Situs resmi karya siswa <strong class="text-[#F7F2EA] font-semibold">SMKN 1 Denpasar</strong> untuk mengenalkan dan melestarikan kekayaan budaya Indonesia melalui teknologi digital yang ramah bagi semua orang.
+            </p>
+          </div>
+          
+          <div class="mt-8 pt-8 border-t border-white/10 flex items-center gap-6 text-xs text-[#F7F2EA]/60 font-sans">
+            <span>Inisiatif Siswa SMK</span>
+            <span>•</span>
+            <span>Kebanggaan Bangsa</span>
+            <span>•</span>
+            <span>Menjaga Warisan Budaya</span>
+          </div>
+        </div>
+
+        <!-- Links Columns (Carolyn Lee Right Half: Pages, Categories, Warta) -->
+        <div class="lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div>
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Navigasi</h4>
+            <ul class="space-y-3 font-sans text-sm">
+              <li><a href="index.html#jelajah" class="footer-link">Jelajah</a></li>
+              <li><a href="marketplace.html" class="footer-link">Koleksi Budaya</a></li>
+              <li><a href="index.html#pasar" class="footer-link">Pasar Budaya</a></li>
+              <li><a href="game.html" class="footer-link text-[#C5A059] font-semibold">Mini Game</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Kategori Karya</h4>
+            <ul class="space-y-3 font-sans text-sm">
+              <li><a href="index.html#pasar" class="footer-link">Wastra &amp; Tenun</a></li>
+              <li><a href="index.html#pasar" class="footer-link">Karya Kayu &amp; Ukir</a></li>
+              <li><a href="index.html#pasar" class="footer-link">Instrumen Musik</a></li>
+              <li><a href="index.html#pasar" class="footer-link">Seni Rupa &amp; Lukis</a></li>
+              <li><a href="index.html#pasar" class="footer-link">Aksesori Tradisi</a></li>
+              <li><a href="index.html#pasar" class="footer-link">Keramik &amp; Logam</a></li>
+            </ul>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Kabar Budaya</h4>
+            <p class="text-xs text-[#F7F2EA]/70 leading-relaxed mb-4">Dapatkan cerita menarik seputar budaya dan pengrajin Indonesia langsung ke email kamu.</p>
+            <form id="newsletter-form" class="space-y-2.5">
+              <input type="email" placeholder="alamat@email.com" class="w-full px-5 py-2.5 bg-white/5 border border-white/15 text-[#F7F2EA] text-xs placeholder-white/30 focus:outline-none focus:border-[#C5A059] transition-colors rounded-full" required>
+              <button type="submit" class="w-full py-2.5 bg-[#C5A059] hover:bg-[#B38F46] text-white text-[10px] font-sans font-bold tracking-[0.2em] uppercase rounded-full transition-colors shadow-sm cursor-pointer">Berlangganan</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 2: Cinematic Wonderful Indonesia Video Bottom Half (Carolyn Lee Bottom Media Half) -->
+    <div class="footer-tier2-video relative w-full h-[360px] sm:h-[460px] lg:h-[520px] border-t border-white/15 overflow-hidden group">
+      <!-- Looping Background Video (100% Offline & file:// Compatible) -->
+      <div class="video-bg-container absolute inset-0 w-full h-full overflow-hidden pointer-events-none bg-cover bg-center" style="background-image: url('assets/images/video-poster.jpg');">
+        <video class="w-full h-full min-w-full min-h-full object-cover block" autoplay muted loop playsinline poster="assets/images/video-poster.jpg">
+          <source src="assets/video/wonderful-indonesia.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <!-- Custom Theme Tint & Vignette Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#241B16] via-[#241B16]/65 to-[#241B16]/30 backdrop-contrast-[1.08] pointer-events-none"></div>
+
+      <!-- Video Half Content -->
+      <div class="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-between py-10 sm:py-14">
+        <!-- Quote / Atmospheric Message in Center -->
+        <div class="max-w-2xl my-auto">
+          <span class="inline-block text-[#C5A059] text-xs font-sans font-bold tracking-[0.28em] uppercase mb-3">Pesona Budaya Indonesia</span>
+          <blockquote class="font-garamond italic text-2xl sm:text-4xl lg:text-5xl text-[#F7F2EA] leading-tight drop-shadow-md">
+            &ldquo;Dari tangan para pengrajin hebat Indonesia, untuk kebanggaan kita semua di mata dunia.&rdquo;
+          </blockquote>
+        </div>
+
+        <!-- Bottom Bar: SMKN 1 Denpasar Attribution, Copyright & Socials -->
+        <div class="pt-6 border-t border-white/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p class="text-xs font-sans text-[#F7F2EA]/80 tracking-wide">
+            &copy; 2026 <strong class="text-white font-medium">Nusava</strong> · Inisiatif Vokasi Siswa SMKN 1 Denpasar. Seluruh Hak Cipta Dilindungi.
+          </p>
+
+          <!-- Social Icons & Back to Top -->
+          <div class="flex items-center gap-4">
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="Instagram">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="TikTok">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="YouTube">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            </a>
+            <a href="#arena-game" class="ml-2 px-3 py-1.5 rounded-full border border-white/20 text-[10px] font-sans font-bold tracking-widest uppercase text-white/80 hover:text-white hover:border-white transition-all" aria-label="Kembali ke atas">
+              &uarr; Atas
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Video Modal (fullscreen play matching Landing Page) -->
+  <div id="video-modal" class="hidden fixed inset-0 z-[100] bg-black/92 flex items-center justify-center p-4 sm:p-8" role="dialog" aria-modal="true" aria-label="Video Sinematik Budaya Nusantara">
+    <button id="video-modal-close" class="absolute top-5 right-5 w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/70 transition-all z-20" aria-label="Tutup">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="w-full max-w-5xl aspect-video rounded-lg overflow-hidden shadow-2xl relative bg-black flex items-center justify-center">
+      <video id="modal-video" class="w-full h-full object-contain" controls playsinline preload="none" poster="assets/images/video-poster.jpg">
+        <source src="assets/video/wonderful-indonesia.mp4" type="video/mp4">
+        Browser Anda tidak mendukung pemutar video HTML5.
+      </video>
+      <a href="https://www.youtube.com/watch?v=IrcoYCD9-nM" target="_blank" rel="noopener noreferrer" 
+         class="absolute top-4 left-4 z-20 px-3.5 py-1.5 rounded-full bg-[#241B16]/85 hover:bg-[#C5A059] text-white border border-[#C5A059]/50 text-xs font-sans font-medium flex items-center gap-1.5 backdrop-blur-md transition-all shadow-md group">
+        <svg class="w-3.5 h-3.5 text-[#C5A059] group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        <span>Tonton di YouTube</span>
+        <span class="text-[10px]">&nearr;</span>
+      </a>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       SIDE MENU CART (DRAWER & OVERLAY)
+       ========================================================================= -->
+  <div id="cart-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <aside id="cart-drawer" class="fixed top-0 right-0 w-full max-w-md h-full bg-[#FAF7F2] border-l border-[#EDE4D5] z-[9999] translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-2xl">
+    <div class="p-6 border-b border-[#EDE4D5] flex items-center justify-between bg-[#F5EFE6]">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+        <h3 class="font-sans font-bold text-base sm:text-lg text-[#2B231D]">Keranjang</h3>
+      </div>
+      <button id="cart-close-btn" class="text-[#2B231D] hover:text-[#C5A059] p-1 transition-colors" aria-label="Tutup Keranjang">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div id="cart-drawer-items" class="flex-1 overflow-y-auto p-6 space-y-4 font-sans">
+      <div class="text-center py-12 text-[#6B5E55]">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[#EDE4D5] flex items-center justify-center text-[#C5A059]">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        </div>
+        <p class="font-sans text-sm">Keranjang belanjaanmu masih kosong.</p>
+      </div>
+    </div>
+
+    <div class="p-6 border-t border-[#EDE4D5] bg-[#F5EFE6] space-y-3 font-sans">
+      <div class="flex items-center justify-between text-sm font-sans font-bold text-[#2B231D]">
+        <span>Total Estimasi:</span>
+        <span id="cart-total-price" class="text-base font-bold text-[#C5A059]">Rp 0</span>
+      </div>
+      <a href="checkout.html" class="w-full py-3.5 bg-[#241B16] hover:bg-[#C5A059] text-white text-xs font-sans font-bold tracking-[0.14em] uppercase rounded-full transition-all duration-300 shadow-md flex items-center justify-center gap-2 cursor-pointer text-center">
+        <span>Lanjut ke Pembayaran →</span>
+      </a>
+    </div>
+  </aside>
+
+
+  <!-- =========================================================================
+       SCRIPTS (Consistent JS Main + Game Core)
+       ========================================================================= -->
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    // Asset base path resolution for game assets
+    window.GAME_ASSETS_DIR = 'assets/game/';
+  </script>
+
+  <script src="js/game-data.js"></script>
+  <script src="js/game.js"></script>
+
+  <!-- Page Transition Script -->
+  <script src="js/page-transition.js"></script>
+
+  <!-- =========================================================================
+       CART PERSISTENCE & NAVBAR HOVER REVEAL (Scoped for game.html)
+       ========================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. Cart Synchronization on game.html
+      function getStoredCart() {
+        try {
+          const raw = localStorage.getItem('nusava_cart_items');
+          return raw ? JSON.parse(raw) : [];
+        } catch (_) {
+          return [];
+        }
+      }
+
+      function formatIDR(num) {
+        return 'Rp ' + Number(num || 0).toLocaleString('id-ID');
+      }
+
+      function syncGameCartUI() {
+        const cart = getStoredCart();
+        const totalCount = cart.reduce((acc, c) => acc + (c.qty || 1), 0);
+        const totalPrice = cart.reduce((acc, c) => acc + ((c.price || 0) * (c.qty || 1)), 0);
+
+        const badge = document.getElementById('cart-count');
+        if (badge) {
+          badge.textContent = totalCount;
+          badge.style.display = totalCount > 0 ? 'flex' : 'none';
+        }
+
+        const priceEl = document.getElementById('cart-total-price');
+        if (priceEl) {
+          priceEl.textContent = formatIDR(totalPrice);
+        }
+
+        const itemsEl = document.getElementById('cart-drawer-items');
+        if (itemsEl) {
+          if (cart.length === 0) {
+            itemsEl.innerHTML = `
+              <div class="text-center py-12 text-[#6B5E55]">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[#EDE4D5] flex items-center justify-center text-[#C5A059]">
+                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                </div>
+                <p class="font-sans text-sm">Keranjang belanjaanmu masih kosong.</p>
+              </div>
+            `;
+          } else {
+            itemsEl.innerHTML = cart.map(item => `
+              <div class="flex items-center gap-3.5 p-3 rounded-xl bg-white border border-[#EDE4D5] shadow-xs">
+                <img src="${item.img || 'assets/images/logonusava.png'}" alt="${item.name || 'Karya Pusaka'}" class="w-14 h-14 object-cover rounded-lg bg-[#EDE4D5] flex-shrink-0" onerror="this.src='assets/images/logonusava.png'">
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-display font-bold text-xs text-[#2B231D] truncate">${item.name || 'Karya Pusaka'}</h4>
+                  <p class="text-[11px] text-[#6B5E55] font-sans">${item.daerah || 'Nusantara'} • ${item.qty || 1}x</p>
+                  <span class="text-xs font-bold text-[#963D06]">${formatIDR(item.price)}</span>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+      }
+
+      window.syncMainCartUI = syncGameCartUI;
+      document.addEventListener('DOMContentLoaded', syncGameCartUI);
+      window.addEventListener('storage', syncGameCartUI);
+    })();
+  </script>
+
+</body>
+</html>

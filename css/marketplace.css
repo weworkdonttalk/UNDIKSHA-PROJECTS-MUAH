@@ -1,0 +1,830 @@
+/* ==========================================================================
+   NUSAVA — 1:1 SUKKHACITTA EDITORIAL LUXURY MARKETPLACE STYLESHEET
+   Design Manifesto: Zero Border-Radius (0px), No Card Wrappers, No Shadows
+   Palette: Warm Alabaster Cream #FAF7F2 · Soft Sand #EFECE6 · Deep Espresso Ink #1E1510 · Muted Warm Taupe #7A6F64 · Hairline Divider #E5DFD5
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --color-parchment: #F5EFE6; /* Kuning Puder / Warm Parchment Khas Landing Page */
+  --color-alabaster: #FAF7F2;
+  --color-sand: #EFECE6;
+  --color-espresso: #2B231D;
+  --color-taupe: #6B5E55;
+  --color-divider: #E5DFD5;
+  --color-price: #5A5046;
+  --color-gold: #C5A059;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-cinzel: 'Cinzel', Georgia, serif;
+  --font-garamond: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   1. HARMONIOUS LUXURY CARD DESIGN WITH ELEGANT ROUNDED CORNERS
+   -------------------------------------------------------------------------- */
+.editorial-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: var(--color-sand);
+  border-radius: 14px !important;
+}
+
+.editorial-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px !important;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-micro-badge {
+  border-radius: 6px !important;
+}
+
+.editorial-tile-card {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+}
+
+/* Fixed Navbar with Frosted Blur Matching Landing Page */
+#navbar.nav-flat-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  z-index: 1000;
+  background: rgba(245, 239, 230, 0.88) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.22) !important;
+  box-shadow: 0 4px 20px rgba(43, 35, 29, 0.06) !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.35s ease,
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+}
+
+#navbar.nav-flat-bar.nav-hidden {
+  transform: translate3d(0, -100%, 0) !important;
+  pointer-events: none;
+}
+
+/* Landing Navbar UI Retention */
+.nav-flat-bar .rounded-full,
+.nav-cta-pill,
+#nav-login-btn,
+#cart-count {
+  border-radius: 9999px !important;
+}
+
+/* AI Chatbot Protection: Full preservation of organic rounded curves */
+#nusabot-widget,
+#nusabot-widget * {
+  box-sizing: border-box;
+}
+.nusabot-launcher-btn,
+.nusabot-launcher-avatar,
+.nusabot-header-avatar,
+.nusabot-bot-avatar-small,
+.nusabot-online-badge,
+.nusabot-send-btn {
+  border-radius: 9999px !important;
+}
+.nusabot-teaser-pill {
+  border-radius: 16px !important;
+}
+.nusabot-popup-window {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+}
+.nusabot-header {
+  border-radius: 20px 20px 0 0 !important;
+}
+.nusabot-footer-bar {
+  border-radius: 0 0 20px 20px !important;
+}
+.nusabot-bubble-bot {
+  border-radius: 18px 18px 18px 4px !important;
+}
+.nusabot-bubble-user {
+  border-radius: 18px 18px 4px 18px !important;
+}
+.nusabot-chip-btn {
+  border-radius: 9999px !important;
+}
+.nusabot-product-card {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+.nusabot-product-card-img {
+  border-radius: 8px !important;
+}
+.nusabot-product-card-btn {
+  border-radius: 9999px !important;
+}
+
+body.marketplace-editorial-body {
+  background-color: #F5EFE6 !important;
+  color: #2B231D;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   2. TYPOGRAPHY SCALES & HIERARCHY
+   -------------------------------------------------------------------------- */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-cinzel {
+  font-family: var(--font-cinzel);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+h1.collection-title,
+.collection-title {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+  font-size: clamp(32px, 4.5vw, 52px) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: uppercase;
+  color: #1E1610 !important;
+}
+
+h2.craft-banner-title,
+.craft-banner-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 36px !important;
+  line-height: 1.25 !important;
+  color: var(--color-alabaster) !important;
+}
+
+@media (max-width: 640px) {
+  h1.collection-title,
+  .collection-title {
+    font-size: 28px !important;
+  }
+  h2.craft-banner-title,
+  .craft-banner-title {
+    font-size: 26px !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. EDITORIAL NAVBAR & ANNOUNCEMENT BAR
+   -------------------------------------------------------------------------- */
+.editorial-top-bar {
+  height: 32px;
+  background-color: var(--color-espresso);
+  color: var(--color-alabaster) !important;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.editorial-top-bar * {
+  color: var(--color-alabaster) !important;
+}
+
+.editorial-navbar {
+  background-color: var(--color-alabaster) !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  position: sticky;
+  top: 0;
+  z-index: 45;
+  transition: border-color 0.2s ease;
+}
+
+.nav-editorial-link {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  transition: opacity 0.2s ease;
+}
+
+.nav-editorial-link:hover {
+  opacity: 0.55;
+}
+
+.nav-editorial-link.active {
+  font-weight: 500;
+  border-bottom: 1px solid var(--color-espresso);
+  padding-bottom: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   4. HORIZONTAL FILTER & CATEGORY STRIP (Frosted Glass Effect)
+   -------------------------------------------------------------------------- */
+.filter-category-strip {
+  position: sticky;
+  top: 72px;
+  z-index: 35;
+  border-top: 1px solid rgba(197, 160, 89, 0.25) !important;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.25) !important;
+  background: rgba(245, 239, 230, 0.84) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  box-shadow: 0 4px 20px rgba(43, 35, 29, 0.05) !important;
+  padding: 12px 0;
+  transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.35s ease,
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+}
+
+#navbar.nav-hidden ~ main .filter-category-strip,
+body.nav-is-hidden .filter-category-strip {
+  top: 0 !important;
+}
+
+.category-tab {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-taupe);
+  background: transparent;
+  border: 0;
+  padding: 4px 0;
+  margin-bottom: -1px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.category-tab:hover {
+  color: var(--color-espresso);
+}
+
+.category-tab.active {
+  color: var(--color-espresso);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-espresso);
+}
+
+/* Clean Select (Zero Border, Minimal Caret) */
+.clean-sort-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  border: 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-espresso);
+  cursor: pointer;
+  padding-right: 1.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%231E1510' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. SUKKHACITTA 4-COLUMN PRODUCT & CRAFT GRID
+   -------------------------------------------------------------------------- */
+.editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 20px;
+  row-gap: 56px;
+}
+
+@media (max-width: 1024px) {
+  .editorial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 40px;
+  }
+}
+
+@media (max-width: 540px) {
+  .editorial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 12px;
+    row-gap: 32px;
+  }
+}
+
+/* Portrait 3:4 Image Wrapper */
+.editorial-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: var(--color-sand);
+  border: 0;
+}
+
+.editorial-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .editorial-image-frame img {
+  transform: scale(1.03);
+}
+
+/* Micro-badge (Pojok Kiri Atas Gambar) */
+.editorial-micro-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-alabaster);
+  background-color: rgba(30, 21, 16, 0.85);
+  padding: 5px 8px;
+  font-family: var(--font-sans);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 3 Clean Lines of Text */
+.editorial-meta-line {
+  font-size: 10px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-taupe);
+  font-family: var(--font-sans);
+  margin-top: 12px;
+}
+
+.editorial-title-line {
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  font-weight: 500;
+  color: var(--color-espresso);
+  font-family: var(--font-sans);
+  margin-top: 4px;
+}
+
+.editorial-price-line {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  color: var(--color-price);
+  font-family: var(--font-sans);
+  margin-top: 4px;
+}
+
+/* Editorial Craft Process Tile Variant */
+.craft-tile-quote {
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+  color: var(--color-price);
+  font-style: italic;
+  font-family: var(--font-sans);
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   6. SLIDE-DOWN SEARCH STRIP
+   -------------------------------------------------------------------------- */
+#nav-search-bar {
+  background-color: var(--color-alabaster);
+  border-top: 1px solid var(--color-divider);
+  padding: 18px 24px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-search-input {
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-espresso);
+  padding-bottom: 6px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  font-family: var(--font-sans);
+  outline: none;
+}
+
+.editorial-search-input::placeholder {
+  color: #5A5046 !important;
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   7. SLIDE-OVER DRAWERS & FROSTED GLASSMORPHISM (Filter & Keranjang)
+   -------------------------------------------------------------------------- */
+.editorial-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(43, 35, 29, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
+}
+
+.editorial-drawer-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.editorial-drawer-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 440px;
+  background: rgba(245, 239, 230, 0.86) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 25px 60px rgba(43, 35, 29, 0.22), 4px 0 30px rgba(197, 160, 89, 0.12) !important;
+}
+
+.drawer-from-left {
+  left: 0;
+  transform: translateX(-100%);
+  border-right: 1px solid rgba(197, 160, 89, 0.28) !important;
+}
+
+.drawer-from-left.active {
+  transform: translateX(0);
+}
+
+.drawer-from-right {
+  right: 0;
+  transform: translateX(100%);
+  border-left: 1px solid rgba(197, 160, 89, 0.28) !important;
+}
+
+.drawer-from-right.active {
+  transform: translateX(0);
+}
+
+/* Glass Header & Footer within Drawers */
+#filter-drawer > div:first-child,
+#mobile-nav-drawer > div:first-child {
+  background: rgba(245, 239, 230, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.22) !important;
+}
+
+#filter-drawer > div:last-child {
+  background: rgba(245, 239, 230, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-top: 1px solid rgba(197, 160, 89, 0.22) !important;
+}
+
+/* Landing Page Cart Drawer Identity (Harmonious & Synchronized 1:1) */
+#cart-backdrop {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  z-index: 9998 !important;
+}
+
+#cart-drawer {
+  background-color: #FAF7F2 !important;
+  border-left: 1px solid #EDE4D5 !important;
+  box-shadow: -10px 0 35px rgba(36, 27, 22, 0.18) !important;
+  z-index: 9999 !important;
+}
+
+#cart-drawer > div:first-child {
+  background-color: #F5EFE6 !important;
+  border-bottom: 1px solid #EDE4D5 !important;
+}
+
+#cart-drawer > div:last-child {
+  background-color: #F5EFE6 !important;
+  border-top: 1px solid #EDE4D5 !important;
+}
+
+/* Drawer Custom Minimalist Scrollbar */
+.editorial-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.editorial-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.editorial-scroll::-webkit-scrollbar-thumb {
+  background: rgba(197, 160, 89, 0.3);
+  border-radius: 9999px;
+}
+
+/* Hide scrollbar for category strip */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* --------------------------------------------------------------------------
+   8. FILTER RADIO & CHECKBOX REFINEMENTS (Glassmorphism Interactivity)
+   -------------------------------------------------------------------------- */
+.editorial-filter-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.16);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-filter-option:hover {
+  background: rgba(197, 160, 89, 0.12);
+  color: #C5A059;
+}
+
+.editorial-filter-option.active {
+  font-weight: 600;
+  color: #2B231D;
+  background: rgba(197, 160, 89, 0.18);
+}
+
+.editorial-filter-option.active::after {
+  content: "•";
+  font-size: 16px;
+  color: #C5A059;
+}
+
+.editorial-btn-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  color: #2B231D;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.editorial-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #C5A059;
+  box-shadow: 0 4px 15px rgba(197, 160, 89, 0.15);
+}
+
+.editorial-btn-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  background: #2B231D;
+  color: #FAF7F2;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.editorial-btn-full:hover {
+  background: #C5A059;
+  color: #FAF7F2;
+  box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   9. EDITORIAL BUTTONS & INPUTS
+   -------------------------------------------------------------------------- */
+.editorial-btn-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  background-color: var(--color-espresso);
+  color: var(--color-alabaster) !important;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  border: 0;
+}
+
+.editorial-btn-full * {
+  color: var(--color-alabaster) !important;
+}
+
+.editorial-btn-full:hover {
+  background-color: #3A1D12;
+}
+
+.editorial-btn-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 44px;
+  background-color: transparent;
+  color: var(--color-espresso);
+  border: 1px solid var(--color-espresso);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editorial-btn-outline:hover {
+  background-color: var(--color-espresso);
+  color: var(--color-alabaster) !important;
+}
+
+/* --------------------------------------------------------------------------
+   10. DARK SECTIONS & FOOTER CONTRAST ENFORCEMENT
+   -------------------------------------------------------------------------- */
+footer {
+  color: #F7F2EA;
+}
+
+footer a.footer-link {
+  color: rgba(247, 242, 234, 0.75);
+  transition: color 0.2s ease;
+}
+
+footer a.footer-link:hover {
+  color: #C5A059;
+}
+
+footer input {
+  color: #F7F2EA;
+}
+
+footer input::placeholder {
+  color: rgba(247, 242, 234, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   11. TOAST NOTIFICATION (SHARP 0PX)
+   -------------------------------------------------------------------------- */
+.editorial-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: var(--color-espresso);
+  color: var(--color-alabaster) !important;
+  padding: 14px 22px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-toast * {
+  color: var(--color-alabaster) !important;
+}
+
+.editorial-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* --------------------------------------------------------------------------
+   12. OVERRIDE ANY DECORATIVE GLOW OR PULSE (IMPECCABLE CRAFT FLOOR)
+   -------------------------------------------------------------------------- */
+body.marketplace-editorial-body .nusabot-teaser-dot,
+body.marketplace-editorial-body .nusabot-online-badge,
+body.marketplace-editorial-body .ai-pulse-dot {
+  animation: none !important;
+}
+
+body.marketplace-editorial-body .nusabot-launcher-btn,
+body.marketplace-editorial-body .nusabot-teaser-pill,
+body.marketplace-editorial-body .nusabot-popup-window {
+  box-shadow: 0 8px 24px rgba(30, 21, 16, 0.15) !important;
+}
+
+/* --------------------------------------------------------------------------
+   13. MARKETPLACE PRODUCT CARDS — FLUID RISE-UP ENTRANCE & APPLE TACTILE ENGINE
+   -------------------------------------------------------------------------- */
+.marketplace-header-entrance {
+  animation: marketplaceHeaderFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes marketplaceHeaderFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base state: displaced downward & subtle scale-down */
+.catalog-card-faire.marketplace-card-rise {
+  opacity: 0;
+  transform: translateY(38px) scale(0.96);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              background-color 0.35s ease;
+  will-change: transform, opacity;
+}
+
+/* Active state: risen up into resting position */
+.catalog-card-faire.marketplace-card-rise.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Tactile Elevation & Luxury Hover Lift (when not actively tilting in 3D) */
+@media (hover: hover) and (pointer: fine) {
+  .catalog-card-faire.marketplace-card-rise.is-visible:not([data-tilting="true"]):hover {
+    transform: translateY(-8px) scale(1.015);
+    background-color: #FFFFFF;
+    border-color: rgba(197, 160, 89, 0.65);
+    box-shadow: 0 22px 44px -10px rgba(36, 27, 22, 0.15),
+                0 8px 24px -4px rgba(197, 160, 89, 0.22);
+    z-index: 20;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .marketplace-header-entrance {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .catalog-card-faire.marketplace-card-rise {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+

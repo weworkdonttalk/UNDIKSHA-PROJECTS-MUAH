@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUSAVA — Admin Dashboard</title>
+  <meta name="description" content="Dashboard Pengrajin Kriya Nusantara. Kelola produk kerajinan, pantau pesanan pembeli, dan cek laporan penjualan dengan mudah.">
+  <link rel="icon" type="image/png" href="assets/images/logonusava.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans (Sangat Mudah Dibaca) & JetBrains Mono untuk Kode -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN dengan Palet Hangat Khas Nusantara Sesuai Landing Page -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            canvas: '#F5EFE6',
+            surface: '#FAF7F2',
+            'surface-elevated': '#EDE4D5',
+            parchment: '#F5EFE6',
+            parchmentSoft: '#EDE4D5',
+            espresso: '#241B16',
+            espressoCard: '#2D221C',
+            cream: '#F5EFE6',
+            gold: '#C5A059',
+            goldRich: '#C88A36',
+            goldHover: '#B38F46',
+            sandBorder: '#EDE4D5',
+            terracotta: '#B86B35'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            heading: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/page-transition.css">
+</head>
+
+<body class="bg-[#F5EFE6] text-[#241B16] font-sans antialiased flex h-screen overflow-hidden selection:bg-[#C5A059] selection:text-[#241B16] page-transition-ready">
+
+  <!-- Top Luxury Page Transition Progress Ribbon -->
+  <div id="page-transition-bar" aria-hidden="true"></div>
+
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-[#241B16]/60 backdrop-blur-xs z-40 lg:hidden hidden transition-opacity duration-300"></div>
+
+  <!-- =========================================================================
+       1. SIDEBAR NAVIGASI (Ringkas, Rapi, Khusus Kebutuhan UMKM Pengrajin)
+       ========================================================================= -->
+  <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-64 bg-[#241B16] border-r border-white/10 z-50 flex flex-col justify-between flex-shrink-0 transition-transform duration-300 transform -translate-x-full lg:translate-x-0">
+    <div class="flex flex-col h-full overflow-y-auto sidebar-scroll">
+      
+      <!-- Brand Logo Header -->
+      <div class="h-20 px-6 flex items-center justify-between border-b border-white/10 flex-shrink-0 bg-[#1D1511]">
+        <a href="index.html" class="flex items-center gap-3 group" title="Kembali ke Beranda Nusava">
+          <div class="w-9 h-9 rounded-md bg-[#241B16] border border-[#C5A059]/40 p-0.5 flex items-center justify-center flex-shrink-0 group-hover:border-[#C5A059] transition-colors shadow-xs">
+            <img src="assets/images/logonusava.png" alt="Logo Nusava" class="h-full w-full object-contain rounded-xs" />
+          </div>
+          <div class="flex flex-col">
+            <span class="font-bold text-base tracking-wide text-[#F5EFE6] leading-tight group-hover:text-[#C5A059] transition-colors">NUSAVA</span>
+            <span class="text-[10px] uppercase tracking-wider text-[#C88A36] font-bold">Admin Dashboard</span>
+          </div>
+        </a>
+        <button id="sidebar-close-btn" class="lg:hidden text-gray-400 hover:text-white p-1 rounded-md cursor-pointer" aria-label="Tutup Menu">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Quick Search / Command Trigger -->
+      <div class="px-4 pt-4 pb-2">
+        <button 
+          id="sidebar-search-trigger" 
+          type="button"
+          class="w-full flex items-center justify-between px-3 py-2 text-xs bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-gray-300 transition-all cursor-pointer group"
+          title="Buka Pencarian Cepat (Ctrl+K)"
+        >
+          <div class="flex items-center gap-2">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+            <span class="text-[11px] text-gray-400 group-hover:text-gray-200">Cari produk, menu...</span>
+          </div>
+          <kbd class="text-[9px] text-gray-400 bg-white/10 px-1.5 py-0.5 rounded border border-white/10 font-mono">Ctrl+K</kbd>
+        </button>
+      </div>
+
+      <!-- Navigation Links (Dipangkas Sesuai Kebutuhan Nyata UMKM) -->
+      <div class="px-3 py-3 space-y-5 flex-1 font-sans">
+        
+        <!-- Menu Utama -->
+        <div>
+          <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2">Menu Utama</p>
+          <nav class="space-y-1">
+            <a href="#overview" data-view="overview" id="nav-overview" class="sidebar-nav-item flex items-center gap-3 px-3 py-2.5 text-xs font-semibold rounded-lg bg-[#C88A36]/15 text-[#F5EFE6] border border-[#C88A36]/30 transition-colors">
+              <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#C5A059]"></i>
+              <span>Ringkasan Toko</span>
+            </a>
+            <a href="#pesanan" data-view="pesanan" id="nav-orders" class="sidebar-nav-item flex items-center gap-3 px-3 py-2.5 text-xs font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+              <i data-lucide="shopping-bag" class="w-4 h-4 text-gray-400"></i>
+              <span>Pesanan Masuk</span>
+              <span class="ml-auto text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded font-bold">3 Baru</span>
+            </a>
+            <a href="#kolektor" data-view="kolektor" id="nav-buyers" class="sidebar-nav-item flex items-center gap-3 px-3 py-2.5 text-xs font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+              <i data-lucide="users" class="w-4 h-4 text-gray-400"></i>
+              <span>Daftar Pembeli</span>
+            </a>
+            <a href="#konsultasi" id="nav-ai-assistant" class="flex items-center gap-3 px-3 py-2.5 text-xs font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors group cursor-pointer">
+              <i data-lucide="sparkles" class="w-4 h-4 text-[#C5A059]"></i>
+              <span>Bantuan Asisten AI</span>
+              <span class="ml-auto w-2 h-2 rounded-full bg-[#C5A059]"></span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Laporan & Pengiriman -->
+        <div>
+          <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2">Laporan & Kirim</p>
+          <nav class="space-y-1">
+            <a href="#analitik" data-view="analitik" id="nav-analytics" class="sidebar-nav-item flex items-center gap-3 px-3 py-2.5 text-xs font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+              <i data-lucide="line-chart" class="w-4 h-4 text-gray-400"></i>
+              <span>Laporan Penjualan</span>
+            </a>
+            <a href="#logistik" data-view="logistik" id="nav-logistics" class="sidebar-nav-item flex items-center gap-3 px-3 py-2.5 text-xs font-medium rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+              <i data-lucide="truck" class="w-4 h-4 text-gray-400"></i>
+              <span>Pengiriman Paket</span>
+              <span class="ml-auto w-2 h-2 rounded-full bg-emerald-500"></span>
+            </a>
+          </nav>
+        </div>
+
+      </div>
+
+      <!-- Footer User Profile Card -->
+      <div class="p-4 border-t border-white/10 flex-shrink-0 bg-[#1A130F]">
+        <div class="flex items-center gap-3 mb-3">
+          <img 
+            src="assets/images/pengrajin-ukir.jpg" 
+            alt="I Wayan Sukadana" 
+            id="dashboard-sidebar-avatar"
+            class="w-10 h-10 rounded-full object-cover border-2 border-[#C5A059] flex-shrink-0 shadow-xs" 
+          />
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-bold text-[#F5EFE6] truncate" id="user-display-name">I Wayan Sukadana</p>
+            <p class="text-[10px] text-[#C88A36] font-medium truncate">Pengrajin Kayu • Gianyar, Bali</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="profile.html" class="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 px-2 bg-[#C5A059]/15 hover:bg-[#C5A059]/25 border border-[#C5A059]/40 rounded-md text-[11px] font-medium text-[#E5C788] transition-colors">
+            <svg class="w-3 h-3 text-[#E5C788]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>Profil Akun</span>
+          </a>
+          <a href="index.html" class="inline-flex items-center justify-center py-1.5 px-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-md text-[11px] font-medium text-gray-300 transition-colors" title="Ke Beranda">
+            <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          </a>
+          <button id="dashboard-logout-btn" class="py-1.5 px-2 bg-red-950/40 hover:bg-red-900/60 border border-red-900/40 text-red-300 rounded-md text-[11px] font-medium transition-colors cursor-pointer" title="Keluar">
+            Keluar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       2. MAIN CONTENT WRAPPER
+       ========================================================================= -->
+  <main class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#F5EFE6]">
+    
+    <!-- Bar Navigasi Khusus Layar Ponsel (Hanya Tampil di HP untuk Membuka Menu) -->
+    <div class="lg:hidden flex items-center justify-between px-4 py-3 bg-[#FAF7F2] border-b border-[#EDE4D5] sticky top-0 z-20">
+      <div class="flex items-center gap-3">
+        <button id="sidebar-toggle-btn" class="p-2 text-[#241B16] rounded-lg hover:bg-[#EDE4D5] transition-colors cursor-pointer" aria-label="Buka Menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded bg-[#241B16] border border-[#C5A059]/40 p-0.5 flex items-center justify-center">
+            <img src="assets/images/logonusava.png" alt="Logo Nusava" class="h-full w-full object-contain rounded-xs" />
+          </div>
+          <div class="flex flex-col">
+            <span class="font-bold text-xs tracking-wide text-[#241B16] leading-tight">NUSAVA</span>
+            <span class="text-[9px] uppercase tracking-wider text-[#C88A36] font-bold">Admin Dashboard</span>
+          </div>
+        </div>
+      </div>
+      <button id="mobile-add-btn" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#241B16] text-[#F5EFE6] text-xs font-semibold rounded-lg shadow-xs hover:bg-[#32251D] transition-colors cursor-pointer">
+        <i data-lucide="plus" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+        <span>Tambah</span>
+      </button>
+    </div>
+
+    <!-- Isi Halaman Toko -->
+    <div class="p-6 sm:p-8 space-y-6 max-w-7xl w-full mx-auto">
+      
+      <!-- =====================================================================
+           VIEW 1: RINGKASAN TOKO (OVERVIEW)
+           ===================================================================== -->
+      <div id="view-overview" class="dashboard-view-section space-y-6">
+        
+        <!-- Judul Halaman Sederhana & Ramah -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-1">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-[#241B16] tracking-tight">Ringkasan Toko</h1>
+            <p class="text-xs text-[#6B5E55] mt-0.5">Kelola produk kerajinan dan pantau hasil penjualan toko Anda</p>
+          </div>
+        </div>
+
+      <!-- =====================================================================
+           BAGIAN 1: 4 KARTU RINGKASAN USAHA (Jelas, Sederhana, Mudah Dipahami)
+           ===================================================================== -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Kartu 1: Total Pendapatan -->
+        <div class="bento-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[#6B5E55] mb-2">
+              <span class="text-xs font-semibold">Total Uang Penjualan</span>
+              <span class="text-gray-400 hover:text-gray-700 cursor-pointer" title="Total uang yang didapat dari pesanan produk kerajinan kamu">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="text-2xl font-bold text-[#241B16] tracking-tight" id="metric-revenue">Rp 48.290.000</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-xs text-[#6B5E55]">
+              <span class="inline-flex items-center gap-1 text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded font-semibold text-[11px]">
+                <i data-lucide="trending-up" class="w-3 h-3 text-emerald-700"></i>
+                <span>Naik 12%</span>
+              </span>
+              <span>dari bulan lalu</span>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-[#EDE4D5]/60" id="sparkline-revenue"></div>
+        </div>
+
+        <!-- Kartu 2: Produk yang Dijual -->
+        <div class="bento-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[#6B5E55] mb-2">
+              <span class="text-xs font-semibold">Produk yang Dijual</span>
+              <span class="text-gray-400 hover:text-gray-700 cursor-pointer">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="text-2xl font-bold text-[#241B16] tracking-tight" id="metric-products">8 Produk</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-xs text-[#6B5E55]">
+              <span class="inline-flex items-center gap-1 text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded font-semibold text-[11px]">
+                <i data-lucide="plus" class="w-3 h-3 text-emerald-700"></i>
+                <span>+4 baru</span>
+              </span>
+              <span>ditambah bulan ini</span>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-[#EDE4D5]/60" id="sparkline-products"></div>
+        </div>
+
+        <!-- Kartu 3: Pesanan Selesai -->
+        <div class="bento-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[#6B5E55] mb-2">
+              <span class="text-xs font-semibold">Pesanan Selesai Dikirim</span>
+              <span class="text-gray-400 hover:text-gray-700 cursor-pointer">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="text-2xl font-bold text-[#241B16] tracking-tight">88 Pesanan</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-xs text-[#6B5E55]">
+              <span class="inline-flex items-center gap-1 text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded font-semibold text-[11px]">
+                <i data-lucide="check" class="w-3 h-3 text-emerald-700"></i>
+                <span>98.4%</span>
+              </span>
+              <span>pembeli puas</span>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-[#EDE4D5]/60" id="sparkline-orders"></div>
+        </div>
+
+        <!-- Kartu 4: Nilai Penilaian Toko -->
+        <div class="bento-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[#6B5E55] mb-2">
+              <span class="text-xs font-semibold">Nilai Kepuasan Toko</span>
+              <span class="text-gray-400 hover:text-gray-700 cursor-pointer">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="text-2xl font-bold text-[#241B16] tracking-tight">4.9 / 5.0</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-xs text-[#6B5E55]">
+              <span class="inline-flex items-center gap-1 text-[#C5A059] bg-[#C5A059]/10 px-2 py-0.5 rounded font-semibold text-[11px]">
+                <i data-lucide="star" class="w-3 h-3 text-[#C5A059] fill-[#C5A059]"></i>
+                <span>Sangat Bagus</span>
+              </span>
+              <span>Toko Terpercaya</span>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-[#EDE4D5]/60" id="sparkline-rating"></div>
+        </div>
+
+      </div>
+
+      <!-- =====================================================================
+           BAGIAN 2: GRAFIK PENJUALAN & TUGAS TOKO HARI INI (65% / 35%)
+           ===================================================================== -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- Grafik Penjualan Toko (~65%) -->
+        <div class="lg:col-span-8 bento-card p-6 flex flex-col justify-between">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-[#241B16]">Grafik Hasil Penjualan</h2>
+              <p class="text-xs text-[#6B5E55]">Catatan uang masuk dari pesanan pembeli setiap bulan</p>
+            </div>
+            
+            <!-- Pilihan Waktu Sederhana -->
+            <div class="inline-flex p-0.5 bg-[#FAF7F2] rounded-md gap-1">
+              <button 
+                type="button" 
+                data-period="6m" 
+                class="period-filter-btn px-3 py-1 text-[11px] font-semibold rounded bg-[#241B16] text-white shadow-xs transition-colors cursor-pointer"
+              >
+                6 Bulan Terakhir
+              </button>
+              <button 
+                type="button" 
+                data-period="1y" 
+                class="period-filter-btn px-3 py-1 text-[11px] font-semibold rounded text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                1 Tahun
+              </button>
+              <button 
+                type="button" 
+                data-period="pameran" 
+                class="period-filter-btn px-3 py-1 text-[11px] font-semibold rounded text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                Tahun Ini
+              </button>
+            </div>
+          </div>
+
+          <!-- Wadah Grafik SVG Interaktif -->
+          <div class="relative w-full chart-container" id="analytics-chart-wrapper">
+            <div id="analytics-chart-container" class="w-full h-full"></div>
+            <div id="chart-tooltip" class="chart-tooltip"></div>
+          </div>
+
+          <!-- Keterangan Grafik -->
+          <div class="pt-4 mt-2 border-t border-[#EDE4D5]/60 flex flex-wrap items-center justify-between text-[11px] text-[#6B5E55]">
+            <div class="flex items-center gap-4">
+              <span class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#C88A36]"></span>
+                <span>Uang Penjualan Masuk</span>
+              </span>
+              <span class="flex items-center gap-1.5">
+                <span class="w-2.5 h-0.5 bg-[#EDE4D5]"></span>
+                <span>Garis Target Bulanan</span>
+              </span>
+            </div>
+            <span class="text-gray-400">Semua catatan tersimpan rapi dan aman</span>
+          </div>
+
+        </div>
+
+        <!-- Tugas Toko Hari Ini (~35%) -->
+        <div class="lg:col-span-4 bento-card p-6 flex flex-col justify-between space-y-4">
+          
+          <div class="flex items-center justify-between border-b border-[#EDE4D5]/60 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-[#241B16]">Perlu Dikerjakan Hari Ini</h2>
+              <p class="text-[11px] text-[#6B5E55]">2 pesanan dan 1 bantuan siap kamu tangani</p>
+            </div>
+            <span class="px-2 py-0.5 text-[10px] font-bold bg-[#C5A059]/20 text-[#241B16] rounded-full">
+              Penting
+            </span>
+          </div>
+
+          <!-- Daftar Tugas Ringkas -->
+          <div class="divide-y divide-[#EDE4D5]/60 flex-1 font-sans">
+            
+            <!-- Tugas 1: Kemas Pesanan -->
+            <div class="py-3 space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-gray-900 truncate">Tenun Sumba (KRY-003)</span>
+                <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">Siap Dikirim</span>
+              </div>
+              <p class="text-[11px] text-gray-500">Pesanan Pak Hendra (Jakarta) • Sudah lunas.</p>
+              <button id="bento-pack-btn" class="w-full py-1.5 text-[11px] font-semibold text-[#241B16] bg-[#FAF7F2] hover:bg-white border border-[#EDE4D5] rounded-md transition-colors cursor-pointer flex items-center justify-center gap-1.5 mt-1">
+                <i data-lucide="package" class="w-3.5 h-3.5 text-[#C88A36]"></i>
+                <span>Bungkus & Siapkan Paket</span>
+              </button>
+            </div>
+
+            <!-- Tugas 2: Pemeriksaan Kualitas Produk -->
+            <div class="py-3 space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-gray-900 truncate">Patung Ukir Asmat (KRY-007)</span>
+                <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200">Sedang Diperiksa</span>
+              </div>
+              <p class="text-[11px] text-gray-500">Pemeriksaan kualitas keaslian kayu sudah 80% selesai.</p>
+              <div class="w-full bg-[#EDE4D5] h-1.5 rounded-full overflow-hidden mt-1">
+                <div class="bg-amber-600 h-full rounded-full transition-all duration-500" style="width: 80%;"></div>
+              </div>
+            </div>
+
+            <!-- Tugas 3: Tanya Asisten AI -->
+            <div class="pt-3 flex items-center justify-between">
+              <div>
+                <p class="text-xs font-bold text-gray-900">Butuh Bantuan Usaha?</p>
+                <p class="text-[10px] text-gray-500">Tanya saran harga dan tips jualan</p>
+              </div>
+              <button id="bento-ai-btn" class="px-3 py-1.5 text-[11px] font-semibold bg-[#241B16] hover:bg-[#32251D] text-[#F5EFE6] rounded-md shadow-xs transition-colors cursor-pointer flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+                <span>Tanya Asisten</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================================================
+           BAGIAN 3: DAFTAR PRODUK & TOMBOL PENGATUR TAMPILAN
+           ===================================================================== -->
+      <div class="space-y-4">
+        
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 pb-1">
+          
+          <!-- Filter Kategori & Pencarian Mudah -->
+          <div class="flex flex-wrap items-center gap-2">
+            
+            <!-- Filter Kategori Produk -->
+            <div class="relative">
+              <select id="filter-category" class="pl-3 pr-8 py-2 text-xs font-semibold bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg text-gray-800 hover:bg-white focus:outline-none focus:border-[#C88A36] cursor-pointer appearance-none">
+                <option value="ALL">Semua Jenis Produk</option>
+                <option value="Wastra">Kain & Tenun</option>
+                <option value="Kayu">Kerajinan Kayu & Ukir</option>
+                <option value="Logam">Kerajinan Logam & Keris</option>
+                <option value="Anyaman">Anyaman Bambu & Serat</option>
+              </select>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+
+            <!-- Filter Status Produk -->
+            <div class="relative">
+              <select id="filter-status" class="pl-3 pr-8 py-2 text-xs font-semibold bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg text-gray-800 hover:bg-white focus:outline-none focus:border-[#C88A36] cursor-pointer appearance-none">
+                <option value="ALL">Semua Status Produk</option>
+                <option value="Terkurasi WBTb">Lolos Periksa Kualitas</option>
+                <option value="Siap Kirim">Siap Dikirim</option>
+                <option value="Verifikasi Kurator">Sedang Diperiksa</option>
+                <option value="Pre-Order">Pesan Dulu (Pre-Order)</option>
+              </select>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+
+            <!-- Kotak Cari Produk -->
+            <div class="relative min-w-[220px] sm:min-w-[260px]">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input 
+                type="text" 
+                id="table-search" 
+                placeholder="Cari nama produk atau kode..." 
+                class="w-full pl-9 pr-3 py-2 text-xs bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#C88A36] focus:bg-white transition-all"
+              />
+            </div>
+
+          </div>
+
+          <!-- Tombol Model Tampilan & Unduh Data -->
+          <div class="flex items-center gap-2 self-end lg:self-auto">
+            
+            <!-- Ganti Model Tampilan (Tabel vs Kotak Foto) -->
+            <div class="p-0.5 bg-[#FAF7F2] rounded-md flex items-center">
+              <button 
+                id="view-toggle-table" 
+                class="view-toggle-btn active cursor-pointer" 
+                title="Lihat Sebagai Tabel"
+              >
+                <i data-lucide="table-2" class="w-3.5 h-3.5"></i>
+                <span class="hidden sm:inline">Tabel</span>
+              </button>
+              <button 
+                id="view-toggle-grid" 
+                class="view-toggle-btn cursor-pointer" 
+                title="Lihat Sebagai Kotak Foto"
+              >
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                <span class="hidden sm:inline">Kotak Foto</span>
+              </button>
+            </div>
+
+            <!-- Tombol Unduh Data -->
+            <button id="export-csv-btn" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold bg-[#FAF7F2] hover:bg-white border border-[#EDE4D5] rounded-lg text-gray-800 transition-colors shadow-2xs cursor-pointer">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-gray-600"></i>
+              <span>Unduh Data (Excel/CSV)</span>
+            </button>
+
+            <!-- Tombol Tambah Produk -->
+            <button id="toolbar-add-btn" class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold bg-[#C88A36] hover:bg-[#B38F46] text-white rounded-lg transition-colors shadow-xs cursor-pointer">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>+ Tambah Produk</span>
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- =====================================================================
+             BAGIAN 4: TABEL PRODUK & KOTAK FOTO
+             ===================================================================== -->
+        
+        <!-- 4A. Tampilan Model Tabel -->
+        <div id="product-table-container" class="overflow-x-auto border border-[#EDE4D5] rounded-xl bg-white shadow-xs">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-[#FAF7F2] border-b border-[#EDE4D5] text-gray-600 font-semibold uppercase tracking-wider text-[10px]">
+                <th class="py-3 px-4 w-10 text-center">
+                  <input type="checkbox" id="check-all" class="rounded border-gray-300 text-[#C88A36] focus:ring-[#C88A36] cursor-pointer" />
+                </th>
+                <th class="py-3 px-4 min-w-[260px]">Nama Produk & Asal Daerah</th>
+                <th class="py-3 px-4">Kategori</th>
+                <th class="py-3 px-4">Harga Jual</th>
+                <th class="py-3 px-4 min-w-[120px]">Sisa Stok</th>
+                <th class="py-3 px-4">Status Produk</th>
+                <th class="py-3 px-4">Terjual</th>
+                <th class="py-3 px-4 text-right">Pilihan</th>
+              </tr>
+            </thead>
+            <tbody id="product-table-body" class="divide-y divide-[#EDE4D5]/60 font-sans">
+              <!-- Diisi otomatis oleh js/dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 4B. Tampilan Model Kotak Foto (Grid) -->
+        <div id="product-grid-container" class="product-bento-grid hidden">
+          <!-- Diisi otomatis oleh js/dashboard.js -->
+        </div>
+
+        <!-- Keterangan Jumlah Data di Bawah Tabel -->
+        <div class="flex items-center justify-between text-xs text-gray-500 pt-2 px-1">
+          <div class="flex items-center gap-2">
+            <span>Menampilkan</span>
+            <span id="showing-count" class="font-bold text-gray-900">8</span>
+            <span>produk kerajinan terdaftar</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button class="px-2.5 py-1 rounded border border-[#EDE4D5] bg-white text-gray-400 cursor-not-allowed text-[11px]" disabled>Sebelumnya</button>
+            <span class="px-2 py-1 font-bold bg-[#241B16] text-[#F5EFE6] rounded text-[11px]">1</span>
+            <button class="px-2.5 py-1 rounded border border-[#EDE4D5] bg-white text-gray-400 cursor-not-allowed text-[11px]" disabled>Berikutnya</button>
+          </div>
+        </div>
+
+      </div>
+
+      </div> <!-- end of #view-overview -->
+
+      <!-- =====================================================================
+           VIEW 2: PESANAN MASUK (Kelola & Siapkan Pengiriman Produk)
+           ===================================================================== -->
+      <div id="view-pesanan" class="dashboard-view-section space-y-6 hidden">
+        
+        <!-- Header Judul -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-1">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-[#241B16] tracking-tight">Pesanan Masuk</h1>
+            <p class="text-xs text-[#6B5E55] mt-0.5">Kelola pesanan dari pembeli, bungkus paket, dan cetak bukti pengiriman</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>Toko Buka • Siap Terima Pesanan</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- 4 Kartu Mini Status Pesanan -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          <div class="bento-card p-4 flex items-center gap-3 cursor-pointer hover:border-[#C5A059] transition-all" onclick="filterOrderTab('need_pack')">
+            <div class="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 flex-shrink-0">
+              <i data-lucide="package-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[11px] text-[#6B5E55] font-semibold">Perlu Dikemas</p>
+              <p class="text-lg font-bold text-[#241B16]" id="order-count-need-pack">2 Pesanan</p>
+            </div>
+          </div>
+
+          <div class="bento-card p-4 flex items-center gap-3 cursor-pointer hover:border-[#C5A059] transition-all" onclick="filterOrderTab('shipping')">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 flex-shrink-0">
+              <i data-lucide="truck" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[11px] text-[#6B5E55] font-semibold">Sedang Dikirim</p>
+              <p class="text-lg font-bold text-[#241B16]" id="order-count-shipping">2 Paket</p>
+            </div>
+          </div>
+
+          <div class="bento-card p-4 flex items-center gap-3 cursor-pointer hover:border-[#C5A059] transition-all" onclick="filterOrderTab('done')">
+            <div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 flex-shrink-0">
+              <i data-lucide="check-circle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[11px] text-[#6B5E55] font-semibold">Pesanan Selesai</p>
+              <p class="text-lg font-bold text-[#241B16]" id="order-count-done">4 Pesanan</p>
+            </div>
+          </div>
+
+          <div class="bento-card p-4 flex items-center gap-3 cursor-pointer hover:border-[#C5A059] transition-all" onclick="filterOrderTab('all')">
+            <div class="w-10 h-10 rounded-lg bg-[#FAF7F2] border border-[#EDE4D5] flex items-center justify-center text-[#C88A36] flex-shrink-0">
+              <i data-lucide="inbox" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[11px] text-[#6B5E55] font-semibold">Total Pesanan</p>
+              <p class="text-lg font-bold text-[#241B16]">8 Pesanan</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Tab & Kotak Pencarian Pesanan -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-1">
+          <div class="inline-flex p-1 bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg gap-1 overflow-x-auto">
+            <button type="button" class="order-tab-btn active px-3 py-1.5 text-xs font-semibold rounded-md bg-[#241B16] text-white shadow-xs transition-colors cursor-pointer" data-tab="all">
+              Semua Pesanan (8)
+            </button>
+            <button type="button" class="order-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md text-[#6B5E55] hover:bg-white transition-colors cursor-pointer" data-tab="need_pack">
+              Perlu Dikemas (2)
+            </button>
+            <button type="button" class="order-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md text-[#6B5E55] hover:bg-white transition-colors cursor-pointer" data-tab="shipping">
+              Sedang Dikirim (2)
+            </button>
+            <button type="button" class="order-tab-btn px-3 py-1.5 text-xs font-semibold rounded-md text-[#6B5E55] hover:bg-white transition-colors cursor-pointer" data-tab="done">
+              Selesai (4)
+            </button>
+          </div>
+
+          <div class="relative min-w-[240px]">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="order-search-input" 
+              placeholder="Cari nama pembeli / nomor pesanan..." 
+              class="w-full pl-9 pr-3 py-2 text-xs bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#C88A36] focus:bg-white transition-all"
+            />
+          </div>
+        </div>
+
+        <!-- Wadah Daftar Pesanan Masuk -->
+        <div id="orders-list-container" class="space-y-3 font-sans">
+          <!-- Diisi otomatis oleh js/dashboard.js -->
+        </div>
+
+      </div>
+
+      <!-- =====================================================================
+           VIEW 3: DAFTAR PEMBELI & KOLEKTOR
+           ===================================================================== -->
+      <div id="view-kolektor" class="dashboard-view-section space-y-6 hidden">
+        
+        <!-- Header Judul -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-1">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-[#241B16] tracking-tight">Daftar Pembeli & Kolektor</h1>
+            <p class="text-xs text-[#6B5E55] mt-0.5">Catatan pelanggan setia dan kolektor warisan seni Nusantara</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#EDE4D5] rounded-lg text-xs font-semibold text-[#241B16]">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+              <span>Data Pembeli Terjaga Aman</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- 3 Kartu Ringkasan Pembeli -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bento-card p-5">
+            <div class="flex items-center justify-between text-[#6B5E55] mb-2">
+              <span class="text-xs font-semibold">Total Pembeli Terdaftar</span>
+              <i data-lucide="users" class="w-4 h-4 text-[#C5A059]"></i>
+            </div>
+            <p class="text-2xl font-bold text-[#241B16]">42 Orang</p>
+            <p class="text-xs text-emerald-700 font-semibold mt-1 flex items-center gap-1">
+              <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+              <span>+6 pembeli baru bulan ini</span>
+            </p>
+          </div>
+
+          <div class="bento-card p-5">
+            <div class="flex items-center justify-between text-[#6B5E55] mb-2">
+              <span class="text-xs font-semibold">Kolektor Langganan</span>
+              <i data-lucide="award" class="w-4 h-4 text-[#C5A059]"></i>
+            </div>
+            <p class="text-2xl font-bold text-[#241B16]">12 Kolektor</p>
+            <p class="text-xs text-[#6B5E55] mt-1">Sering belanja lebih dari 2 kali</p>
+          </div>
+
+          <div class="bento-card p-5">
+            <div class="flex items-center justify-between text-[#6B5E55] mb-2">
+              <span class="text-xs font-semibold">Rata-rata Nilai Belanja</span>
+              <i data-lucide="tag" class="w-4 h-4 text-[#C5A059]"></i>
+            </div>
+            <p class="text-2xl font-bold text-[#241B16]">Rp 3.850.000</p>
+            <p class="text-xs text-[#6B5E55] mt-1">Nilai per satu kali pesanan kriya</p>
+          </div>
+        </div>
+
+        <!-- Filter Kota & Kotak Cari Pembeli -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-1">
+          <div class="flex items-center gap-2">
+            <div class="relative">
+              <select id="buyer-city-filter" class="pl-3 pr-8 py-2 text-xs font-semibold bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg text-gray-800 hover:bg-white focus:outline-none focus:border-[#C88A36] cursor-pointer appearance-none">
+                <option value="ALL">Semua Kota Pembeli</option>
+                <option value="Jakarta">DKI Jakarta</option>
+                <option value="Surabaya">Surabaya</option>
+                <option value="Bandung">Bandung</option>
+                <option value="Medan">Medan</option>
+                <option value="Yogyakarta">Yogyakarta</option>
+                <option value="Bali">Bali (Lokal)</option>
+              </select>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+          </div>
+
+          <div class="relative min-w-[240px]">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="buyer-search-input" 
+              placeholder="Cari nama pembeli atau kota..." 
+              class="w-full pl-9 pr-3 py-2 text-xs bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#C88A36] focus:bg-white transition-all"
+            />
+          </div>
+        </div>
+
+        <!-- Grid Kotak Pembeli -->
+        <div id="buyers-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-sans">
+          <!-- Diisi otomatis oleh js/dashboard.js -->
+        </div>
+
+      </div>
+
+      <!-- =====================================================================
+           VIEW 4: LAPORAN PENJUALAN TOKO
+           ===================================================================== -->
+      <div id="view-analitik" class="dashboard-view-section space-y-6 hidden">
+        
+        <!-- Header Judul -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-1">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-[#241B16] tracking-tight">Laporan Penjualan Toko</h1>
+            <p class="text-xs text-[#6B5E55] mt-0.5">Catatan penghasilan, keuntungan bersih, dan kerajinan paling banyak diminati</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="download-report-btn" class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold bg-[#241B16] hover:bg-[#32251D] text-[#F5EFE6] rounded-lg shadow-xs transition-colors cursor-pointer">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+              <span>Unduh Catatan Laporan (CSV)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Kartu Keuangan Toko -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bento-card p-5">
+            <p class="text-xs font-semibold text-[#6B5E55] mb-1">Total Pemasukan Kotor</p>
+            <p class="text-2xl font-bold text-[#241B16]">Rp 48.290.000</p>
+            <p class="text-[11px] text-[#6B5E55] mt-1">Uang dari 18 produk terjual</p>
+          </div>
+
+          <div class="bento-card p-5">
+            <p class="text-xs font-semibold text-[#6B5E55] mb-1">Estimasi Untung Bersih</p>
+            <p class="text-2xl font-bold text-emerald-800">Rp 38.632.000</p>
+            <p class="text-[11px] text-emerald-700 font-semibold mt-1">~80% dari penjualan setelah dipotong bahan</p>
+          </div>
+
+          <div class="bento-card p-5">
+            <p class="text-xs font-semibold text-[#6B5E55] mb-1">Biaya Bahan Baku</p>
+            <p class="text-2xl font-bold text-[#241B16]">Rp 9.658.000</p>
+            <p class="text-[11px] text-[#6B5E55] mt-1">Kayu, serat pewarna, dan pisau ukir</p>
+          </div>
+
+          <div class="bento-card p-5">
+            <p class="text-xs font-semibold text-[#6B5E55] mb-1">Ongkos Kirim Ditanggung Pembeli</p>
+            <p class="text-2xl font-bold text-[#241B16]">Rp 1.450.000</p>
+            <p class="text-[11px] text-[#6B5E55] mt-1">Dibayar lunas oleh kurir ekspedisi</p>
+          </div>
+        </div>
+
+        <!-- 2 Kolom Grafik & Kategori -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <!-- Pembagian Penjualan per Jenis Kriya (7 cols) -->
+          <div class="lg:col-span-7 bento-card p-6 space-y-4">
+            <div>
+              <h2 class="text-base font-bold text-[#241B16]">Penjualan per Jenis Kerajinan</h2>
+              <p class="text-xs text-[#6B5E55]">Lihat kerajinan mana yang paling menyumbang uang masuk</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2 font-sans">
+              <!-- Bar 1: Wastra -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-gray-800 flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#C88A36]"></span>Kain Tenun & Wastra</span>
+                  <span class="font-bold text-gray-900">Rp 20.280.000 (42%)</span>
+                </div>
+                <div class="w-full bg-[#EDE4D5] h-2 rounded-full overflow-hidden">
+                  <div class="bg-[#C88A36] h-full rounded-full" style="width: 42%;"></div>
+                </div>
+              </div>
+
+              <!-- Bar 2: Kayu -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-gray-800 flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#B86B35]"></span>Kerajinan Kayu & Ukir</span>
+                  <span class="font-bold text-gray-900">Rp 14.970.000 (31%)</span>
+                </div>
+                <div class="w-full bg-[#EDE4D5] h-2 rounded-full overflow-hidden">
+                  <div class="bg-[#B86B35] h-full rounded-full" style="width: 31%;"></div>
+                </div>
+              </div>
+
+              <!-- Bar 3: Logam -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-gray-800 flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#241B16]"></span>Keris & Kerajinan Logam</span>
+                  <span class="font-bold text-gray-900">Rp 9.175.000 (19%)</span>
+                </div>
+                <div class="w-full bg-[#EDE4D5] h-2 rounded-full overflow-hidden">
+                  <div class="bg-[#241B16] h-full rounded-full" style="width: 19%;"></div>
+                </div>
+              </div>
+
+              <!-- Bar 4: Anyaman -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-gray-800 flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#AEAC79]"></span>Anyaman Bambu & Serat</span>
+                  <span class="font-bold text-gray-900">Rp 3.865.000 (8%)</span>
+                </div>
+                <div class="w-full bg-[#EDE4D5] h-2 rounded-full overflow-hidden">
+                  <div class="bg-[#AEAC79] h-full rounded-full" style="width: 8%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-[#EDE4D5]/60 flex items-center justify-between text-xs text-[#6B5E55]">
+              <span>Kain tenun pewarna alami menjadi produk paling favorit bulan ini.</span>
+            </div>
+          </div>
+
+          <!-- Kerajinan Paling Laris (5 cols) -->
+          <div class="lg:col-span-5 bento-card p-6 space-y-4">
+            <div>
+              <h2 class="text-base font-bold text-[#241B16]">Kerajinan Paling Laris</h2>
+              <p class="text-xs text-[#6B5E55]">Produk yang paling cepat dibeli pelanggan</p>
+            </div>
+
+            <div class="divide-y divide-[#EDE4D5]/60 font-sans">
+              <div class="py-2.5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-6 h-6 rounded-full bg-[#C5A059]/20 text-[#241B16] font-bold text-xs flex items-center justify-center">1</span>
+                  <div>
+                    <p class="text-xs font-bold text-gray-900">Tenun Ikat Sumba</p>
+                    <p class="text-[10px] text-[#6B5E55]">Terjual 6 Lembar</p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-[#C88A36]">Rp 17.400.000</span>
+              </div>
+
+              <div class="py-2.5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-6 h-6 rounded-full bg-[#C5A059]/20 text-[#241B16] font-bold text-xs flex items-center justify-center">2</span>
+                  <div>
+                    <p class="text-xs font-bold text-gray-900">Panel Pahat Pa'tedong</p>
+                    <p class="text-[10px] text-[#6B5E55]">Terjual 3 Unit</p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-[#C88A36]">Rp 12.750.000</span>
+              </div>
+
+              <div class="py-2.5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-6 h-6 rounded-full bg-[#C5A059]/20 text-[#241B16] font-bold text-xs flex items-center justify-center">3</span>
+                  <div>
+                    <p class="text-xs font-bold text-gray-900">Keris Luk 7 Brojol</p>
+                    <p class="text-[10px] text-[#6B5E55]">Terjual 2 Bilah</p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-[#C88A36]">Rp 8.800.000</span>
+              </div>
+
+              <div class="py-2.5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-6 h-6 rounded-full bg-[#C5A059]/20 text-[#241B16] font-bold text-xs flex items-center justify-center">4</span>
+                  <div>
+                    <p class="text-xs font-bold text-gray-900">Tempat Sirih Anyaman</p>
+                    <p class="text-[10px] text-[#6B5E55]">Terjual 4 Buah</p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-[#C88A36]">Rp 3.400.000</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Baris 3 Bento: Saluran Pemesanan, Kota Pembeli Terbanyak, & Saran Praktis Usaha -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <!-- Kotak 1: Saluran Masuk Pesanan -->
+          <div class="bento-card p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-[#EDE4D5]/60 pb-2.5">
+              <div>
+                <h3 class="text-xs font-bold text-[#241B16] uppercase tracking-wider">Saluran Pemesanan</h3>
+                <p class="text-[11px] text-[#6B5E55]">Dari mana pembeli menemukan produk kamu</p>
+              </div>
+              <i data-lucide="shopping-bag" class="w-4 h-4 text-[#C5A059]"></i>
+            </div>
+            <div class="space-y-2.5 font-sans text-xs">
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-semibold text-gray-800">Pasar Digital Nusava</span>
+                  <span class="font-bold text-gray-900">62% (Rp 29,9 Jt)</span>
+                </div>
+                <div class="w-full bg-[#EDE4D5] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#C88A36] h-full rounded-full" style="width: 62%;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-semibold text-gray-800">Pemesanan Khusus AI</span>
+                  <span class="font-bold text-gray-900">26% (Rp 12,5 Jt)</span>
+                </div>
+                <div class="w-full bg-[#EDE4D5] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#B86B35] h-full rounded-full" style="width: 26%;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-semibold text-gray-800">Pameran & Galeri Seni</span>
+                  <span class="font-bold text-gray-900">12% (Rp 5,8 Jt)</span>
+                </div>
+                <div class="w-full bg-[#EDE4D5] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#AEAC79] h-full rounded-full" style="width: 12%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kotak 2: Kota Asal Pembeli Terbanyak -->
+          <div class="bento-card p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-[#EDE4D5]/60 pb-2.5">
+              <div>
+                <h3 class="text-xs font-bold text-[#241B16] uppercase tracking-wider">Kota Pembeli Terbanyak</h3>
+                <p class="text-[11px] text-[#6B5E55]">Daerah asal para pecinta karya seni</p>
+              </div>
+              <i data-lucide="map-pin" class="w-4 h-4 text-[#C5A059]"></i>
+            </div>
+            <div class="space-y-2 font-sans text-xs">
+              <div class="flex items-center justify-between py-1 border-b border-[#EDE4D5]/40">
+                <span class="font-medium text-gray-800 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#241B16]"></span>DKI Jakarta (Jabodetabek)</span>
+                <span class="font-bold text-[#241B16]">40% <span class="text-[10px] text-gray-400 font-normal">(18 Pesanan)</span></span>
+              </div>
+              <div class="flex items-center justify-between py-1 border-b border-[#EDE4D5]/40">
+                <span class="font-medium text-gray-800 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#C88A36]"></span>Jawa Timur (Surabaya, Malang)</span>
+                <span class="font-bold text-[#241B16]">25% <span class="text-[10px] text-gray-400 font-normal">(11 Pesanan)</span></span>
+              </div>
+              <div class="flex items-center justify-between py-1 border-b border-[#EDE4D5]/40">
+                <span class="font-medium text-gray-800 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#B86B35]"></span>Jawa Barat & Banten</span>
+                <span class="font-bold text-[#241B16]">15% <span class="text-[10px] text-gray-400 font-normal">(7 Pesanan)</span></span>
+              </div>
+              <div class="flex items-center justify-between py-1">
+                <span class="font-medium text-gray-800 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#AEAC79]"></span>Sumatera Utara & Bali</span>
+                <span class="font-bold text-[#241B16]">20% <span class="text-[10px] text-gray-400 font-normal">(9 Pesanan)</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kotak 3: Catatan & Nasihat Usaha Toko -->
+          <div class="bento-card p-5 space-y-3 md:col-span-2 lg:col-span-1">
+            <div class="flex items-center justify-between border-b border-[#EDE4D5]/60 pb-2.5">
+              <div>
+                <h3 class="text-xs font-bold text-[#241B16] uppercase tracking-wider">Saran Praktis Usaha</h3>
+                <p class="text-[11px] text-[#6B5E55]">Tips sederhana meningkatkan keuntungan</p>
+              </div>
+              <i data-lucide="sparkles" class="w-4 h-4 text-[#C5A059]"></i>
+            </div>
+            <div class="space-y-2.5 font-sans text-xs">
+              <div class="p-2.5 bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg">
+                <p class="font-bold text-gray-900 text-[11px] flex items-center gap-1">
+                  <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i>
+                  <span>Bahan Baku Tenun Aman</span>
+                </p>
+                <p class="text-[11px] text-[#6B5E55] mt-0.5">Stok benang tenun pewarna alami cukup untuk 2 bulan produksi ke depan.</p>
+              </div>
+              <div class="p-2.5 bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg">
+                <p class="font-bold text-gray-900 text-[11px] flex items-center gap-1">
+                  <i data-lucide="trending-up" class="w-3.5 h-3.5 text-[#C88A36] flex-shrink-0"></i>
+                  <span>Untung Tertinggi di Ukir Kayu</span>
+                </p>
+                <p class="text-[11px] text-[#6B5E55] mt-0.5">Produk seni ukir memiliki margin untung bersih rata-rata 82% setelah bahan.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===================================================================
+             GRAFIK BESAR & MENDETAIL: ARUS PENDAPATAN & UNTUNG BERSIH (12 KOLOM)
+             =================================================================== -->
+        <div class="bento-card p-6 space-y-4">
+          
+          <!-- Bar Kontrol Header Grafik -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EDE4D5]/60 pb-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-base sm:text-lg font-bold text-[#241B16]">Grafik Rincian Arus Pendapatan & Untung Bersih</h2>
+                <span class="px-2 py-0.5 text-[10px] font-bold bg-[#C5A059]/20 text-[#241B16] rounded-full">Laporan Mendalam</span>
+              </div>
+              <p class="text-xs text-[#6B5E55] mt-0.5">Perbandingan uang penjualan masuk (omset) dan laba bersih pengrajin secara mendetail</p>
+            </div>
+
+            <!-- Pilihan Periode Grafik Mendetail -->
+            <div class="inline-flex p-1 bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg gap-1">
+              <button 
+                type="button" 
+                data-detailed-period="6m" 
+                class="detailed-period-btn active px-3 py-1.5 text-xs font-semibold rounded-md bg-[#241B16] text-white shadow-xs transition-colors cursor-pointer"
+              >
+                6 Bulan Terakhir
+              </button>
+              <button 
+                type="button" 
+                data-detailed-period="1y" 
+                class="detailed-period-btn px-3 py-1.5 text-xs font-semibold rounded-md text-[#6B5E55] hover:bg-white transition-colors cursor-pointer"
+              >
+                Sepanjang Tahun (12 Bln)
+              </button>
+              <button 
+                type="button" 
+                data-detailed-period="triwulan" 
+                class="detailed-period-btn px-3 py-1.5 text-xs font-semibold rounded-md text-[#6B5E55] hover:bg-white transition-colors cursor-pointer"
+              >
+                Per Triwulan
+              </button>
+            </div>
+          </div>
+
+          <!-- 3 Kartu Ringkasan Atas Grafik -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans">
+            <div class="p-3 bg-[#FAF7F2] border border-[#EDE4D5] rounded-xl">
+              <span class="text-[10px] text-gray-500 block uppercase font-semibold">Rata-rata Pemasukan / Bulan</span>
+              <div class="flex items-baseline gap-2 mt-0.5">
+                <span class="text-base font-bold text-[#241B16]" id="detailed-avg-revenue">Rp 37.631.000</span>
+                <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">+24.8% vs tahun lalu</span>
+              </div>
+            </div>
+            <div class="p-3 bg-[#FAF7F2] border border-[#EDE4D5] rounded-xl">
+              <span class="text-[10px] text-gray-500 block uppercase font-semibold">Rata-rata Untung Bersih</span>
+              <div class="flex items-baseline gap-2 mt-0.5">
+                <span class="text-base font-bold text-emerald-800" id="detailed-avg-profit">Rp 29.909.000</span>
+                <span class="text-[10px] font-semibold text-gray-500">Margin ~80.0%</span>
+              </div>
+            </div>
+            <div class="p-3 bg-[#FAF7F2] border border-[#EDE4D5] rounded-xl">
+              <span class="text-[10px] text-gray-500 block uppercase font-semibold">Bulan Penjualan Terbaik</span>
+              <div class="flex items-baseline gap-2 mt-0.5">
+                <span class="text-base font-bold text-[#C88A36]" id="detailed-peak-month">Oktober 2024</span>
+                <span class="text-[10px] font-semibold text-gray-600">Rp 48.290.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wadah Grafik Besar (Tinggi 300px) -->
+          <div class="relative w-full h-[300px]" id="detailed-analytics-chart-wrapper">
+            <div id="detailed-analytics-chart-container" class="w-full h-full"></div>
+            <div id="detailed-chart-tooltip" class="chart-tooltip"></div>
+          </div>
+
+          <!-- Keterangan & Legenda Grafik -->
+          <div class="pt-3 border-t border-[#EDE4D5]/60 flex flex-wrap items-center justify-between text-xs text-[#6B5E55] gap-3">
+            <div class="flex flex-wrap items-center gap-5">
+              <span class="flex items-center gap-1.5 font-semibold text-gray-800">
+                <span class="w-3 h-3 rounded-full bg-[#C88A36] border border-[#C5A059]"></span>
+                <span>Pemasukan Kotor (Omset)</span>
+              </span>
+              <span class="flex items-center gap-1.5 font-semibold text-gray-800">
+                <span class="w-3 h-3 rounded-full bg-emerald-600 border border-emerald-400"></span>
+                <span>Untung Bersih Pengrajin</span>
+              </span>
+              <span class="flex items-center gap-1.5 font-semibold text-gray-500">
+                <span class="w-4 h-0.5 bg-gray-400 border-b border-dashed"></span>
+                <span>Batas Target Usaha (Rp 30 Jt)</span>
+              </span>
+            </div>
+            <span class="text-[11px] text-gray-400">Arahkan kursor ke titik grafik untuk melihat rincian biaya & produk terlaris</span>
+          </div>
+
+        </div>
+
+        <!-- ===================================================================
+             TABEL RINCIAN PEMBUKUAN 6 BULAN TERAKHIR (LENGKAP & TRANSPARAN)
+             =================================================================== -->
+        <div class="bento-card p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EDE4D5]/60 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-[#241B16]">Catatan Pembukuan Keuangan 6 Bulan Terakhir</h2>
+              <p class="text-xs text-[#6B5E55]">Rincian pemasukan, pengeluaran bahan baku, dan laba bersih per bulan</p>
+            </div>
+            <span class="text-xs font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 self-start sm:self-auto">
+              Status Keuangan: Sangat Sehat (Untung 80%)
+            </span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs font-sans">
+              <thead>
+                <tr class="border-b border-[#EDE4D5] text-[#6B5E55] font-semibold bg-[#FAF7F2]">
+                  <th class="py-2.5 px-3">Bulan & Tahun</th>
+                  <th class="py-2.5 px-3 text-center">Pesanan Selesai</th>
+                  <th class="py-2.5 px-3 text-right">Pemasukan Kotor</th>
+                  <th class="py-2.5 px-3 text-right">Biaya Bahan Baku</th>
+                  <th class="py-2.5 px-3 text-right">Untung Bersih</th>
+                  <th class="py-2.5 px-3 text-right">Rata-rata / Pesanan</th>
+                  <th class="py-2.5 px-3 text-center">Hasil Target</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#EDE4D5]/60">
+                <tr class="hover:bg-[#FAF7F2] transition-colors">
+                  <td class="py-2.5 px-3 font-bold text-gray-900">Oktober 2024</td>
+                  <td class="py-2.5 px-3 text-center font-semibold text-gray-800">18 Pesanan</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-[#241B16]">Rp 48.290.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-600">Rp 9.658.000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-emerald-800">Rp 38.632.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-700">Rp 2.682.000</td>
+                  <td class="py-2.5 px-3 text-center">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">161% Target</span>
+                  </td>
+                </tr>
+                <tr class="hover:bg-[#FAF7F2] transition-colors">
+                  <td class="py-2.5 px-3 font-bold text-gray-900">September 2024</td>
+                  <td class="py-2.5 px-3 text-center font-semibold text-gray-800">16 Pesanan</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-[#241B16]">Rp 42.600.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-600">Rp 8.520.000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-emerald-800">Rp 34.080.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-700">Rp 2.662.500</td>
+                  <td class="py-2.5 px-3 text-center">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">142% Target</span>
+                  </td>
+                </tr>
+                <tr class="hover:bg-[#FAF7F2] transition-colors">
+                  <td class="py-2.5 px-3 font-bold text-gray-900">Agustus 2024</td>
+                  <td class="py-2.5 px-3 text-center font-semibold text-gray-800">15 Pesanan</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-[#241B16]">Rp 39.400.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-600">Rp 7.880.000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-emerald-800">Rp 31.520.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-700">Rp 2.626.600</td>
+                  <td class="py-2.5 px-3 text-center">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">131% Target</span>
+                  </td>
+                </tr>
+                <tr class="hover:bg-[#FAF7F2] transition-colors">
+                  <td class="py-2.5 px-3 font-bold text-gray-900">Juli 2024</td>
+                  <td class="py-2.5 px-3 text-center font-semibold text-gray-800">14 Pesanan</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-[#241B16]">Rp 36.800.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-600">Rp 7.360.000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-emerald-800">Rp 29.440.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-700">Rp 2.628.500</td>
+                  <td class="py-2.5 px-3 text-center">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">122% Target</span>
+                  </td>
+                </tr>
+                <tr class="hover:bg-[#FAF7F2] transition-colors">
+                  <td class="py-2.5 px-3 font-bold text-gray-900">Juni 2024</td>
+                  <td class="py-2.5 px-3 text-center font-semibold text-gray-800">13 Pesanan</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-[#241B16]">Rp 31.200.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-600">Rp 6.864.000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-emerald-800">Rp 24.336.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-700">Rp 2.400.000</td>
+                  <td class="py-2.5 px-3 text-center">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">104% Target</span>
+                  </td>
+                </tr>
+                <tr class="hover:bg-[#FAF7F2] transition-colors">
+                  <td class="py-2.5 px-3 font-bold text-gray-900">Mei 2024</td>
+                  <td class="py-2.5 px-3 text-center font-semibold text-gray-800">12 Pesanan</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-[#241B16]">Rp 27.500.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-600">Rp 6.050.000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-emerald-800">Rp 21.450.000</td>
+                  <td class="py-2.5 px-3 text-right text-gray-700">Rp 2.291.600</td>
+                  <td class="py-2.5 px-3 text-center">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">92% Target</span>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr class="bg-[#FAF7F2] font-bold border-t-2 border-[#EDE4D5] text-[#241B16]">
+                  <td class="py-3 px-3">TOTAL REKAP 6 BULAN</td>
+                  <td class="py-3 px-3 text-center">88 Pesanan</td>
+                  <td class="py-3 px-3 text-right text-[#C88A36]">Rp 225.790.000</td>
+                  <td class="py-3 px-3 text-right text-gray-600">Rp 46.332.000</td>
+                  <td class="py-3 px-3 text-right text-emerald-800">Rp 179.458.000</td>
+                  <td class="py-3 px-3 text-right">Rp 2.565.700</td>
+                  <td class="py-3 px-3 text-center">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-[#241B16] text-[#F5EFE6]">Lolos Target</span>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- =====================================================================
+           VIEW 5: PENGIRIMAN PAKET DENGAN ANIMASI TRUK & PETA NUSANTARA
+           ===================================================================== -->
+      <div id="view-logistik" class="dashboard-view-section space-y-6 hidden">
+        
+        <!-- Header Judul -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-1">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-[#241B16] tracking-tight">Pengiriman Paket & Lacak Truk Ekspedisi</h1>
+            <p class="text-xs text-[#6B5E55] mt-0.5">Pantau posisi perjalanan kurir ekspedisi di peta kepulauan Indonesia secara langsung</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>2 Truk Logistik Sedang Bergerak di Jalan</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Peta Interaktif Nusantara & Jalur Animasi Truk -->
+        <div class="bento-card p-4 sm:p-6 space-y-4">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EDE4D5]/60 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-[#241B16]">Peta Jalur Ekspedisi Antar Pulau</h2>
+              <p class="text-xs text-[#6B5E55]">Titik Asal: Studio Pengrajin Pak Wayan (Gianyar, Bali)</p>
+            </div>
+            
+            <!-- Tombol Ganti Rute Truk yang Aktif -->
+            <div class="inline-flex p-1 bg-[#FAF7F2] border border-[#EDE4D5] rounded-lg gap-1">
+              <button 
+                type="button" 
+                class="logistics-route-btn active px-3 py-1.5 text-xs font-semibold rounded-md bg-[#241B16] text-white shadow-xs transition-colors cursor-pointer"
+                data-route="jakarta"
+              >
+                Rute Gianyar &rarr; Jakarta
+              </button>
+              <button 
+                type="button" 
+                class="logistics-route-btn px-3 py-1.5 text-xs font-semibold rounded-md text-[#6B5E55] hover:bg-white transition-colors cursor-pointer"
+                data-route="surabaya"
+              >
+                Rute Gianyar &rarr; Surabaya
+              </button>
+              <button 
+                type="button" 
+                class="logistics-route-btn px-3 py-1.5 text-xs font-semibold rounded-md text-[#6B5E55] hover:bg-white transition-colors cursor-pointer"
+                data-route="medan"
+              >
+                Rute Gianyar &rarr; Medan
+              </button>
+            </div>
+          </div>
+
+          <!-- Wadah Peta Nusantara Resmi dari Landing Page (Aspect Ratio 786/360.5) -->
+          <div class="map-canvas-card relative w-full aspect-[786/360.5] max-w-full flex items-center justify-center bg-[#FAF7F2] p-4 sm:p-6 overflow-hidden rounded-xl border border-[#EDE4D5]">
+            
+            <!-- Gambar Peta Vektor Kepulauan Indonesia Sesuai Landing Page -->
+            <img 
+              src="assets/icons/indonesia-provinces.svg" 
+              alt="Peta Kepulauan Indonesia" 
+              class="w-full h-full object-contain pointer-events-none select-none filter drop-shadow-xs"
+            />
+
+            <!-- SVG Jalur Lengkung & Garis Dashed Antar Pulau -->
+            <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 786.2 360.5" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#C5A059" />
+                  <stop offset="100%" stop-color="#10B981" />
+                </linearGradient>
+              </defs>
+              <!-- Jalur aktif dinamis digambar oleh SVG -->
+              <path id="active-logistics-svg-path" d="M 348.5 280.5 Q 282 245, 216 246" fill="none" stroke="url(#routeGradient)" stroke-width="3" class="route-dash-animated" />
+            </svg>
+
+            <!-- Titik Asal Hub: Gianyar, Bali (left: 44.3%, top: 77.8%) -->
+            <div class="map-hub-dot origin" style="left: 44.3%; top: 77.8%;" title="Asal: Bengkel Pak Wayan (Gianyar, Bali)">
+              <div class="hub-ping"></div>
+              <div class="hub-core"></div>
+              <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#241B16] text-[#F5EFE6] px-2 py-0.5 rounded text-[9px] font-bold whitespace-nowrap shadow-xs border border-[#C5A059]">
+                Asal: Gianyar, Bali
+              </div>
+            </div>
+
+            <!-- Titik Tujuan Hub: Dinamis (Default Jakarta left: 27.5%, top: 68.4%) -->
+            <div id="destination-hub-dot" class="map-hub-dot destination" style="left: 27.5%; top: 68.4%;" title="Tujuan: Jakarta Selatan (Pak Hendra)">
+              <div class="hub-ping"></div>
+              <div class="hub-core"></div>
+              <div id="destination-hub-label" class="absolute -top-7 left-1/2 -translate-x-1/2 bg-emerald-950 text-emerald-200 px-2 py-0.5 rounded text-[9px] font-bold whitespace-nowrap shadow-xs border border-emerald-500">
+                Tujuan: Jakarta Selatan
+              </div>
+            </div>
+
+            <!-- TRUK EKSPEDISI DENGAN ANIMASI GLIDING BERJALAN (Hanya Icon Truk) -->
+            <div id="active-truck-badge" class="truck-marker-wrap truck-anim-jakarta" title="Truk JNE Cargo • Di Jalan">
+              <div class="relative group cursor-pointer">
+                <!-- Ping Effect Glowing Ring -->
+                <div class="absolute -inset-1 rounded-full bg-[#C5A059]/40 animate-ping pointer-events-none"></div>
+                <!-- Sleek Circular Luxury Badge (Hanya Icon Truk) -->
+                <div class="relative w-8 h-8 rounded-full bg-[#241B16] text-[#C5A059] flex items-center justify-center shadow-xl border-2 border-[#C5A059] hover:scale-115 transition-transform duration-200">
+                  <i data-lucide="truck" class="w-4 h-4 text-[#C5A059]"></i>
+                </div>
+                <!-- Status text hidden visually for clean minimalist look, accessible for script updates -->
+                <span id="truck-status-text" class="sr-only">Truk JNE Cargo • Di Jalan</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Keterangan Status Perjalanan yang Sedang Aktif -->
+          <div class="p-3.5 bg-[#FAF7F2] border border-[#EDE4D5] rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-[#241B16] text-[#C5A059] flex items-center justify-center flex-shrink-0">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <p class="font-bold text-gray-900" id="live-route-title">Paket Tenun Sumba (JNE-TRK-8821) — Sedang Menyeberang Selat Bali Menuju Jawa</p>
+                <p class="text-[11px] text-[#6B5E55] mt-0.5" id="live-route-subtitle">Truk melewati Pelabuhan Gilimanuk - Ketapang, lanjut via Tol Trans Jawa ke Jakarta</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 self-start sm:self-auto flex-shrink-0">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                Estimasi Tiba: Besok Sore (~16:00 WIB)
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2 Kolom Paket Aktif & Riwayat Perjalanan Langkah demi Langkah -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          
+          <!-- Kolom Kiri: 3 Pilihan Paket yang Sedang Berjalan (5 cols) -->
+          <div class="lg:col-span-5 bento-card p-6 space-y-4">
+            <div>
+              <h2 class="text-base font-bold text-[#241B16]">Daftar Paket Sedang Dikirim</h2>
+              <p class="text-xs text-[#6B5E55]">Klik paket untuk melihat rute di peta</p>
+            </div>
+
+            <div class="space-y-2.5 font-sans" id="shipping-packages-list">
+              
+              <!-- Paket 1: Jakarta -->
+              <div class="shipping-card-item active p-3.5 rounded-xl border-2 border-[#C88A36] bg-[#FFFDF9] cursor-pointer transition-all space-y-2" data-route="jakarta" data-resi="JNE-TRK-8821">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-gray-900">JNE Cargo • JNE-TRK-8821</span>
+                  <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Di Jalan</span>
+                </div>
+                <div class="text-xs">
+                  <p class="font-semibold text-gray-800">Tenun Ikat Sumba (2 Lembar)</p>
+                  <p class="text-[11px] text-[#6B5E55]">Tujuan: Hendra Wijaya • Jakarta Selatan</p>
+                </div>
+                <div class="flex items-center justify-between pt-1 text-[11px]">
+                  <span class="text-gray-400">Ongkir: Rp 65.000 (Lunas)</span>
+                  <span class="text-[#C88A36] font-bold hover:underline flex items-center gap-1">
+                    <i data-lucide="eye" class="w-3 h-3"></i> Lacak Rute
+                  </span>
+                </div>
+              </div>
+
+              <!-- Paket 2: Surabaya -->
+              <div class="shipping-card-item p-3.5 rounded-xl border border-[#EDE4D5] bg-white hover:bg-[#FAF7F2] cursor-pointer transition-all space-y-2" data-route="surabaya" data-resi="SIC-EXP-4491">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-gray-900">SiCepat Cargo • SIC-EXP-4491</span>
+                  <span class="text-[10px] font-bold text-blue-800 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Tiba di Hub</span>
+                </div>
+                <div class="text-xs">
+                  <p class="font-semibold text-gray-800">Panel Pahat Pa'tedong Tongkonan</p>
+                  <p class="text-[11px] text-[#6B5E55]">Tujuan: Ibu Maya Kusuma • Surabaya</p>
+                </div>
+                <div class="flex items-center justify-between pt-1 text-[11px]">
+                  <span class="text-gray-400">Ongkir: Rp 85.000 (Lunas)</span>
+                  <span class="text-[#6B5E55] font-semibold flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-3 h-3"></i> Tampilkan
+                  </span>
+                </div>
+              </div>
+
+              <!-- Paket 3: Medan -->
+              <div class="shipping-card-item p-3.5 rounded-xl border border-[#EDE4D5] bg-white hover:bg-[#FAF7F2] cursor-pointer transition-all space-y-2" data-route="medan" data-resi="POS-CARGO-1092">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-gray-900">Pos Logistik • POS-CARGO-1092</span>
+                  <span class="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Dalam Transit</span>
+                </div>
+                <div class="text-xs">
+                  <p class="font-semibold text-gray-800">Keris Luk 7 Brojol Pamor Udan Mas</p>
+                  <p class="text-[11px] text-[#6B5E55]">Tujuan: Dr. Budi Santoso • Medan</p>
+                </div>
+                <div class="flex items-center justify-between pt-1 text-[11px]">
+                  <span class="text-gray-400">Ongkir: Rp 120.000 (Lunas)</span>
+                  <span class="text-[#6B5E55] font-semibold flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-3 h-3"></i> Tampilkan
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Kolom Kanan: Detail & Riwayat Perjalanan Langkah demi Langkah (7 cols) -->
+          <div class="lg:col-span-7 bento-card p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-[#EDE4D5]/60 pb-3">
+              <div>
+                <h2 class="text-base font-bold text-[#241B16]" id="timeline-detail-title">Riwayat Perjalanan Paket</h2>
+                <p class="text-xs text-[#6B5E55]" id="timeline-detail-resi">Resi: JNE-TRK-8821 • Ekspedisi Darat & Laut</p>
+              </div>
+              <button id="open-receipt-btn" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#FAF7F2] hover:bg-white border border-[#EDE4D5] text-[#241B16] rounded-lg text-xs font-semibold transition-colors cursor-pointer shadow-2xs">
+                <i data-lucide="printer" class="w-3.5 h-3.5 text-[#C88A36]"></i>
+                <span>Cetak Bukti Resi</span>
+              </button>
+            </div>
+
+            <!-- Timeline Stepper Sederhana & Jelas -->
+            <div class="space-y-4 pt-2 font-sans" id="timeline-steps-container">
+              
+              <!-- Langkah 1: Dijemput Kurir -->
+              <div class="relative pl-7 timeline-step-item">
+                <div class="timeline-step-line"></div>
+                <span class="absolute left-0 top-0.5 w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 border-2 border-emerald-600 flex items-center justify-center text-[10px] font-bold">
+                  <i data-lucide="check" class="w-3 h-3 text-emerald-800"></i>
+                </span>
+                <div>
+                  <p class="text-xs font-bold text-gray-900">Paket Dijemput Kurir dari Studio Bengkel</p>
+                  <p class="text-[11px] text-[#6B5E55] mt-0.5">Kurir JNE Gianyar mengambil produk tenun yang sudah dibungkus rapi dengan pelindung gelembung.</p>
+                  <p class="text-[10px] text-gray-400 mt-1">29 Oktober 2024 • 14:30 WITA</p>
+                </div>
+              </div>
+
+              <!-- Langkah 2: Berangkat dari Bali -->
+              <div class="relative pl-7 timeline-step-item">
+                <div class="timeline-step-line"></div>
+                <span class="absolute left-0 top-0.5 w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 border-2 border-emerald-600 flex items-center justify-center text-[10px] font-bold">
+                  <i data-lucide="check" class="w-3 h-3 text-emerald-800"></i>
+                </span>
+                <div>
+                  <p class="text-xs font-bold text-gray-900">Lolos Pemeriksaan Segel & Menyeberang Selat Bali</p>
+                  <p class="text-[11px] text-[#6B5E55] mt-0.5">Truk logistik menaiki kapal feri dari Pelabuhan Gilimanuk menuju Pelabuhan Ketapang, Banyuwangi.</p>
+                  <p class="text-[10px] text-gray-400 mt-1">30 Oktober 2024 • 09:15 WIB</p>
+                </div>
+              </div>
+
+              <!-- Langkah 3: Sedang Melintas di Tol Trans Jawa -->
+              <div class="relative pl-7 timeline-step-item">
+                <div class="timeline-step-line"></div>
+                <span class="absolute left-0 top-0.5 w-5 h-5 rounded-full bg-amber-100 text-amber-800 border-2 border-amber-600 flex items-center justify-center text-[10px] font-bold">
+                  <i data-lucide="truck" class="w-3 h-3 text-amber-800"></i>
+                </span>
+                <div>
+                  <p class="text-xs font-bold text-amber-900">Sedang Melintasi Jalur Tol Menuju Gudang Jakarta (Posisi Saat Ini)</p>
+                  <p class="text-[11px] text-[#6B5E55] mt-0.5">Truk kontainer ekspedisi terpantau aman dan bergerak lancar menuju hub distribusi utama.</p>
+                  <p class="text-[10px] text-amber-700 font-semibold mt-1">31 Oktober 2024 • 11:45 WIB (Terakhir Diperbarui)</p>
+                </div>
+              </div>
+
+              <!-- Langkah 4: Tiba & Antar ke Rumah Pembeli -->
+              <div class="relative pl-7 timeline-step-item">
+                <span class="absolute left-0 top-0.5 w-5 h-5 rounded-full bg-gray-100 text-gray-400 border-2 border-gray-300 flex items-center justify-center text-[10px] font-bold">
+                  4
+                </span>
+                <div>
+                  <p class="text-xs font-bold text-gray-400">Pengantaran Langsung ke Rumah Pembeli</p>
+                  <p class="text-[11px] text-gray-400 mt-0.5">Kurir lokal Jakarta Selatan akan mengantar langsung ke alamat Pak Hendra Wijaya.</p>
+                  <p class="text-[10px] text-gray-400 mt-1">Perkiraan Tiba: 1 November 2024 • Siang/Sore</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Tombol Bantuan Hubungi Kurir -->
+            <div class="pt-4 border-t border-[#EDE4D5]/60 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <span class="text-[#6B5E55]">Butuh bantuan cek posisi kurir?</span>
+              <button type="button" class="px-3 py-1.5 bg-[#FAF7F2] hover:bg-white border border-[#EDE4D5] rounded-md font-semibold text-[#241B16] transition-colors cursor-pointer" onclick="copyTrackingResi()">
+                Salin Nomor Resi
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       MODAL 1: PANEL INFORMASI DETAIL PRODUK & SURAT TANDA ASLI
+       ========================================================================= -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+  <aside id="drawer-panel" class="drawer-panel" aria-label="Informasi Lengkap Produk">
+    
+    <!-- Header Panel -->
+    <div class="p-6 border-b border-[#EDE4D5] flex items-center justify-between bg-white sticky top-0 z-10 shadow-2xs">
+      <div>
+        <h3 class="text-base font-bold text-[#241B16]">Informasi Lengkap Produk</h3>
+        <p class="text-xs text-gray-500">Lihat bukti keaslian dan perbarui stok produk</p>
+      </div>
+      <button id="drawer-close-btn" class="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#EDE4D5] flex items-center justify-center text-gray-600 transition-colors cursor-pointer" aria-label="Tutup">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Isi Panel -->
+    <div class="p-6 space-y-6 flex-1 font-sans">
+      
+      <!-- Foto Produk & Nama -->
+      <div class="space-y-3">
+        <div class="w-full h-56 rounded-xl overflow-hidden border border-[#EDE4D5] relative bg-[#FAF7F2]">
+          <img id="drawer-product-img" src="assets/images/content/wilayah-sulawesi-tongkonan.jpg" alt="Foto Produk" class="w-full h-full object-cover" />
+          <div class="absolute top-3 left-3">
+            <span id="drawer-product-category" class="px-2.5 py-1 bg-[#241B16]/85 backdrop-blur-xs text-[#F5EFE6] text-xs font-semibold rounded">Kayu</span>
+          </div>
+          <div class="absolute top-3 right-3">
+            <span id="drawer-product-id" class="font-mono text-xs bg-white/95 text-gray-900 px-2 py-0.5 rounded font-bold shadow-xs">KRY-001</span>
+          </div>
+        </div>
+
+        <div>
+          <h2 id="drawer-product-name" class="text-lg font-bold text-[#241B16] leading-tight">Panel Pahat Pa'tedong Tongkonan</h2>
+          <div class="flex items-center justify-between mt-1">
+            <p class="text-xs text-[#6B5E55] flex items-center gap-1.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#C88A36]"></i>
+              <span id="drawer-product-origin">Kete Kesu, Tana Toraja</span>
+            </p>
+            <div class="flex items-center gap-2">
+              <span id="drawer-product-price" class="text-xs font-bold text-[#C88A36]">Rp 4.250.000</span>
+              <span id="drawer-product-stock" class="text-[10px] font-bold bg-[#FAF7F2] border border-[#EDE4D5] px-1.5 py-0.2 rounded text-gray-700">4 Unit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KARTU SURAT TANDA ASLI RESMI -->
+      <div class="wbtb-certificate-card space-y-3">
+        <div class="flex items-center justify-between border-b border-[#C5A059]/40 pb-2.5">
+          <div class="flex items-center gap-2.5">
+            <div class="seal-badge">
+              <i data-lucide="award" class="w-5 h-5 text-[#C88A36]"></i>
+            </div>
+            <div>
+              <span class="text-[9px] uppercase tracking-widest text-[#C88A36] font-bold block">Surat Resmi</span>
+              <span class="text-xs font-bold text-[#241B16]">Tanda Keaslian Produk</span>
+            </div>
+          </div>
+          <div id="drawer-status-badge"></div>
+        </div>
+
+        <!-- Keterangan Surat -->
+        <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
+          <div>
+            <span class="text-gray-400 block text-[10px]">Nomor Pendaftaran:</span>
+            <span id="drawer-wbtb-reg" class="font-mono font-bold text-gray-800">WBTb-2024-TRJ-0041</span>
+          </div>
+          <div>
+            <span class="text-gray-400 block text-[10px]">Tanggal Diterbitkan:</span>
+            <span id="drawer-verified-date" class="font-semibold text-gray-800">14 Agustus 2024</span>
+          </div>
+          <div class="col-span-2 pt-1 border-t border-[#EDE4D5]/50">
+            <span class="text-gray-400 block text-[10px]">Penilai Kualitas Ahli:</span>
+            <span id="drawer-curator-name" class="font-semibold text-[#241B16]">Prof. Dr. I Made Bandem (Dewan Kurator)</span>
+          </div>
+        </div>
+
+        <p class="text-[10px] text-gray-500 italic leading-relaxed pt-1">
+          *Produk ini sudah lolos uji keaslian bahan baku alami dan cara pembuatan tradisional.
+        </p>
+      </div>
+
+      <!-- Cerita Produk & Bahan Asli -->
+      <div class="space-y-1.5">
+        <h3 class="text-xs font-bold text-gray-900 font-sans uppercase tracking-wider">Cerita Produk & Bahan Asli</h3>
+        <p id="drawer-product-desc" class="text-xs text-gray-600 leading-relaxed bg-white/60 p-3 rounded-lg">
+          Kayu ulin berukir motif kepala kerbau Pa'tedong simbol kemakmuran dan kearifan filosofi leluhur Toraja.
+        </p>
+      </div>
+
+      <!-- Ubah Cepat Stok & Harga -->
+      <form id="drawer-quick-edit-form" class="p-4 bg-white/70 rounded-xl space-y-3">
+        <div class="flex items-center justify-between border-b border-[#EDE4D5] pb-2">
+          <span class="text-xs font-bold text-gray-900">Ubah Harga & Stok Langsung</span>
+          <span class="text-[10px] text-[#C88A36] font-medium">Otomatis Simpan</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-semibold text-gray-700 mb-1">Harga Jual (Rp)</label>
+            <input 
+              type="number" 
+              id="drawer-quick-price" 
+              required 
+              min="10000" 
+              class="w-full px-2.5 py-1.5 text-xs border border-[#EDE4D5] rounded-md focus:outline-none focus:border-[#C88A36]"
+            />
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-gray-700 mb-1">Jumlah Sisa Stok (Unit)</label>
+            <input 
+              type="number" 
+              id="drawer-quick-stock" 
+              required 
+              min="0" 
+              class="w-full px-2.5 py-1.5 text-xs border border-[#EDE4D5] rounded-md focus:outline-none focus:border-[#C88A36]"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-2 bg-[#241B16] hover:bg-[#32251D] text-[#F5EFE6] rounded-md text-xs font-semibold transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-xs">
+          <i data-lucide="check" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+          <span>Simpan Perubahan</span>
+        </button>
+      </form>
+
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       MODAL 2: PENCARIAN CEPAT COMMAND SPOTLIGHT (Ctrl+K)
+       ========================================================================= -->
+  <div id="command-palette-backdrop" class="command-palette-backdrop">
+    <div class="command-palette-box font-sans">
+      
+      <div class="p-4 border-b border-[#EDE4D5] flex items-center gap-3 bg-[#FFFDF9]">
+        <i data-lucide="search" class="w-5 h-5 text-[#C88A36] flex-shrink-0"></i>
+        <input 
+          type="text" 
+          id="command-palette-input" 
+          placeholder="Ketik nama produk atau menu yang kamu cari..." 
+          class="w-full text-sm bg-transparent border-none outline-none text-gray-900 placeholder-gray-400 font-sans"
+        />
+        <kbd class="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200 font-mono">ESC</kbd>
+      </div>
+
+      <div id="command-palette-results" class="p-2 max-h-80 overflow-y-auto space-y-1"></div>
+
+      <div class="p-2.5 bg-[#FAF7F2] border-t border-[#EDE4D5] flex items-center justify-between text-[10px] text-gray-500">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex items-center gap-1.5">
+            <i data-lucide="arrow-up-down" class="w-3 h-3 text-gray-400"></i>
+            <span>Pilih Menu</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <kbd class="font-mono bg-white px-1.5 py-0.5 rounded border border-[#EDE4D5] text-[10px] text-gray-600">Enter</kbd>
+            <span>Buka</span>
+          </span>
+        </div>
+        <span>Pencarian Cepat Toko</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: TAMBAH & UBAH PRODUK BARU (Formulir Sederhana)
+       ========================================================================= -->
+  <div id="heritage-modal-backdrop" class="heritage-modal-backdrop">
+    <div class="heritage-modal-box font-sans">
+      
+      <div class="px-6 py-4 border-b border-[#EDE4D5] flex items-center justify-between sticky top-0 bg-white z-10">
+        <div>
+          <h3 id="heritage-modal-title" class="text-base font-bold text-[#241B16]">Tambah Produk Baru</h3>
+          <p id="heritage-modal-sub" class="text-xs text-gray-500">Isi data produk kerajinan kamu dengan mudah</p>
+        </div>
+        <button id="heritage-modal-close" class="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#EDE4D5] flex items-center justify-center text-gray-600 transition-colors cursor-pointer" aria-label="Tutup">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="heritage-product-form" class="p-6 space-y-4">
+        
+        <div>
+          <label class="block text-xs font-semibold text-gray-800 mb-1">Nama Produk Kerajinan <span class="text-red-500">*</span></label>
+          <input 
+            type="text" 
+            id="modal-input-name" 
+            required 
+            placeholder="Contoh: Kain Tenun Ikat Pewarna Alami" 
+            class="w-full px-3 py-2 text-xs border border-[#EDE4D5] rounded-lg focus:outline-none focus:border-[#C88A36] bg-[#FAF7F2] focus:bg-white transition-all"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-800 mb-1">Jenis Produk <span class="text-red-500">*</span></label>
+            <select id="modal-input-category" required class="w-full px-3 py-2 text-xs border border-[#EDE4D5] rounded-lg focus:outline-none focus:border-[#C88A36] bg-[#FAF7F2]">
+              <option value="Kayu" selected>Kerajinan Kayu & Ukir</option>
+              <option value="Wastra">Kain & Tenun</option>
+              <option value="Logam">Kerajinan Logam & Keris</option>
+              <option value="Anyaman">Anyaman Bambu & Serat</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-800 mb-1">Asal Kota / Desa Pengrajin <span class="text-red-500">*</span></label>
+            <input 
+              type="text" 
+              id="modal-input-origin" 
+              required 
+              placeholder="Contoh: Gianyar, Bali" 
+              class="w-full px-3 py-2 text-xs border border-[#EDE4D5] rounded-lg focus:outline-none focus:border-[#C88A36] bg-[#FAF7F2]"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-800 mb-1">Harga Jual (Rp) <span class="text-red-500">*</span></label>
+            <input 
+              type="number" 
+              id="modal-input-price" 
+              required 
+              min="10000" 
+              placeholder="Contoh: 3500000" 
+              class="w-full px-3 py-2 text-xs border border-[#EDE4D5] rounded-lg focus:outline-none focus:border-[#C88A36] bg-[#FAF7F2]"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-800 mb-1">Jumlah Sisa Stok <span class="text-red-500">*</span></label>
+            <input 
+              type="number" 
+              id="modal-input-stock" 
+              required 
+              min="1" 
+              value="3" 
+              class="w-full px-3 py-2 text-xs border border-[#EDE4D5] rounded-lg focus:outline-none focus:border-[#C88A36] bg-[#FAF7F2]"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-800 mb-1">Status Pemeriksaan Kualitas</label>
+          <select id="modal-input-status" class="w-full px-3 py-2 text-xs border border-[#EDE4D5] rounded-lg focus:outline-none focus:border-[#C88A36] bg-[#FAF7F2]">
+            <option value="Terkurasi WBTb" selected>Lolos Periksa Kualitas (Resmi)</option>
+            <option value="Siap Kirim">Siap Dikirim Langsung</option>
+            <option value="Verifikasi Kurator">Sedang Diperiksa Tim Ahli</option>
+            <option value="Pre-Order">Pesan Dulu (Pre-Order 14 Hari)</option>
+          </select>
+        </div>
+
+        <!-- Unggah Foto Produk Sendiri (Apple-Grade Custom Upload) -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-xs font-semibold text-gray-800">
+              Unggah Foto Produk Sendiri <span class="text-red-500">*</span>
+            </label>
+            <span class="text-[10px] text-gray-500">Maks. 5 MB (JPG, PNG, WebP)</span>
+          </div>
+
+          <!-- Hidden Native File Input -->
+          <input type="file" id="modal-input-file" accept="image/*" class="hidden" />
+
+          <!-- Interactive Upload Dropzone Box -->
+          <div id="modal-upload-dropzone" 
+            class="border-2 border-dashed border-[#EDE4D5] hover:border-[#C5A059] bg-[#FAF7F2] hover:bg-[#F7F2EA] rounded-xl p-4 text-center cursor-pointer transition-all duration-200 group relative">
+            
+            <!-- Default / Empty State -->
+            <div id="upload-placeholder-state" class="flex flex-col items-center justify-center py-2 select-none">
+              <div class="w-11 h-11 rounded-full bg-[#EDE4D5]/70 text-[#C5A059] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+                <svg class="w-5 h-5 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <p class="text-xs font-semibold text-[#2B231D] group-hover:text-[#C5A059] transition-colors">
+                Klik untuk Memilih Foto Karya Anda
+              </p>
+              <p class="text-[10px] text-gray-500 mt-0.5">
+                Atau seret dan lepas berkas foto ke area ini
+              </p>
+            </div>
+
+            <!-- Preview State (Tampil Otomatis Saat Foto Terpilih) -->
+            <div id="upload-preview-state" class="hidden flex items-center gap-3 text-left">
+              <img id="upload-preview-img" src="" alt="Pratinjau Foto Produk" class="w-16 h-16 rounded-lg object-cover border border-[#C5A059] shadow-xs flex-shrink-0 bg-white" />
+              <div class="flex-1 min-w-0">
+                <p id="upload-file-name" class="text-xs font-bold text-[#2B231D] truncate">foto-produk-karya.jpg</p>
+                <p id="upload-file-size" class="text-[10px] text-gray-500">120 KB • Siap Diunggah</p>
+                <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-100/70 border border-emerald-300 px-2 py-0.5 rounded-full mt-1">
+                  ✓ Foto Terpasang
+                </span>
+              </div>
+              <button type="button" id="upload-remove-btn" class="p-2 text-gray-400 hover:text-red-600 transition-colors cursor-pointer" title="Ganti Foto">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Hidden storage for image data -->
+          <input type="hidden" id="modal-input-image-data" value="" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-800 mb-1">Cerita Bahan & Cara Pembuatan</label>
+          <textarea 
+            id="modal-input-desc" 
+            rows="3" 
+            placeholder="Ceritakan bahan alami apa yang dipakai dan cara pembuatannya agar pembeli tertarik..." 
+            class="w-full px-3 py-2 text-xs border border-[#EDE4D5] rounded-lg focus:outline-none focus:border-[#C88A36] bg-[#FAF7F2]"
+          ></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-[#EDE4D5] flex items-center justify-end gap-2">
+          <button type="button" id="modal-cancel-btn" class="px-4 py-2 text-xs text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors cursor-pointer">
+            Batal
+          </button>
+          <button type="submit" class="px-5 py-2 text-xs font-semibold text-white bg-[#241B16] hover:bg-[#32251D] rounded-lg shadow-sm transition-all hover:scale-[1.02] cursor-pointer">
+            Simpan Produk
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 4: ASISTEN PINTAR TOKO (AI BANTUAN USAHA)
+       ========================================================================= -->
+  <div id="ai-modal-backdrop" class="heritage-modal-backdrop">
+    <div class="heritage-modal-box font-sans max-w-xl flex flex-col h-[560px]">
+      
+      <div class="px-6 py-4 border-b border-[#EDE4D5] flex items-center justify-between bg-white sticky top-0 z-10 shadow-2xs">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-[#241B16] border border-[#C5A059] flex items-center justify-center text-[#C5A059]">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#241B16]">Asisten Pintar Toko</h3>
+            <p class="text-[11px] text-[#6B5E55]">Tanya apa saja seputar jualan dan cara menentukan harga</p>
+          </div>
+        </div>
+        <button id="ai-modal-close" class="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#EDE4D5] flex items-center justify-center text-gray-600 transition-colors cursor-pointer" aria-label="Tutup">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Tombol Pertanyaan Cepat yang Mudah Dimengerti -->
+      <div class="px-5 py-2.5 bg-[#FAF7F2] border-b border-[#EDE4D5] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+        <button type="button" class="ai-prompt-chip text-[11px] font-semibold text-gray-700 bg-white hover:bg-[#FAF7F2] border border-[#EDE4D5] px-3 py-1.5 rounded-full whitespace-nowrap cursor-pointer transition-colors inline-flex items-center gap-1.5" data-prompt="Berapa rekomendasi harga yang pas untuk kain tenun pewarna alami?">
+          <i data-lucide="tag" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+          <span>Saran Harga Jual</span>
+        </button>
+        <button type="button" class="ai-prompt-chip text-[11px] font-semibold text-gray-700 bg-white hover:bg-[#FAF7F2] border border-[#EDE4D5] px-3 py-1.5 rounded-full whitespace-nowrap cursor-pointer transition-colors inline-flex items-center gap-1.5" data-prompt="Bagaimana cara membungkus produk kerajinan agar tidak rusak di jalan?">
+          <i data-lucide="package" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+          <span>Cara Bungkus Paket</span>
+        </button>
+        <button type="button" class="ai-prompt-chip text-[11px] font-semibold text-gray-700 bg-white hover:bg-[#FAF7F2] border border-[#EDE4D5] px-3 py-1.5 rounded-full whitespace-nowrap cursor-pointer transition-colors inline-flex items-center gap-1.5" data-prompt="Bagaimana syarat agar produk saya dapat surat tanda asli resmi?">
+          <i data-lucide="award" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+          <span>Syarat Surat Asli</span>
+        </button>
+      </div>
+
+      <!-- Pesan Obrolan -->
+      <div id="ai-chat-feed" class="p-5 flex-1 overflow-y-auto space-y-3 bg-[#F5EFE6]">
+        <div class="flex items-start gap-2.5">
+          <div class="w-7 h-7 rounded-full bg-[#C5A059] flex items-center justify-center text-[#241B16] flex-shrink-0 text-xs font-bold">N</div>
+          <div class="bg-white border border-[#EDE4D5] text-gray-800 text-xs px-4 py-3 rounded-2xl rounded-tl-xs max-w-[85%] leading-relaxed font-sans">
+            Halo Pak Wayan! Saya asisten pintar toko kamu. Ada yang bisa saya bantu hari ini? Kamu bisa klik salah satu tombol di atas atau ketik pertanyaan langsung di bawah.
+          </div>
+        </div>
+      </div>
+
+      <!-- Kotak Masukan Pesan -->
+      <div class="p-4 bg-white border-t border-[#EDE4D5]">
+        <div class="flex items-center gap-2">
+          <input 
+            type="text" 
+            id="ai-chat-input" 
+            placeholder="Tulis pertanyaan kamu di sini..." 
+            class="flex-1 px-3.5 py-2 text-xs border border-[#EDE4D5] rounded-lg focus:outline-none focus:border-[#C88A36] bg-[#FAF7F2]"
+          />
+          <button id="ai-chat-send" class="p-2 bg-[#241B16] hover:bg-[#32251D] text-white rounded-lg transition-colors cursor-pointer" title="Kirim Pesan">
+            <i data-lucide="send" class="w-4 h-4 text-[#C5A059]"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 5: CETAK BUKTI PENGIRIMAN & LABEL RESI LOGISTIK
+       ========================================================================= -->
+  <div id="receipt-modal-backdrop" class="heritage-modal-backdrop">
+    <div class="heritage-modal-box font-sans max-w-md">
+      
+      <div class="px-6 py-4 border-b border-[#EDE4D5] flex items-center justify-between bg-white sticky top-0 z-10 shadow-2xs">
+        <div>
+          <h3 class="text-base font-bold text-[#241B16]">Label Pengiriman Paket</h3>
+          <p class="text-xs text-gray-500">Tempelkan label ini di kotak paket kerajinan kamu</p>
+        </div>
+        <button id="receipt-modal-close" class="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#EDE4D5] flex items-center justify-center text-gray-600 transition-colors cursor-pointer" aria-label="Tutup">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Kertas Resi Pengiriman Resmi -->
+      <div class="p-6 space-y-4">
+        <div class="p-4 bg-white border-2 border-dashed border-[#EDE4D5] rounded-xl space-y-3 font-mono text-xs shadow-2xs">
+          
+          <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+            <div>
+              <p class="font-bold text-sm text-[#241B16]">NUSAVA LOGISTIK</p>
+              <p class="text-[10px] text-gray-500 font-sans">Kemitraan JNE Trucking & Cargo</p>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-[#241B16] text-[#F5EFE6] text-[10px] font-bold">FRAGILE / SENI KRIYA</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-[11px] font-sans">
+            <div>
+              <span class="text-gray-400 block text-[10px]">Nomor Resi:</span>
+              <span class="font-mono font-bold text-[#241B16]" id="receipt-resi-num">JNE-TRK-8821-DPS</span>
+            </div>
+            <div>
+              <span class="text-gray-400 block text-[10px]">Layanan:</span>
+              <span class="font-semibold text-gray-800">Kargo Jalur Darat & Laut</span>
+            </div>
+          </div>
+
+          <div class="p-2.5 bg-[#FAF7F2] rounded-lg text-xs font-sans space-y-1">
+            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Pengirim (Pengrajin):</p>
+            <p class="font-bold text-gray-900">I Wayan Sukadana (Bengkel Nusava)</p>
+            <p class="text-gray-600 text-[11px]">Jl. Raya Tegallalang No. 14, Gianyar, Bali • 0812-3456-7890</p>
+          </div>
+
+          <div class="p-2.5 bg-emerald-50/60 border border-emerald-200/60 rounded-lg text-xs font-sans space-y-1">
+            <p class="text-[10px] text-emerald-800 uppercase font-bold tracking-wider">Penerima (Pembeli):</p>
+            <p class="font-bold text-gray-900" id="receipt-buyer-name">Hendra Wijaya</p>
+            <p class="text-gray-600 text-[11px]" id="receipt-buyer-address">Jl. Senopati Dalam No. 22, Kebayoran Baru, Jakarta Selatan • 0818-0987-6543</p>
+          </div>
+
+          <div class="text-[11px] font-sans border-t border-gray-200 pt-2 flex items-center justify-between">
+            <div>
+              <span class="text-gray-400 text-[10px] block">Isi Paket:</span>
+              <span class="font-semibold text-gray-800" id="receipt-item-name">Kain Tenun Sumba (2 Lembar)</span>
+            </div>
+            <div class="text-right">
+              <span class="text-gray-400 text-[10px] block">Ongkir:</span>
+              <span class="font-bold text-emerald-700">LUNAS</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-1 font-sans">
+          <button type="button" id="receipt-cancel-btn" class="px-4 py-2 text-xs text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors cursor-pointer">
+            Tutup
+          </button>
+          <button type="button" id="print-label-btn" class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#241B16] hover:bg-[#32251D] rounded-lg shadow-sm transition-all cursor-pointer">
+            <i data-lucide="printer" class="w-3.5 h-3.5 text-[#C5A059]"></i>
+            <span>Cetak Label Sekarang</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pemberitahuan Sederhana (Toast) -->
+  <div id="heritage-toast" class="heritage-toast font-sans">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#C5A059] flex-shrink-0"></i>
+    <span id="heritage-toast-text" class="text-xs font-medium">Berhasil disimpan!</span>
+  </div>
+
+  <!-- Custom Scripts (Vanilla ES6+ Engine) -->
+  <script src="js/dashboard.js"></script>
+  <script src="js/page-transition.js"></script>
+</body>
+</html>

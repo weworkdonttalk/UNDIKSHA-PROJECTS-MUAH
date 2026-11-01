@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Koleksi Budaya Nusantara — Pasar Seni &amp; Kerajinan Asli | Nusava</title>
+  <meta name="description" content="Temukan berbagai kerajinan tangan asli buatan pengrajin lokal dari seluruh Indonesia. Semua barang di sini dibuat langsung dengan tangan dari bahan pilihan yang awet dan berkualitas.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="icon" type="image/png" href="assets/images/logonusava.png">
+
+  <!-- Google Fonts: Cinzel, Playfair Display, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            alabaster: '#FAF7F2',
+            sand: '#EFECE6',
+            espresso: '#1E1510',
+            taupe: '#7A6F64',
+            divider: '#E5DFD5',
+            price: '#5A5046',
+            gold: '#C5A059'
+          },
+          fontFamily: {
+            cinzel:   ['"Cinzel"', '"Playfair Display"', 'Georgia', 'serif'],
+            display:  ['"Playfair Display"', 'Georgia', 'serif'],
+            garamond: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            serif:    ['"Playfair Display"', 'Georgia', 'serif'],
+            sans:     ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Global, Marketplace & Chatbot CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/marketplace.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="stylesheet" href="css/page-transition.css">
+</head>
+
+<body class="marketplace-editorial-body bg-[#F5EFE6] text-[#2B231D] font-sans antialiased selection:bg-[#C5A059] selection:text-[#2B231D] page-transition-ready">
+
+  <!-- Top Luxury Page Transition Progress Ribbon -->
+  <div id="page-transition-bar" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       NAVBAR — Konsisten dengan Landing Page Nusava (Frosted Glass & Lengkungan Pill)
+       ========================================================================= -->
+  <header id="navbar" class="nav-flat-bar" aria-label="Main Navigation">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full h-full flex items-center justify-between">
+      <!-- Brand Identity & Logo Integration -->
+      <a href="index.html" class="brand-link group" aria-label="Nusava Beranda">
+        <img src="assets/images/logonusava.png" alt="Logo Nusava" class="brand-logo-emblem" />
+        <span class="brand-title-text font-cinzel">NUSAVA</span>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav class="hidden lg:flex items-center gap-5 xl:gap-7" aria-label="Navigasi Utama">
+        <a href="index.html#jelajah" class="nav-link-item">Jelajah</a>
+        <a href="marketplace.html" class="nav-link-item active font-semibold text-[#C5A059]">Koleksi Budaya</a>
+        <a href="index.html#pasar" class="nav-link-item">Pasar Budaya</a>
+        <a href="game.html" class="nav-link-item">Mini Game</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2.5 sm:gap-3.5">
+        <!-- Search Toggle -->
+        <button type="button" id="btn-toggle-search" class="p-2 text-[#4A403A] hover:text-[#C5A059] transition-colors cursor-pointer" aria-label="Buka Pencarian Koleksi">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </button>
+
+        <!-- Cart -->
+        <button data-cart-open class="relative p-2 text-[#4A403A] hover:text-[#C5A059] transition-colors cursor-pointer" aria-label="Keranjang">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span id="cart-count" data-cart-count class="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full bg-[#C5A059] text-white text-[11px] font-bold flex items-center justify-center leading-none">0</span>
+        </button>
+        
+        <!-- Login / Auth Container (Dynamic via JS) -->
+        <div id="nav-auth-container" class="relative">
+          <a href="login.html" id="nav-login-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#C5A059]/60 hover:border-[#C5A059] bg-[#FAF7F2]/80 hover:bg-[#FAF7F2] text-[#2B231D] text-xs font-sans font-semibold tracking-wide transition-all shadow-xs">
+            <svg class="w-3.5 h-3.5 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>Masuk</span>
+          </a>
+        </div>
+
+        <!-- CTA Pill -->
+        <a href="#katalog" class="hidden sm:inline-flex nav-cta-pill">Dukung Pengrajin</a>
+        <!-- Hamburger -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-[#4A403A] hover:text-[#C5A059] transition-colors" aria-label="Buka Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Slide-down Search Bar -->
+  <div id="nav-search-bar" class="hidden fixed top-[72px] left-0 w-full z-40 bg-[#FAF7F2] border-b border-[#EDE4D5] shadow-md px-6 py-4">
+    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 flex-1">
+        <svg class="w-5 h-5 text-[#8F3905] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="live-search-input" class="editorial-search-input" placeholder="Cari karya, motif, atau daerah asal..." aria-label="Pencarian Koleksi Budaya">
+      </div>
+      <button type="button" id="btn-close-search" class="text-xs uppercase tracking-wider text-[#7A6F64] hover:text-[#1E1610] p-1 font-mono transition-colors">
+        TUTUP [ESC]
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-drawer" class="fixed inset-y-0 right-0 w-72 bg-[#F5EFE6] z-[1001] transform translate-x-full transition-transform duration-luxury shadow-2xl flex flex-col p-8 border-l border-[#EDE4D5]">
+    <div class="flex items-center justify-between pb-6 border-b border-[#EDE4D5]">
+      <div class="flex items-center gap-2.5">
+        <img src="assets/images/logonusava.png" alt="NUSAVA" class="h-8 w-auto object-contain" />
+        <span class="font-cinzel font-bold text-lg tracking-[0.12em] text-[#C5A059]">NUSAVA</span>
+      </div>
+      <button id="mobile-menu-close" class="text-[#2B231D] hover:text-[#C5A059] transition-colors p-1" aria-label="Tutup Menu">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="flex flex-col gap-4 mt-6 overflow-y-auto no-scrollbar">
+      <a href="index.html#jelajah" class="font-garamond text-lg font-normal text-[#2B231D] hover:text-[#C5A059] border-b border-[#EDE4D5]/60 pb-3">Jelajah</a>
+      <a href="marketplace.html"  class="font-garamond text-lg font-bold text-[#C5A059] border-b border-[#EDE4D5]/60 pb-3">Koleksi Budaya</a>
+      <a href="index.html#pasar"   class="font-garamond text-lg font-normal text-[#2B231D] hover:text-[#C5A059] border-b border-[#EDE4D5]/60 pb-3">Pasar Budaya</a>
+      <a href="game.html"          class="font-garamond text-lg font-normal text-[#2B231D] hover:text-[#C5A059]">Mini Game</a>
+    </nav>
+    <div id="mobile-auth-container" class="mt-6 pt-4 border-t border-[#EDE4D5]"></div>
+  </div>
+
+  <main class="pt-[72px]">
+    <!-- =========================================================================
+         3. CENTERED COLLECTION HEADER & ULTRA-CLEAN FILTER STRIP
+         ========================================================================= -->
+    <section class="pt-14 sm:pt-16 pb-6 bg-[#FAF6F0]">
+      <!-- Judul Tengah Serif Tegas & Proporsional Sesuai Hero -->
+      <div class="max-w-[1440px] mx-auto px-6 lg:px-12 text-center marketplace-header-entrance">
+        <span class="section-index-badge text-[#B5893D] block mb-2 font-sans font-bold tracking-[0.2em] text-[11px] uppercase">
+          KERAJINAN ASLI · 100% BUATAN TANGAN
+        </span>
+        <h1 class="collection-title">
+          KOLEKSI BUDAYA
+        </h1>
+        <p class="font-sans font-normal text-[15px] sm:text-base text-[#2C221E] mt-3.5 tracking-normal max-w-2xl mx-auto leading-[1.6]">
+          Temukan berbagai kerajinan tangan asli buatan pengrajin lokal dari seluruh Indonesia. Semua barang di sini dibuat langsung dengan tangan dari bahan pilihan yang awet dan berkualitas.
+        </p>
+      </div>
+    </section>
+
+    <!-- Horizontal Filter & Category Strip (Glass Effect Sticky Bar) -->
+    <div id="sticky-filter-strip" class="filter-category-strip">
+      <div class="max-w-[1440px] mx-auto px-6 lg:px-12 py-3 flex flex-col md:flex-row md:items-center justify-between gap-4 font-sans text-xs">
+        
+        <!-- Sisi Kiri: Tombol Teks FILTER + -->
+        <div class="flex items-center gap-4">
+          <button type="button" id="btn-open-filter-drawer" class="text-[11px] font-medium uppercase tracking-[0.14em] text-[#1E1510] hover:text-[#C5A059] cursor-pointer flex items-center gap-1.5 transition-colors">
+            <span>FILTER +</span>
+          </button>
+          <div id="filter-active-indicator" class="hidden items-center gap-2 text-[10px] uppercase tracking-wider text-[#7A6F64] border-l border-[#C5A059]/30 pl-3">
+            <span id="filter-active-text">FILTER AKTIF</span>
+            <button type="button" id="btn-reset-filters" class="underline hover:text-[#1E1510] cursor-pointer">RESET</button>
+          </div>
+        </div>
+
+        <!-- Tengah: Tab Teks Horizontal Uppercase (Garis Bawah 1px Solid #1E1510) -->
+        <nav class="flex items-center gap-6 sm:gap-8 overflow-x-auto no-scrollbar py-1" aria-label="Kategori Koleksi Budaya">
+          <button type="button" class="category-tab active" data-category="all">
+            SEMUA KARYA
+          </button>
+          <button type="button" class="category-tab" data-category="wastra">
+            KAIN &amp; TENUN
+          </button>
+          <button type="button" class="category-tab" data-category="kriya">
+            UKIRAN KAYU
+          </button>
+          <button type="button" class="category-tab" data-category="logam-instrumen">
+            LOGAM &amp; ALAT MUSIK
+          </button>
+          <button type="button" class="category-tab" data-category="anyaman">
+            ANYAMAN ALAM
+          </button>
+        </nav>
+
+        <!-- Sisi Kanan: Dropdown Teks Minimalis -->
+        <div class="flex items-center justify-between md:justify-end gap-5">
+          <div class="flex items-center gap-2">
+            <label for="select-sort" class="text-[11px] uppercase tracking-[0.12em] text-[#7A6F64] whitespace-nowrap">URUTKAN:</label>
+            <select id="select-sort" class="clean-sort-select" aria-label="Urutan Koleksi">
+              <option value="recommended">PILIHAN UTAMA</option>
+              <option value="duration-desc">PROSES TERLAMA</option>
+              <option value="price-asc">HARGA: TERENDAH</option>
+              <option value="price-desc">HARGA: TERTINGGI</option>
+            </select>
+          </div>
+          <span id="catalog-active-count" class="text-[11px] font-mono text-[#7A6F64] hidden sm:inline-block">
+            [ 18 Karya ]
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         4. 4-COLUMN FAIRE & AESOP PRODUCT GRID
+         ========================================================================= -->
+    <section id="katalog" class="max-w-[1440px] mx-auto px-6 lg:px-12 py-10 sm:py-14 bg-[#FAF6F0]" aria-label="Katalog Pusaka Nusantara">
+      <h2 class="sr-only">Daftar Karya Pusaka Maestro Nusantara</h2>
+
+      <!-- The 4-Column Product Grid (column-gap: 24px, row-gap: 48px) -->
+      <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 items-start">
+        <!-- Products dynamically rendered by js/marketplace.js -->
+      </div>
+
+      <!-- Minimal Empty State -->
+      <div id="catalog-empty-state" class="hidden text-center py-24">
+        <p class="font-serif text-lg text-[#1E1510] uppercase tracking-wider mb-2">
+          Kerajinan Tidak Ditemukan
+        </p>
+        <p class="text-xs text-[#7A6F64] max-w-md mx-auto mb-6 leading-relaxed">
+          Tidak ada barang kerajinan yang cocok dengan kata kunci atau filter pilihan Anda. Silakan tekan tombol atur ulang untuk melihat seluruh koleksi kerajinan Indonesia.
+        </p>
+        <button type="button" id="btn-empty-reset" class="px-7 py-3 bg-[#1E1510] text-[#FAF7F2] text-[11px] uppercase tracking-[0.16em] hover:bg-[#3A1D12] transition-colors cursor-pointer">
+          ATUR ULANG PENCARIAN
+        </button>
+      </div>
+    </section>
+
+
+  </main>
+
+  <!-- =========================================================================
+       6. FOOTER — Carolyn Lee Style Two-Tier Footer (Konsisten dengan Landing Page)
+       ========================================================================= -->
+  <footer class="bg-[#241B16] text-[#F7F2EA] overflow-hidden">
+    <!-- Tier 1: Editorial Brand & Kurasi -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-16 sm:pt-24 pb-16 sm:pb-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <!-- Big Editorial Brand -->
+        <div class="lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <a href="index.html" class="inline-block group mb-4">
+              <span class="font-garamond text-5xl sm:text-7xl font-normal italic text-[#F7F2EA] tracking-tight block">
+                Nusa<span class="text-[#C5A059] not-italic font-semibold">va</span>
+              </span>
+            </a>
+            <p class="text-xs font-sans font-bold tracking-[0.24em] uppercase text-[#C5A059] mb-6">
+              Merawat Budaya · Menggerakkan Karya
+            </p>
+            <p class="font-sans text-sm sm:text-base text-[#F7F2EA]/75 leading-relaxed max-w-md">
+              Situs resmi karya siswa <strong class="text-[#F7F2EA] font-semibold">SMKN 1 Denpasar</strong> untuk mengenalkan dan melestarikan kekayaan budaya Indonesia melalui teknologi digital yang ramah bagi semua orang.
+            </p>
+
+            <!-- Badge Terkurasi Resmi Cagar Budaya (Sesuai Foto Referensi) -->
+            <div class="mt-6 inline-flex items-center gap-3.5 px-4 sm:px-5 py-3 border border-white/20 bg-white/[0.03]" style="border-radius: 0px;">
+              <div class="w-8 h-8 flex items-center justify-center flex-shrink-0 text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+              </div>
+              <div class="text-left font-sans">
+                <span class="block text-[11px] font-bold tracking-[0.16em] uppercase text-[#F7F2EA] leading-tight">TERKURASI RESMI CAGAR BUDAYA</span>
+                <span class="block text-[11px] text-[#F7F2EA]/75 font-normal tracking-normal mt-0.5">100% Karya Tangan Maestro Adat • Standar WBTb Kemendikbud</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8 pt-8 border-t border-white/10 flex items-center gap-6 text-xs text-[#F7F2EA]/60 font-sans">
+            <span>Inisiatif Siswa SMK</span>
+            <span>•</span>
+            <span>Kebanggaan Bangsa</span>
+            <span>•</span>
+            <span>Menjaga Warisan Budaya</span>
+          </div>
+        </div>
+
+        <!-- Links Columns: Pages, Categories, Warta -->
+        <div class="lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div>
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Navigasi</h4>
+            <ul class="space-y-3 font-sans text-sm">
+              <li><a href="index.html#jelajah" class="footer-link">Jelajah</a></li>
+              <li><a href="marketplace.html" class="footer-link">Koleksi Budaya</a></li>
+              <li><a href="index.html#pasar" class="footer-link">Pasar Budaya</a></li>
+              <li><a href="game.html" class="footer-link">Mini Game</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Kategori Karya</h4>
+            <ul class="space-y-3 font-sans text-sm">
+              <li><a href="marketplace.html?cat=wastra" class="footer-link">Wastra &amp; Tenun</a></li>
+              <li><a href="marketplace.html?cat=kriya" class="footer-link">Karya Kayu &amp; Ukir</a></li>
+              <li><a href="marketplace.html?cat=logam-instrumen" class="footer-link">Instrumen Musik</a></li>
+              <li><a href="marketplace.html?cat=seni" class="footer-link">Seni Rupa &amp; Lukis</a></li>
+              <li><a href="marketplace.html?cat=anyaman" class="footer-link">Anyaman Serat</a></li>
+              <li><a href="marketplace.html?cat=keramik" class="footer-link">Keramik &amp; Logam</a></li>
+            </ul>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <h4 class="text-[11px] font-sans font-bold tracking-[0.22em] uppercase text-[#C5A059] mb-5">Kabar Budaya</h4>
+            <p class="text-xs text-[#F7F2EA]/70 leading-relaxed mb-4">Dapatkan cerita menarik seputar budaya dan pengrajin Indonesia langsung ke email kamu.</p>
+            <form id="newsletter-form" class="space-y-2.5">
+              <input type="email" placeholder="alamat@email.com" class="w-full px-5 py-2.5 bg-white/5 border border-white/15 text-[#F7F2EA] text-xs placeholder-white/30 focus:outline-none focus:border-[#C5A059] transition-colors rounded-full" required>
+              <button type="submit" class="w-full py-2.5 bg-[#C5A059] hover:bg-[#B38F46] text-white text-[10px] font-sans font-bold tracking-[0.2em] uppercase rounded-full transition-colors shadow-sm cursor-pointer">Berlangganan</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 2: Cinematic Wonderful Indonesia Video Bottom Half -->
+    <div class="footer-tier2-video relative w-full h-[360px] sm:h-[460px] lg:h-[520px] border-t border-white/15 overflow-hidden group">
+      <div class="video-bg-container absolute inset-0 w-full h-full overflow-hidden pointer-events-none bg-cover bg-center" style="background-image: url('assets/images/video-poster.jpg');">
+        <video class="w-full h-full min-w-full min-h-full object-cover block" autoplay muted loop playsinline poster="assets/images/video-poster.jpg">
+          <source src="assets/video/wonderful-indonesia.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="absolute inset-0 bg-gradient-to-t from-[#241B16] via-[#241B16]/65 to-[#241B16]/30 backdrop-contrast-[1.08] pointer-events-none"></div>
+
+      <div class="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-between py-10 sm:py-14">
+        <div class="max-w-2xl my-auto">
+          <span class="inline-block text-[#C5A059] text-xs font-sans font-bold tracking-[0.28em] uppercase mb-3">Pesona Budaya Indonesia</span>
+          <blockquote class="font-garamond italic text-2xl sm:text-4xl lg:text-5xl text-[#F7F2EA] leading-tight drop-shadow-md">
+            “Dari tangan para pengrajin hebat Indonesia, untuk kebanggaan kita semua di mata dunia.”
+          </blockquote>
+        </div>
+
+        <div class="pt-6 border-t border-white/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p class="text-xs font-sans text-[#F7F2EA]/80 tracking-wide">
+            © 2026 <strong class="text-white font-medium">Nusava</strong> · Inisiatif Vokasi Siswa SMKN 1 Denpasar.
+            <a href="index.html#license" class="text-[#C5A059] hover:underline underline-offset-2 transition-colors ml-1">Lisensi Aset &amp; Hak Cipta</a>
+          </p>
+
+          <div class="flex items-center gap-4">
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="Instagram">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="TikTok">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-[#C5A059] transition-all" aria-label="YouTube">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            </a>
+            <a href="#navbar" class="ml-2 px-3 py-1.5 rounded-full border border-white/20 text-[10px] font-sans font-bold tracking-widest uppercase text-white/80 hover:text-white hover:border-white transition-all" aria-label="Kembali ke atas">
+              ↑ Atas
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       7. INTERACTIVE SLIDE-OVER FILTER DRAWER (Left Slide-In)
+       ========================================================================= -->
+  <div id="filter-backdrop" class="editorial-drawer-backdrop" aria-hidden="true"></div>
+
+  <aside id="filter-drawer" class="editorial-drawer-panel drawer-from-left editorial-scroll" role="dialog" aria-modal="true" aria-label="Filter Daerah &amp; Teknik Kerajinan">
+    <!-- Drawer Header -->
+    <div class="p-6 border-b border-[#C5A059]/20 flex items-center justify-between">
+      <h3 class="font-serif text-base uppercase tracking-[0.14em] text-[#1E1510]">
+        FILTER KERAJINAN
+      </h3>
+      <button type="button" id="btn-close-filter-drawer" class="p-1.5 text-[#1E1510] hover:text-[#C5A059] cursor-pointer transition-colors" aria-label="Tutup Filter">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Drawer Body -->
+    <div class="p-6 space-y-8 flex-1 overflow-y-auto editorial-scroll font-sans">
+      
+      <!-- Seksi Kepulauan Nusantara -->
+      <div>
+        <h4 class="text-[10px] uppercase tracking-[0.18em] text-[#7A6F64] font-semibold mb-3">
+          PILIHAN DAERAH
+        </h4>
+        <div id="filter-region-list" class="space-y-1">
+          <!-- Populated by js/marketplace.js -->
+        </div>
+      </div>
+
+      <!-- Seksi Cara Pembuatan -->
+      <div>
+        <h4 class="text-[10px] uppercase tracking-[0.18em] text-[#7A6F64] font-semibold mb-3">
+          CARA PEMBUATAN
+        </h4>
+        <div id="filter-technique-list" class="space-y-1">
+          <!-- Populated by js/marketplace.js -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Drawer Footer Actions -->
+    <div class="p-6 border-t border-[#C5A059]/20 space-y-3">
+      <button type="button" id="btn-apply-filters" class="editorial-btn-full">
+        TERAPKAN FILTER
+      </button>
+      <button type="button" id="btn-drawer-reset" class="editorial-btn-outline">
+        ATUR ULANG SEMUA
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       8. UNIFIED KERANJANG (MATCHING LANDING PAGE 1:1)
+       ========================================================================= -->
+  <div id="cart-backdrop" class="editorial-drawer-backdrop" aria-hidden="true"></div>
+
+  <aside id="cart-drawer" class="editorial-drawer-panel drawer-from-right editorial-scroll" role="dialog" aria-modal="true" aria-label="Keranjang">
+    <!-- Header Drawer (Identik Landing Page) -->
+    <div class="p-6 border-b border-[#EDE4D5] flex items-center justify-between bg-[#F5EFE6]">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+        <h3 class="font-sans font-bold text-base sm:text-lg text-[#2B231D]">
+          Keranjang
+        </h3>
+        <span class="text-xs text-[#7A6F64] font-sans">[<span data-cart-count>0</span>]</span>
+      </div>
+      <button type="button" id="btn-close-cart-drawer" class="text-[#2B231D] hover:text-[#C5A059] p-1 transition-colors cursor-pointer" aria-label="Tutup Keranjang">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Cart Items List Body -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 editorial-scroll font-sans">
+      <!-- Items dynamically populated by js/marketplace.js -->
+    </div>
+
+    <!-- Empty State in Cart (Identik Landing Page) -->
+    <div id="cart-empty-message" class="hidden text-center py-12 text-[#6B5E55] my-auto">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[#EDE4D5] flex items-center justify-center text-[#C5A059]">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+      </div>
+      <p class="font-sans text-sm font-medium text-[#2B231D] mb-1">Keranjang belanjaanmu masih kosong.</p>
+      <p class="font-sans text-xs text-[#6B5E55] max-w-xs mx-auto">Jelajahi koleksi budaya untuk menemukan karya asli buatan pengrajin lokal.</p>
+    </div>
+
+    <!-- Subtotal & Checkout Footer (Identik Landing Page) -->
+    <div class="p-6 border-t border-[#EDE4D5] bg-[#F5EFE6] space-y-3 font-sans">
+      <div class="flex items-center justify-between text-sm font-sans font-bold text-[#2B231D]">
+        <span>Total Estimasi:</span>
+        <span id="cart-total-price" class="text-base font-bold text-[#C5A059]">Rp 0</span>
+      </div>
+      <p class="text-[11px] text-[#6B5E55] font-sans leading-tight">
+        Pengiriman adat berasuransi resmi langsung dari sanggar desa adat Nusantara.
+      </p>
+
+      <!-- Primary Web Checkout Button -->
+      <a href="checkout.html" id="btn-cart-web-checkout" class="w-full py-3.5 bg-[#241B16] hover:bg-[#C5A059] text-white text-xs font-sans font-bold tracking-[0.14em] uppercase rounded-full transition-all duration-300 shadow-md flex items-center justify-center gap-2 cursor-pointer text-center">
+        <span>Lanjut ke Pembayaran →</span>
+      </a>
+
+      <!-- WhatsApp Direct Order Button (Optional Secondary) -->
+      <button type="button" id="btn-cart-checkout-wa" class="w-full py-2.5 bg-transparent hover:bg-white/80 text-[#2B231D] hover:text-[#25D366] border border-[#D5CEC2] hover:border-[#25D366]/50 text-[11px] font-sans font-semibold tracking-wider rounded-full transition-all flex items-center justify-center gap-2 cursor-pointer">
+        <svg class="w-4 h-4 fill-current text-[#25D366] flex-shrink-0" viewBox="0 0 24 24">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.772.82 2.791.82 3.18 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.77-5.767-5.77zm0 10.428c-.896 0-1.637-.238-2.392-.686l-.171-.102-1.78.466.475-1.734-.112-.178c-.496-.788-.79-1.583-.789-2.428.001-2.568 2.09-4.657 4.769-4.657 2.569 0 4.658 2.089 4.658 4.657 0 2.569-2.089 4.662-4.63 4.662z"/>
+        </svg>
+        <span>Pesan via WhatsApp (Opsional)</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       9. MOBILE NAVIGATION DRAWER
+       ========================================================================= -->
+  <div id="mobile-nav-backdrop" class="editorial-drawer-backdrop" aria-hidden="true"></div>
+
+  <aside id="mobile-nav-drawer" class="editorial-drawer-panel drawer-from-left editorial-scroll" role="dialog" aria-modal="true" aria-label="Menu Navigasi Mobile">
+    <div class="p-6 border-b border-[#E5DFD5] flex items-center justify-between">
+      <span class="font-cinzel text-lg font-bold tracking-[0.2em] text-[#1E1510]">NUSAVA</span>
+      <button type="button" id="btn-close-mobile-nav" class="p-1.5 text-[#1E1510] hover:opacity-60 cursor-pointer" aria-label="Tutup Menu">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <nav class="p-6 flex flex-col gap-4 font-sans text-xs uppercase tracking-[0.16em]">
+      <a href="index.html" class="py-2 border-b border-[#E5DFD5]/60 hover:text-[#7A6F64] transition-colors">Beranda Utama</a>
+      <a href="index.html#jelajah" class="py-2 border-b border-[#E5DFD5]/60 hover:text-[#7A6F64] transition-colors">Jelajah Kepulauan</a>
+      <a href="marketplace.html" class="py-2 border-b border-[#E5DFD5]/60 font-semibold text-[#1E1510]">Koleksi Budaya</a>
+      <a href="index.html#pasar" class="py-2 border-b border-[#E5DFD5]/60 hover:text-[#7A6F64] transition-colors">Pasar Budaya</a>
+      <a href="game.html" class="py-2 border-b border-[#E5DFD5]/60 hover:text-[#7A6F64] transition-colors">Mini Game Budaya</a>
+      <a href="login.html" class="py-2 border-b border-[#E5DFD5]/60 hover:text-[#7A6F64] transition-colors">Portal Masuk</a>
+    </nav>
+  </aside>
+
+  <!-- =========================================================================
+       10. MINIMALIST TOAST NOTIFICATION
+       ========================================================================= -->
+  <div id="editorial-toast" class="editorial-toast" role="status" aria-live="polite">
+    <span id="toast-message">Karya ditambahkan ke Keranjang</span>
+  </div>
+
+  <!-- =========================================================================
+       11. FLOATING AI CHATBOT WIDGET (NUSABOT)
+       ========================================================================= -->
+  <div id="nusabot-widget" class="nusabot-widget-container" aria-label="Widget Asisten Budaya NusaBot">
+    
+    <!-- 1. Floating Teaser Pill -->
+    <div id="nusabot-teaser" class="nusabot-teaser-pill" role="button" tabindex="0" aria-label="Buka bantuan memilih kerajinan">
+      <span class="nusabot-teaser-dot" aria-hidden="true"></span>
+      <span>Butuh panduan memilih kerajinan?</span>
+    </div>
+
+    <!-- 2. Jendela Utama Chatbot -->
+    <div id="nusabot-popup" class="nusabot-popup-window" role="dialog" aria-modal="true" aria-labelledby="nusabot-header-title">
+      <div class="nusabot-header">
+        <div class="nusabot-header-left">
+          <div class="nusabot-avatar-wrapper">
+            <img src="assets/icons/logoai 2.png" alt="Maskot NusaBot" class="nusabot-header-avatar">
+            <span class="nusabot-online-badge" aria-hidden="true"></span>
+          </div>
+          <div class="nusabot-header-titles">
+            <span id="nusabot-header-title" class="nusabot-header-title">NusaBot</span>
+            <span class="nusabot-header-status">Selalu aktif</span>
+          </div>
+        </div>
+        <button type="button" id="nusabot-close-btn" class="nusabot-close-btn" aria-label="Tutup Percakapan NusaBot">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div id="nusabot-chat-body" class="nusabot-chat-body">
+        <div id="nusabot-messages" class="flex flex-col gap-3.5">
+          <div class="nusabot-msg-row bot">
+            <div class="nusabot-bot-avatar-small">
+              <img src="assets/icons/logoai 2.png" alt="NusaBot Avatar">
+            </div>
+            <div class="nusabot-msg-content-wrap">
+              <div class="nusabot-bubble-bot">
+                Halo! Saya NusaBot, asisten kurator seni dan budaya Anda. Ada kisah pusaka atau karya pengrajin lokal yang ingin Anda jelajahi hari ini?
+              </div>
+              <span class="nusabot-msg-time">Baru saja</span>
+            </div>
+          </div>
+
+          <div class="nusabot-chips-container" role="group" aria-label="Topik Pertanyaan yang Disarankan">
+            <button type="button" class="nusabot-chip-btn" data-nusabot-chip="Rekomendasi Karya UMKM">
+              <svg class="nusabot-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              <span>Rekomendasi Karya UMKM</span>
+            </button>
+            <button type="button" class="nusabot-chip-btn" data-nusabot-chip="Filosofi Tema PUSAKA">
+              <svg class="nusabot-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Filosofi Tema PUSAKA</span>
+            </button>
+            <button type="button" class="nusabot-chip-btn" data-nusabot-chip="Panduan Rawat Wastra &amp; Karya">
+              <svg class="nusabot-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+              <span>Panduan Rawat Wastra &amp; Karya</span>
+            </button>
+            <button type="button" class="nusabot-chip-btn" data-nusabot-chip="Eksplorasi Daerah Nusantara">
+              <svg class="nusabot-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Eksplorasi Daerah Nusantara</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="nusabot-footer-bar">
+        <input type="text" id="nusabot-input" class="nusabot-input-field" placeholder="Tulis pertanyaan Anda di sini..." aria-label="Tulis pesan ke NusaBot">
+        <button type="button" id="nusabot-send-btn" class="nusabot-send-btn" aria-label="Kirim Pesan">
+          <svg class="w-4 h-4 text-white transform rotate-45 -translate-y-0.5 -translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. Tombol Peluncur Bulat -->
+    <button type="button" id="nusabot-launcher" class="nusabot-launcher-btn" aria-label="Buka Asisten Budaya NusaBot">
+      <img src="assets/icons/logoai 2.png" alt="Maskot NusaBot" class="nusabot-launcher-avatar">
+      <svg class="nusabot-launcher-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/products-data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/marketplace.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/page-transition.js"></script>
+</body>
+</html>

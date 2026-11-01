@@ -1,0 +1,722 @@
+/* ==========================================================================
+   NUSAVA — PRODUCT DETAIL EDITORIAL LUXURY STYLING (SUKKHACITTA 1:1 REPLICATION)
+   Palette: Warm Alabaster Cream #FAF7F2 · Soft Sand #EFECE6 · Sand Warm #F4EFE6
+            Deep Espresso Ink #1E1510 · Terracotta Umber #3A1D12 · Muted Taupe #7A6F64
+            Hairline Border #E5DFD5 · Antique Gold #C5A059
+   Standard: Anti-Slop Manifesto (0px Border-Radius, Zero Harsh Shadows, Zero Emojis)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --color-alabaster: #FAF7F2;
+  --color-sand: #EFECE6;
+  --color-sand-warm: #F4EFE6;
+  --color-espresso: #1E1510;
+  --color-espresso-cta: #3A1D12;
+  --color-taupe: #7A6F64;
+  --color-border: #E5DFD5;
+  --color-border-dark: #D5CEC2;
+  --color-gold: #C5A059;
+  --color-terracotta: #6E2E14;
+}
+
+/* 1. Universal Anti-Slop Zero-Radius & Font Rules */
+html {
+  background-color: var(--color-alabaster);
+  color: var(--color-espresso);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #F5EFE6; /* Kuning Puder / Warm Parchment Khas Landing Page */
+  color: #2B231D;
+  overflow-x: hidden;
+}
+
+/* Harmonious Luxury Card Design with Elegant Rounded Corners */
+.gallery-stacked-container img,
+.gallery-photo-img {
+  border-radius: 14px !important;
+}
+
+.craft-story-overlay {
+  border-radius: 10px !important;
+}
+
+.complement-card img,
+.complement-card .aspect-3-4 {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.review-card {
+  border-radius: 14px !important;
+}
+
+.variant-btn {
+  border-radius: 8px !important;
+}
+
+/* Fixed Navbar with Frosted Blur Matching Landing Page */
+#navbar.nav-flat-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  z-index: 1000;
+  background: rgba(245, 239, 230, 0.88) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.22) !important;
+  box-shadow: 0 4px 20px rgba(43, 35, 29, 0.06) !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.35s ease,
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+}
+
+#navbar.nav-flat-bar.nav-hidden {
+  transform: translate3d(0, -100%, 0) !important;
+  pointer-events: none;
+}
+
+#navbar.nav-flat-bar.nav-hover-reveal {
+  transform: translate3d(0, 0, 0) !important;
+  pointer-events: auto !important;
+  background: rgba(245, 239, 230, 0.94) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom-color: rgba(197, 160, 89, 0.28) !important;
+  box-shadow: 0 4px 20px rgba(43, 35, 29, 0.08) !important;
+}
+
+/* Landing Navbar UI Retention */
+.nav-flat-bar .rounded-full,
+.nav-cta-pill,
+#nav-login-btn,
+#cart-count {
+  border-radius: 9999px !important;
+}
+
+/* AI Chatbot Protection: Full preservation of organic rounded curves */
+#nusabot-widget,
+#nusabot-widget * {
+  box-sizing: border-box;
+}
+.nusabot-launcher-btn,
+.nusabot-launcher-avatar,
+.nusabot-header-avatar,
+.nusabot-bot-avatar-small,
+.nusabot-online-badge,
+.nusabot-send-btn {
+  border-radius: 9999px !important;
+}
+.nusabot-teaser-pill {
+  border-radius: 16px !important;
+}
+.nusabot-popup-window {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+}
+.nusabot-header {
+  border-radius: 20px 20px 0 0 !important;
+}
+.nusabot-footer-bar {
+  border-radius: 0 0 20px 20px !important;
+}
+.nusabot-bubble-bot {
+  border-radius: 18px 18px 18px 4px !important;
+}
+.nusabot-bubble-user {
+  border-radius: 18px 18px 4px 18px !important;
+}
+.nusabot-chip-btn {
+  border-radius: 9999px !important;
+}
+.nusabot-product-card {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+.nusabot-product-card-img {
+  border-radius: 8px !important;
+}
+.nusabot-product-card-btn {
+  border-radius: 9999px !important;
+}
+
+/* Typography Helpers */
+.font-cinzel { font-family: 'Cinzel', 'Playfair Display', Georgia, serif; }
+.font-display { font-family: 'Playfair Display', Georgia, serif; }
+.font-garamond { font-family: 'Cormorant Garamond', Georgia, serif; }
+.font-sans { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+/* 2. Micro Announcement Bar */
+.micro-announcement-bar {
+  height: 32px;
+  background-color: var(--color-espresso);
+  color: var(--color-alabaster);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  z-index: 50;
+  position: relative;
+}
+
+/* 3. Editorial Navbar */
+.editorial-navbar {
+  height: 72px;
+  background-color: rgba(250, 247, 242, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  transition: all 0.3s ease;
+}
+
+.editorial-nav-link {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  font-weight: 500;
+  transition: color 0.25s ease;
+  position: relative;
+}
+
+.editorial-nav-link:hover {
+  color: var(--color-taupe);
+}
+
+.editorial-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-espresso);
+}
+
+/* 4. Left Column: Vertical Stacked Gallery */
+.gallery-stacked-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.gallery-photo-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background-color: var(--color-sand);
+  overflow: hidden;
+}
+
+.gallery-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-photo-wrapper:hover .gallery-photo-img {
+  transform: scale(1.02);
+}
+
+/* Craft Story Image Overlay Box (Sukkhacitta Photo 4 & 9 Replication) */
+.craft-story-overlay {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 480px;
+  background-color: var(--color-alabaster);
+  border: 1px solid var(--color-border);
+  padding: 24px 28px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(30, 21, 16, 0.04);
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.craft-story-tag {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-taupe);
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.craft-story-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--color-espresso);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.craft-story-text {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #5A5046;
+  margin: 0;
+}
+
+/* 5. Right Column: Sticky Story & Specification Column */
+.sticky-specs-column {
+  position: sticky;
+  top: 92px;
+  align-self: flex-start;
+  max-width: 520px;
+  width: 100%;
+}
+
+/* Variant Selector Rectangular Sharp Buttons */
+.variant-btn {
+  border: 1px solid var(--color-border-dark);
+  background-color: transparent;
+  color: #5A5046;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-align: left;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.variant-btn:hover {
+  border-color: var(--color-espresso);
+  color: var(--color-espresso);
+  background-color: rgba(239, 236, 230, 0.5);
+}
+
+.variant-btn.active {
+  border: 1.5px solid var(--color-espresso) !important;
+  background-color: var(--color-alabaster) !important;
+  color: var(--color-espresso) !important;
+  font-weight: 600;
+}
+
+.variant-btn.active .variant-radio-dot {
+  background-color: var(--color-espresso);
+  border-color: var(--color-espresso);
+}
+
+.variant-radio-dot {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--color-border-dark);
+  display: inline-block;
+  margin-right: 10px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+/* CTA Main Button */
+.cta-button-block {
+  width: 100%;
+  height: 48px;
+  background-color: var(--color-espresso-cta);
+  color: var(--color-alabaster);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.15s ease;
+}
+
+.cta-button-block:hover {
+  background-color: var(--color-espresso);
+}
+
+.cta-button-block:active {
+  transform: scale(0.99);
+}
+
+/* Secondary Actions */
+.cta-secondary-btn {
+  width: 100%;
+  height: 44px;
+  background-color: transparent;
+  color: var(--color-espresso);
+  border: 1px solid var(--color-espresso);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.cta-secondary-btn:hover {
+  background-color: var(--color-espresso);
+  color: var(--color-alabaster);
+}
+
+/* 6. Minimalist Accordion (Garis 1px) */
+.editorial-accordion-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.editorial-accordion-item:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.accordion-trigger {
+  width: 100%;
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion-title {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-espresso);
+  transition: color 0.2s ease;
+}
+
+.accordion-trigger:hover .accordion-title {
+  color: var(--color-taupe);
+}
+
+.accordion-icon-toggle {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--color-espresso);
+  line-height: 1;
+  width: 20px;
+  text-align: center;
+  transition: transform 0.25s ease;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+  font-size: 12px;
+  line-height: 1.75;
+  color: #5A5046;
+}
+
+.accordion-content.open {
+  max-height: 500px;
+  padding-bottom: 20px;
+}
+
+/* 7. Matriks Data Teknis (Small Caps Matrix) */
+.technical-matrix-grid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  row-gap: 14px;
+  column-gap: 16px;
+  font-size: 13px;
+  padding: 24px 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.technical-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-taupe);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.technical-value {
+  color: var(--color-espresso);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+/* 8. Seksi Complete The Look (2 Kartu Berdampingan di Tengah Layar) */
+.complete-look-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.complete-look-card:hover .complete-look-img {
+  transform: scale(1.02);
+}
+
+.complete-look-img-wrap {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: var(--color-sand);
+  position: relative;
+}
+
+.complete-look-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 9. Reviews Section */
+.review-card {
+  background-color: var(--color-sand-warm);
+  border: 1px solid var(--color-border);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.star-rating-display {
+  color: var(--color-gold);
+  letter-spacing: 0.15em;
+  font-size: 13px;
+}
+
+.rating-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--color-taupe);
+}
+
+.rating-bar-track {
+  flex-grow: 1;
+  height: 4px;
+  background-color: #E2DBD0;
+  position: relative;
+  overflow: hidden;
+}
+
+.rating-bar-fill {
+  height: 100%;
+  background-color: var(--color-espresso);
+}
+
+/* 10. 3 Pilar Nilai Budaya */
+.pillar-card {
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pillar-icon-wrap {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: var(--color-espresso);
+}
+
+/* 11. Editorial Slide-Over Cart Drawer (1:1 Synchronized with Landing Page) */
+#cart-drawer {
+  background-color: #FAF7F2 !important;
+  border-left: 1px solid #EDE4D5 !important;
+  box-shadow: -10px 0 35px rgba(36, 27, 22, 0.18) !important;
+  z-index: 9999 !important;
+}
+
+#cart-drawer.open {
+  transform: translateX(0) !important;
+}
+
+#cart-overlay.open {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+#cart-drawer > div:first-child {
+  background-color: #F5EFE6 !important;
+  border-bottom: 1px solid #EDE4D5 !important;
+}
+
+#cart-drawer > div:last-child {
+  background-color: #F5EFE6 !important;
+  border-top: 1px solid #EDE4D5 !important;
+}
+
+/* Custom Scrollbar for Drawer & Page */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-alabaster);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-taupe);
+}
+
+/* 12. Modal Review (Tulis Apresiasi) */
+.review-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(30, 21, 16, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 95;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.review-modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.review-modal-window {
+  width: 100%;
+  max-width: 580px;
+  background-color: var(--color-alabaster);
+  border: 1px solid var(--color-border);
+  padding: 36px 32px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Clean Input Fields */
+.editorial-input {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid var(--color-border-dark);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--color-espresso);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.editorial-input:focus {
+  border-color: var(--color-espresso);
+}
+
+.editorial-textarea {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid var(--color-border-dark);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--color-espresso);
+  outline: none;
+  min-height: 100px;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.editorial-textarea:focus {
+  border-color: var(--color-espresso);
+}
+
+/* Typography Hierarchy Enhancement for Competition */
+h1, .product-title-serif {
+  font-size: clamp(1.75rem, 3.5vw, 2.375rem) !important;
+  line-height: 1.15 !important;
+}
+h2, .section-title-serif {
+  font-size: clamp(1.375rem, 2.5vw, 1.875rem) !important;
+  line-height: 1.25 !important;
+}
+h3 {
+  font-size: 1.125rem !important;
+  line-height: 1.3 !important;
+}
+
+/* Toast Notification (Anti-Slop Zero Radius) */
+.editorial-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: var(--color-espresso);
+  color: var(--color-alabaster);
+  padding: 14px 24px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  border-radius: 0px !important;
+  z-index: 120;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(30, 21, 16, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.editorial-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1023px) {
+  .sticky-specs-column {
+    position: static;
+    max-width: 100%;
+    margin-top: 24px;
+  }
+  
+  .craft-story-overlay {
+    width: calc(100% - 32px);
+    padding: 18px 20px;
+    bottom: 16px;
+  }
+}
