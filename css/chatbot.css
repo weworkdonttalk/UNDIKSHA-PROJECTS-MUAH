@@ -907,5 +907,22 @@ body.drawer-open .nusabot-widget-container,
     font-size: 0.75rem;
     padding: 8px 14px;
     border-radius: 14px;
+    white-space: normal;
+    text-align: left;
+  }
+
+  .nusabot-teaser-pill span {
+    display: inline-block;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nusabot-suggestion-btn {
+    white-space: normal !important;
+    text-align: left;
+    line-height: 1.35;
+    word-break: break-word;
   }
 }

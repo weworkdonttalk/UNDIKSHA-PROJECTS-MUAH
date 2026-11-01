@@ -409,7 +409,7 @@ function initScrollReveal() {
         }
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.12, rootMargin: '0px 0px 40px 0px' }
   );
   document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-popup').forEach(el => {
     if (!el.closest('#hero')) observer.observe(el);
@@ -425,7 +425,7 @@ function initScrollReveal() {
           videoObs.unobserve(archFrame);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.08 });
     videoObs.observe(archFrame);
   }
 
@@ -442,9 +442,47 @@ function initScrollReveal() {
             galObs.unobserve(gal);
           }
         });
-      }, { threshold: 0.2 });
+      }, { threshold: 0.05, rootMargin: '0px 0px 80px 0px' });
       galObs.observe(gal);
     }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4B. SMART VIDEO OPTIMIZATION (60/120fps Mobile Performance & Battery Saver)
+   -------------------------------------------------------------------------- */
+function initSmartVideoOptimization() {
+  const bgVideos = document.querySelectorAll('video#hero-video-bg, .footer-tier2-video video');
+  if (!bgVideos.length) return;
+
+  const isMobile = window.innerWidth < 768;
+
+  if ('IntersectionObserver' in window) {
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          if (video.paused) {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(() => {});
+            }
+          }
+        } else {
+          if (!video.paused) {
+            video.pause();
+          }
+        }
+      });
+    }, { rootMargin: '180px 0px 180px 0px', threshold: 0.01 });
+
+    bgVideos.forEach(video => {
+      if (isMobile) {
+        video.preload = 'none';
+        video.pause();
+      }
+      videoObserver.observe(video);
+    });
   }
 }
 
@@ -2208,11 +2246,14 @@ function initArtisanOnboardingModal() {
 /* --------------------------------------------------------------------------
    18. BOOT
    -------------------------------------------------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
+function bootMain() {
+  if (window._mainBooted) return;
+  window._mainBooted = true;
   initNavbar();
   initNavbarAuth();
   initSmoothScroll();
   initScrollReveal();
+  initSmartVideoOptimization();
   initCounters();
   initParallax();
   initVideoModal();
@@ -2228,13 +2269,12 @@ document.addEventListener('DOMContentLoaded', () => {
   init3DCardTilt();
   initArtisanOnboardingModal();
   if (window.lucide) { lucide.createIcons(); }
-});
+}
 
-// Immediate check in case document is already parsed
-if (document.readyState !== 'loading') {
-  init3DCardTilt();
-  initArtisanOnboardingModal();
-  if (window.lucide) { lucide.createIcons(); }
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootMain);
+} else {
+  bootMain();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
