@@ -106,21 +106,26 @@ const SFX = {
       } catch (_) {}
     }
 
-    // 2. Secondary fallback: HTML5 Audio with base64 data URI
+    // 2. Secondary fallback: HTML5 Audio with percakapansound.mp3 asset
     try {
       if (!this._chatAudio) {
-        this._chatAudio = new Audio('data:audio/mp3;base64,' + ROBLOX_CHAT_B64);
+        const soundBase = (typeof GAME_BASE_PATH !== 'undefined' ? GAME_BASE_PATH : 'assets/game/');
+        this._chatAudio = new Audio(soundBase + 'percakapansound.mp3');
         this._chatAudio.volume = 0.85;
       }
       this._chatAudio.currentTime = 0;
       const p = this._chatAudio.play();
       if (p && typeof p.catch === 'function') {
         p.catch(() => {
-          // Local asset fallback
+          // Fallback with space or base64
           const soundBase = (typeof GAME_BASE_PATH !== 'undefined' ? GAME_BASE_PATH : 'assets/game/');
-          const fa = new Audio(soundBase + 'roblox-islands-bedwars-chat-sound.mp3');
+          const fa = new Audio(soundBase + 'percakapan sound.mp3');
           fa.volume = 0.85;
-          fa.play().catch(() => {});
+          fa.play().catch(() => {
+            const fb64 = new Audio('data:audio/mp3;base64,' + ROBLOX_CHAT_B64);
+            fb64.volume = 0.85;
+            fb64.play().catch(() => {});
+          });
         });
       }
     } catch (_) {
